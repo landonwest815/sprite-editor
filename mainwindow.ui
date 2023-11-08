@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>728</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,7 +116,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,4,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -307,7 +307,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QGraphicsView" name="graphicsView">
+       <widget class="QLabel" name="pixMapLabel">
         <property name="minimumSize">
          <size>
           <width>500</width>
@@ -319,6 +319,9 @@
           <width>500</width>
           <height>500</height>
          </size>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -359,7 +362,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>743</width>
+         <width>758</width>
          <height>74</height>
         </rect>
        </property>
