@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow { background-color: rgb(64, 64 64); }</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <property name="leftMargin">
@@ -263,7 +266,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="graphicsView_2">
+         <widget class="QLabel" name="previewLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
@@ -275,6 +284,9 @@
             <width>100</width>
             <height>100</height>
            </size>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>

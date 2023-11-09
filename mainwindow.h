@@ -24,7 +24,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QPixmap pix;
     QImage image;
+    QPixmap pix;
 };
 #endif // MAINWINDOW_H
