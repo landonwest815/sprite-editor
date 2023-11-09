@@ -43,21 +43,23 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
     ui->lineEdit->clearFocus();
     ui->spinBox->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-    updateImageAndPixMap(pixmapMousePos);
+    pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
+    updateImageAndPixMap(pairMousePos);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-    updateImageAndPixMap(pixmapMousePos);
+    pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
+    updateImageAndPixMap(pairMousePos);
 }
 
-void MainWindow::updateImageAndPixMap(const QPoint &pixmapMousePos) {
+void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
     // Checks if mouse position is within the QLabel pixmap
-    if (0 <= pixmapMousePos.x() && pixmapMousePos.x() < ui->pixMapLabel->width() &&
-        0 <= pixmapMousePos.y() && pixmapMousePos.y() < ui->pixMapLabel->height()) {
+    if (0 <= pixmapMousePos.first && pixmapMousePos.first < ui->pixMapLabel->width() &&
+        0 <= pixmapMousePos.second && pixmapMousePos.second < ui->pixMapLabel->height()) {
         // Use the scaling factor to determine the pixel position.
-        int pixmapX = pixmapMousePos.x() / (ui->pixMapLabel->width() / pix.width());
-        int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
+        int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
+        int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
 
         // Temporary hard coded color black
         image.setPixelColor(pixmapX, pixmapY, QColor::fromRgb(0, 0, 0));
@@ -100,7 +102,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_addFrameButton_clicked()
 {
     Frame frame(16);
-    frame.SetColor(QPoint(1, 3), QColor::fromRgb(0, 0, 0));
+    frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
     QLabel *frameLabel = new QLabel();
     frameLabel->setMinimumWidth(50);
     frameLabel->setMinimumHeight(50);
