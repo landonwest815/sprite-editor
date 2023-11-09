@@ -20,7 +20,7 @@ void Frame::SetColor(QPoint coord, std::string color)
 }
 
 void Frame::SetTransparent(QPoint coord){
-
+    PixelMap[coord] = "TRANSPARENT";
 }
 
 void Frame::ClearCanvase(){
