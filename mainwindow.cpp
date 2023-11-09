@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QButtonGroup>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,62 +9,45 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // set a fresh canvas
     image.fill(QColor::fromRgb(64, 64, 64));
-
-    // CHECKERBOARD BACKGROUND
-//    for (int x = 0; x < image.width(); ++x) {
-//        for (int y = 0; y < image.height(); ++y) {
-//            // Calculate whether to color the pixel black or gray based on its position
-//            if ((x + y) % 2 == 0) {
-//                // Even sum of coordinates: color the pixel black
-//                image.setPixelColor(x, y, QColor::fromRgb(160, 160, 160));
-//            } else {
-//                // Odd sum of coordinates: color the pixel gray
-//                image.setPixelColor(x, y, QColor::fromRgb(128, 128, 128));
-//            }
-//        }
-//    }
-
     pix.convertFromImage(image);
-
-    ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
-    ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
+    setScaledPixmap(ui->pixMapLabel, pix);
+    setScaledPixmap(ui->previewLabel, pix);
 
     cout << "Pixmap size: " << pix.width() << ", " << pix.height() << endl;
     cout << "Label size: " << ui->pixMapLabel->width() << ", " << ui->pixMapLabel->height() << endl;
+
+    // Create a new button group
+    QButtonGroup* toolButtonGroup = new QButtonGroup(this);
+
+    // Add buttons to the group with IDs
+    toolButtonGroup->addButton(ui->penTool, 1);
+    toolButtonGroup->addButton(ui->eraseTool, 2);
+
+    // Set the button group to exclusive
+    toolButtonGroup->setExclusive(true);
+
+    // Set pen as default tool
+    ui->penTool->setChecked(true);
+    onToolButtonClicked(1);
+
+    // Connect the button clicked signal to your slot if needed
+    connect(toolButtonGroup, &QButtonGroup::idClicked,
+            this, &MainWindow::onToolButtonClicked);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    // Get the mouse position within the QLabel.
-    QPoint globalMousePos = event->pos();
-
-    // Map the mouse position to the pixmap's coordinates.
-    QPoint pixmapMousePos = globalMousePos - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-
-    // Checks if mouse position is within the QLabel pixmap
-    if (0 <= pixmapMousePos.x() && pixmapMousePos.x() < ui->pixMapLabel->width() &&
-        0 <= pixmapMousePos.y() && pixmapMousePos.y() < ui->pixMapLabel->height()) {
-        // Use the scaling factor to determine the pixel position.
-        int pixmapX = pixmapMousePos.x() / (ui->pixMapLabel->width() / pix.width());
-        int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
-
-        // Temporary hard coded color red
-        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Black);
-        pix.convertFromImage(image);
-        ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
-        ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
-
-        std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
-    }
+    QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
+    updateImageAndPixMap(pixmapMousePos);
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-    // Get the mouse position within the QLabel.
-    QPoint globalMousePos = event->pos();
+    QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
+    updateImageAndPixMap(pixmapMousePos);
+}
 
-    // Map the mouse position to the pixmap's coordinates.
-    QPoint pixmapMousePos = globalMousePos - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-
+void MainWindow::updateImageAndPixMap(const QPoint &pixmapMousePos) {
     // Checks if mouse position is within the QLabel pixmap
     if (0 <= pixmapMousePos.x() && pixmapMousePos.x() < ui->pixMapLabel->width() &&
         0 <= pixmapMousePos.y() && pixmapMousePos.y() < ui->pixMapLabel->height()) {
@@ -71,21 +55,35 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         int pixmapX = pixmapMousePos.x() / (ui->pixMapLabel->width() / pix.width());
         int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
 
-        // Temporary hard coded color red
+        // Temporary hard coded color black
         image.setPixelColor(pixmapX, pixmapY, QColorConstants::Black);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
 
-
         std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
     }
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event) {
-    pix.convertFromImage(image);
-    ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
+void MainWindow::setScaledPixmap(QLabel* label, const QPixmap &pixmap) {
+    label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
 }
+
+void MainWindow::onToolButtonClicked(int id) {
+    if(id == 1)
+    {
+        ui->mirrorTool->setEnabled(true);
+
+        // Pen tool was selected - do stuff with model
+    }
+    else if(id == 2)
+    {
+        ui->mirrorTool->setEnabled(false);
+
+        // Erase tool was selected - do stuff with model
+    }
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
