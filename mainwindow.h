@@ -32,7 +32,7 @@ private:
     QImage image;
     QPixmap pix;
 
-    void updateImageAndPixMap(const QPoint &pixmapMousePos);
+    void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
     void setScaledPixmap(QLabel* label, const QPixmap &pixmap);
     void onToolButtonClicked(int id);
 
