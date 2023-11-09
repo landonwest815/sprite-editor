@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     pix.convertFromImage(image);
     setScaledPixmap(ui->pixMapLabel, pix);
     setScaledPixmap(ui->previewLabel, pix);
+    setScaledPixmap(ui->frameLabel, pix);
 
     cout << "Pixmap size: " << pix.width() << ", " << pix.height() << endl;
     cout << "Label size: " << ui->pixMapLabel->width() << ", " << ui->pixMapLabel->height() << endl;
@@ -38,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
+    ui->lineEdit->clearFocus();
+    ui->spinBox->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
     updateImageAndPixMap(pixmapMousePos);
 }
@@ -60,6 +63,7 @@ void MainWindow::updateImageAndPixMap(const QPoint &pixmapMousePos) {
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
+        ui->frameLabel->setPixmap(pix.scaled(ui->frameLabel->size(), Qt::KeepAspectRatio));
 
         std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
     }
