@@ -2,18 +2,18 @@
 #define FRAME_H
 #include <QPoint>
 #include <QMap>
-#include <string>
+#include <QColor>
 
 class Frame
 {
 private:
-    QMap<QPoint, std::string> PixelMap;
+    QMap<QPoint, QColor> PixelMap;
     int size;
 public:
     Frame(int size);
-    void SetColor(QPoint coord, std::string color);
+    void SetColor(QPoint coord, QColor color);
     void SetTransparent(QPoint coord);
-    void ClearCanvase();
+    void ClearCanvas();
 };
 
 #endif // FRAME_H

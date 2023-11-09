@@ -24,6 +24,9 @@ public:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 
+private slots:
+    void on_addFrameButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage image;
