@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>728</height>
+    <width>1000</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -122,7 +122,26 @@
      </layout>
     </item>
     <item>
+     <spacer name="verticalSpacer_5">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
+      <property name="spacing">
+       <number>-1</number>
+      </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
@@ -202,7 +221,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="eraseTool">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -301,7 +320,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="mirrorTool">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -371,14 +390,14 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>100</width>
-            <height>100</height>
+            <width>150</width>
+            <height>150</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
-            <height>100</height>
+            <width>150</width>
+            <height>150</height>
            </size>
           </property>
           <property name="text">
@@ -451,6 +470,22 @@
      </layout>
     </item>
     <item>
+     <spacer name="verticalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Fixed</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -472,7 +507,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>760</width>
+         <width>960</width>
          <height>74</height>
         </rect>
        </property>
@@ -484,13 +519,7 @@
          <number>12</number>
         </property>
         <item>
-         <widget class="QGraphicsView" name="graphicsView_7">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="frameLabel">
           <property name="minimumSize">
            <size>
             <width>50</width>
@@ -503,93 +532,8 @@
             <height>50</height>
            </size>
           </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="graphicsView_6">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="graphicsView_5">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="graphicsView_4">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QGraphicsView" name="graphicsView_3">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>50</width>
-            <height>50</height>
-           </size>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>
@@ -642,8 +586,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>37</height>
+     <width>1000</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
