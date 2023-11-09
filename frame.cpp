@@ -12,13 +12,13 @@ Frame::Frame(int size)
 {
     this->size = size;
 }
-void Frame::SetColor(QPoint coord, std::string color)
+void Frame::SetColor(QPoint coord, QColor color)
 {
     PixelMap[coord] = color;
 }
 void Frame::SetTransparent(QPoint coord){
-    PixelMap[coord] = "0";
+    PixelMap[coord] = QColor::fromRgb(64, 64, 64);
 }
-void Frame::ClearCanvase(){
+void Frame::ClearCanvas(){
     PixelMap.clear();
 }

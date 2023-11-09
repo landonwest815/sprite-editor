@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "frame.h"
 #include <QButtonGroup>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -59,7 +60,7 @@ void MainWindow::updateImageAndPixMap(const QPoint &pixmapMousePos) {
         int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
 
         // Temporary hard coded color black
-        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Black);
+        image.setPixelColor(pixmapX, pixmapY, QColor::fromRgb(0, 0, 0));
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -88,7 +89,24 @@ void MainWindow::onToolButtonClicked(int id) {
     }
 }
 
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::on_addFrameButton_clicked()
+{
+    Frame frame(16);
+    frame.SetColor(QPoint(1, 3), QColor::fromRgb(0, 0, 0));
+    QLabel *frameLabel = new QLabel();
+    frameLabel->setMinimumWidth(50);
+    frameLabel->setMinimumHeight(50);
+    frameLabel->setMaximumHeight(50);
+    frameLabel->setMinimumHeight(50);
+    frameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ui->scrollArea->widget()->layout()->addWidget(frameLabel);
+    setScaledPixmap(frameLabel, pix);
 }
