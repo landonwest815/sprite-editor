@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QPixmap pix(16, 16);
-    pix.fill(QColorConstants::Black);
+    pix.fill(QColor(255, 155, 155, 155));
 
     QImage image = pix.toImage();
     image.setPixelColor(8, 8, QColorConstants::Red);
