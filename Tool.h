@@ -17,7 +17,7 @@ class Tool{
         Tool(std::string name, bool togglable);
 
         ///@brief Sets whether the tool is selected or not
-        /// @param - The selection status to set the tool to
+        /// @param selected - The selection status to set the tool to
         void setSelected(bool selected);
 
         ///@brief Gets the tool's selection status
