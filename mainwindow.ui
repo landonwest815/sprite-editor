@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>728</height>
+    <width>824</width>
+    <height>876</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -202,7 +202,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="eraseTool">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -301,7 +301,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="mirrorTool">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -472,7 +472,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>760</width>
+         <width>784</width>
          <height>74</height>
         </rect>
        </property>
@@ -642,8 +642,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>37</height>
+     <width>824</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
