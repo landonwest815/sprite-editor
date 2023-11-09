@@ -48,7 +48,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
 
         // Temporary hard coded color red
-        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Red);
+        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Black);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -72,7 +72,7 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         int pixmapY = pixmapMousePos.y() / (ui->pixMapLabel->height() / pix.height());
 
         // Temporary hard coded color red
-        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Red);
+        image.setPixelColor(pixmapX, pixmapY, QColorConstants::Black);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -82,6 +82,10 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    pix.convertFromImage(image);
+    ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
+}
 MainWindow::~MainWindow()
 {
     delete ui;

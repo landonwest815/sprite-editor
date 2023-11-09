@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>pen.png</file>
+        <file>erase.png</file>
+        <file>mirror.png</file>
+    </qresource>
+</RCC>
