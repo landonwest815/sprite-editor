@@ -12,12 +12,14 @@ SOURCES += \
     Tool.cpp \
     frame.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    model.cpp
 
 HEADERS += \
     Tool.h \
+    mainwindow.h \
+    model.h \
     frame.h \
-    mainwindow.h
 
 FORMS += \
     mainwindow.ui
