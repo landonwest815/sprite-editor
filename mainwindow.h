@@ -2,6 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPixmap>
+#include <QMouseEvent>
+#include <iostream>
+#include <QLabel>
+#include <QAbstractButton>
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,8 +21,17 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
+    QImage image;
+    QPixmap pix;
+
+    void updateImageAndPixMap(const QPoint &pixmapMousePos);
+    void setScaledPixmap(QLabel* label, const QPixmap &pixmap);
+    void onToolButtonClicked(int id);
+
 };
 #endif // MAINWINDOW_H

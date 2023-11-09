@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>728</height>
+    <width>824</width>
+    <height>876</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow { background-color: rgb(64, 64 64); }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -82,6 +85,9 @@
         <property name="placeholderText">
          <string>Program Name Here</string>
         </property>
+        <property name="clearButtonEnabled">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -100,7 +106,7 @@
       <item>
        <widget class="QToolButton" name="toolButton">
         <property name="text">
-         <string>...</string>
+         <string>File Menu</string>
         </property>
         <property name="popupMode">
          <enum>QToolButton::DelayedPopup</enum>
@@ -130,7 +136,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>10</height>
+            <height>30</height>
            </size>
           </property>
          </spacer>
@@ -150,28 +156,80 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QLabel" name="label_4">
           <property name="text">
-           <string>Brush</string>
+           <string>Draw</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="penTool">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="Assets.qrc">
+            <normaloff>:/icons/pen.png</normaloff>:/icons/pen.png</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
           <property name="text">
            <string>Erase</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="eraseTool">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="Assets.qrc">
+            <normaloff>:/icons/erase.png</normaloff>:/icons/erase.png</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -181,12 +239,12 @@
            <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Expanding</enum>
+           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>100</height>
+            <height>50</height>
            </size>
           </property>
          </spacer>
@@ -201,7 +259,7 @@
            </font>
           </property>
           <property name="text">
-           <string>Editor Settings</string>
+           <string>Tool Settings</string>
           </property>
          </widget>
         </item>
@@ -213,12 +271,18 @@
           <item>
            <widget class="QLabel" name="label_17">
             <property name="text">
-             <string>Brush Size</string>
+             <string>Tool Size</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QSpinBox" name="spinBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="maximum">
              <number>10</number>
             </property>
@@ -230,9 +294,44 @@
          </layout>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Mirroring</string>
+           <string>Mirror</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="mirrorTool">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="Assets.qrc">
+            <normaloff>:/icons/mirror.png</normaloff>:/icons/mirror.png</iconset>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -263,7 +362,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QGraphicsView" name="graphicsView_2">
+         <widget class="QLabel" name="previewLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
@@ -276,20 +381,10 @@
             <height>100</height>
            </size>
           </property>
+          <property name="text">
+           <string/>
+          </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -308,17 +403,32 @@
       </item>
       <item>
        <widget class="QLabel" name="pixMapLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>500</width>
-          <height>500</height>
+          <width>650</width>
+          <height>650</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>500</width>
-          <height>500</height>
+          <width>650</width>
+          <height>650</height>
          </size>
+        </property>
+        <property name="sizeIncrement">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>CrossCursor</cursorShape>
         </property>
         <property name="text">
          <string/>
@@ -349,7 +459,7 @@
        </sizepolicy>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="lineWidth">
        <number>0</number>
@@ -362,7 +472,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>758</width>
+         <width>784</width>
          <height>74</height>
         </rect>
        </property>
@@ -532,13 +642,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>37</height>
+     <width>824</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Assets.qrc"/>
+ </resources>
  <connections/>
 </ui>
