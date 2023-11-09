@@ -4,19 +4,30 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , pix(16, 16)
+    , image(16, 16, QImage::Format_RGB32)
 {
     ui->setupUi(this);
-//    QPixmap pix(16, 16);
-    pix.fill(QColorConstants::Black);
 
-    image = pix.toImage();
-    image.setPixelColor(8, 8, QColorConstants::Red);
-    image.setPixelColor(3, 7, QColorConstants::Blue);
-    image.setPixelColor(15, 15, QColorConstants::Blue);
+    image.fill(QColor::fromRgb(64, 64, 64));
+
+    // CHECKERBOARD BACKGROUND
+//    for (int x = 0; x < image.width(); ++x) {
+//        for (int y = 0; y < image.height(); ++y) {
+//            // Calculate whether to color the pixel black or gray based on its position
+//            if ((x + y) % 2 == 0) {
+//                // Even sum of coordinates: color the pixel black
+//                image.setPixelColor(x, y, QColor::fromRgb(160, 160, 160));
+//            } else {
+//                // Odd sum of coordinates: color the pixel gray
+//                image.setPixelColor(x, y, QColor::fromRgb(128, 128, 128));
+//            }
+//        }
+//    }
+
     pix.convertFromImage(image);
 
     ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
+    ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
 
     cout << "Pixmap size: " << pix.width() << ", " << pix.height() << endl;
     cout << "Label size: " << ui->pixMapLabel->width() << ", " << ui->pixMapLabel->height() << endl;
@@ -40,6 +51,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event) {
         image.setPixelColor(pixmapX, pixmapY, QColorConstants::Red);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
+        ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
 
         std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
     }
@@ -63,6 +75,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
         image.setPixelColor(pixmapX, pixmapY, QColorConstants::Red);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
+        ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
+
 
         std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
     }
