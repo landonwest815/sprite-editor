@@ -10,11 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     Tool.cpp \
+    frame.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Tool.h \
+    frame.h \
     mainwindow.h
 
 FORMS += \

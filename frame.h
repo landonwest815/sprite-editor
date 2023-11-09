@@ -11,7 +11,7 @@ private:
     int size;
 public:
     Frame(int size);
-    void SetColor(QPoint coord, std::string);
+    void SetColor(QPoint coord, std::string color);
     void SetTransparent(QPoint coord);
     void ClearCanvase();
 };
