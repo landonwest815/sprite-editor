@@ -109,6 +109,7 @@ void MainWindow::on_addFrameButton_clicked()
     frameLabel->setMaximumHeight(50);
     frameLabel->setMinimumHeight(50);
     frameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
     ui->scrollArea->widget()->layout()->addWidget(frameLabel);
     setScaledPixmap(frameLabel, pix);
 }
