@@ -40,6 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
             this, &MainWindow::onToolButtonClicked);
 
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
+
+    // Connect the RGB spin box signals to the setRGB slot
+    connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -64,8 +69,8 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
         int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
         int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
 
-        // Temporary hard coded color white
-        image.setPixelColor(pixmapX, pixmapY, QColorConstants::White);
+        // Set the pixel color to the model's selected color
+        image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -84,17 +89,35 @@ void MainWindow::onToolButtonClicked(int id) {
     {
         ui->mirrorTool->setEnabled(true);
 
+        // re-enable the color selection and reset the color to the one stored in the spin boxes
+        ui->redSpin->setEnabled(true);
+        ui->blueSpin->setEnabled(true);
+        ui->greenSpin->setEnabled(true);
+
         // Pen tool was selected - do stuff with model
+        setRGB();
     }
     else if(id == 2)
     {
         ui->mirrorTool->setEnabled(false);
 
+        ui->redSpin->setEnabled(false);
+        ui->blueSpin->setEnabled(false);
+        ui->greenSpin->setEnabled(false);
+
         // Erase tool was selected - do stuff with model
+        // Set model selected color to the background color
+        model.setSelectedColor(QColor::fromRgb(64, 64, 64));
     }
 }
 
-
+void MainWindow::setRGB() {
+    int red = ui->redSpin->value();
+    int green = ui->greenSpin->value();
+    int blue = ui->blueSpin->value();
+    QColor newColor = *new QColor(red, green, blue);
+    model.setSelectedColor(newColor);
+}
 
 MainWindow::~MainWindow()
 {
