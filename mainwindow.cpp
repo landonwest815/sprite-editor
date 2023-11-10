@@ -2,12 +2,12 @@
 #include "ui_mainwindow.h"
 #include "frame.h"
 #include <QButtonGroup>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , image(16, 16, QImage::Format_RGB32)
-    , model()
 {
     ui->setupUi(this);
 
@@ -39,14 +39,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
 
-    // Connect all three RGB spin box signals to the setRGB slot
-    connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
-    connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
-    connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    ui->scrollArea->verticalScrollBar()->setEnabled(false);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    ui->lineEdit->clearFocus();
+    ui->nameEntryBox->clearFocus();
     ui->spinBox->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
     pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
@@ -67,8 +64,8 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
         int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
         int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
 
-        // Get the color from the model's selected color
-        image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
+        // Temporary hard coded color white
+        image.setPixelColor(pixmapX, pixmapY, QColorConstants::White);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -87,34 +84,17 @@ void MainWindow::onToolButtonClicked(int id) {
     {
         ui->mirrorTool->setEnabled(true);
 
-        ui->redSpin->setEnabled(true);
-        ui->blueSpin->setEnabled(true);
-        ui->greenSpin->setEnabled(true);
-
         // Pen tool was selected - do stuff with model
-        setRGB();
     }
     else if(id == 2)
     {
         ui->mirrorTool->setEnabled(false);
 
-        ui->redSpin->setEnabled(false);
-        ui->blueSpin->setEnabled(false);
-        ui->greenSpin->setEnabled(false);
-
         // Erase tool was selected - do stuff with model
-        QColor eraseColor = *new QColor(64, 64, 64);
-        model.setSelectedColor(eraseColor);
     }
 }
 
-void MainWindow::setRGB() {
-    int red = ui->redSpin->value();
-    int green = ui->greenSpin->value();
-    int blue = ui->blueSpin->value();
-    QColor newColor = *new QColor(red, green, blue);
-    model.setSelectedColor(newColor);
-}
+
 
 MainWindow::~MainWindow()
 {
@@ -132,6 +112,7 @@ void MainWindow::on_addFrameButton_clicked()
     frameLabel->setMaximumHeight(50);
     frameLabel->setMinimumHeight(50);
     frameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
     ui->scrollArea->widget()->layout()->addWidget(frameLabel);
     setScaledPixmap(frameLabel, pix);
 }
