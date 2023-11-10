@@ -87,13 +87,24 @@ void MainWindow::onToolButtonClicked(int id) {
     {
         ui->mirrorTool->setEnabled(true);
 
+        ui->redSpin->setEnabled(true);
+        ui->blueSpin->setEnabled(true);
+        ui->greenSpin->setEnabled(true);
+
         // Pen tool was selected - do stuff with model
+        setRGB();
     }
     else if(id == 2)
     {
         ui->mirrorTool->setEnabled(false);
 
+        ui->redSpin->setEnabled(false);
+        ui->blueSpin->setEnabled(false);
+        ui->greenSpin->setEnabled(false);
+
         // Erase tool was selected - do stuff with model
+        QColor eraseColor = *new QColor(64, 64, 64);
+        model.setSelectedColor(eraseColor);
     }
 }
 
