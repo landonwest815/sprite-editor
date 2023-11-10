@@ -143,19 +143,19 @@ QTabBar::tab:selected {
             <x>30</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -187,19 +187,19 @@ QPushButton:checked {
             <x>140</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -358,19 +358,19 @@ QPushButton:checked {
             <x>30</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -402,19 +402,19 @@ QPushButton:checked {
             <x>140</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -449,7 +449,7 @@ QPushButton:checked {
             <x>250</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -461,13 +461,13 @@ QPushButton:checked {
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -502,19 +502,19 @@ QPushButton:checked {
             <x>360</x>
             <y>10</y>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>100</width>
-            <height>30</height>
+            <height>25</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -1170,7 +1170,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
