@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    ui->lineEdit->clearFocus();
+    ui->nameEntryBox->clearFocus();
     ui->spinBox->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
     pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
