@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QAbstractButton>
 
+#include "model.h"
+
 using namespace std;
 
 QT_BEGIN_NAMESPACE
@@ -26,11 +28,14 @@ public:
 
 private slots:
     void on_addFrameButton_clicked();
+    void setRed();
+    void setBlue();
 
 private:
     Ui::MainWindow *ui;
     QImage image;
     QPixmap pix;
+    Model model;
 
     void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
     void setScaledPixmap(QLabel* label, const QPixmap &pixmap);

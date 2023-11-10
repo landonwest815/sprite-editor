@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , image(16, 16, QImage::Format_RGB32)
+    , model()
 {
     ui->setupUi(this);
 
@@ -37,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect the button clicked signal to your slot if needed
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
+
+    // Connect the color signals to their respective slots
+    connect(ui->redButton, &QPushButton::clicked, this, &MainWindow::setRed);
+    connect(ui->blueButton, &QPushButton::clicked, this, &MainWindow::setBlue);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -61,8 +66,8 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
         int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
         int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
 
-        // Temporary hard coded color black
-        image.setPixelColor(pixmapX, pixmapY, QColor::fromRgb(0, 0, 0));
+        // Get the color from the model's selected color
+        image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -91,7 +96,15 @@ void MainWindow::onToolButtonClicked(int id) {
     }
 }
 
+void MainWindow::setRed() {
+    QColor red = *new QColor(255,0,0);
+    model.setSelectedColor(red);
+}
 
+void MainWindow::setBlue() {
+    QColor blue = *new QColor(0,0,255);
+    model.setSelectedColor(blue);
+}
 
 MainWindow::~MainWindow()
 {
