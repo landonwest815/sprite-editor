@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "frame.h"
 #include <QButtonGroup>
+#include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect the button clicked signal to your slot if needed
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
+
+    ui->scrollArea->verticalScrollBar()->setEnabled(false);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -61,8 +64,8 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
         int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
         int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
 
-        // Temporary hard coded color black
-        image.setPixelColor(pixmapX, pixmapY, QColor::fromRgb(0, 0, 0));
+        // Temporary hard coded color white
+        image.setPixelColor(pixmapX, pixmapY, QColorConstants::White);
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
