@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>963</height>
+    <height>991</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow { background-color: rgb(64, 64 64); }</string>
+   <string notr="true">QWidget { background-color: rgb(48, 48, 48); }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -32,6 +32,22 @@
     </property>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer_5">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>30</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
       <item>
        <widget class="QLabel" name="label">
         <property name="sizePolicy">
@@ -71,8 +87,51 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QTabWidget" name="tabWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>80</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QTabWidget::tab-bar {
+    alignment: center;
+}
+
+/* Style the tab itself */
+QTabBar::tab {
+    background: #646464; /* Light gray background */
+    color: white; /* Dark text color for contrast */
+    padding: 5px; /* Space between text and edge */
+    margin-left: 5px; /* Space between tabs */
+    border-top-left-radius: 5px; /* Rounded top left corner */
+    border-top-right-radius: 5px; /* Rounded top right corner */
+   border-bottom-left-radius: 5px; /* Rounded top left corner */
+    border-bottom-right-radius: 5px; /* Rounded top right corner */
+}
+
+/* Style the selected tab */
+QTabBar::tab:selected {
+    background: #999999; /* A different shade for the selected tab */
+}</string>
+        </property>
         <property name="currentIndex">
          <number>0</number>
+        </property>
+        <property name="tabBarAutoHide">
+         <bool>false</bool>
         </property>
         <widget class="QWidget" name="saveloadTab">
          <attribute name="title">
@@ -83,9 +142,40 @@
            <rect>
             <x>30</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Save</string>
@@ -96,9 +186,40 @@
            <rect>
             <x>140</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Load</string>
@@ -137,6 +258,97 @@
          </widget>
         </widget>
         <widget class="QWidget" name="accessibilityTab">
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Base">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+            <colorrole role="Window">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>48</red>
+               <green>48</green>
+               <blue>48</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
          <attribute name="title">
           <string>Assessibility Features</string>
          </attribute>
@@ -145,9 +357,40 @@
            <rect>
             <x>30</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Tutorial</string>
@@ -158,9 +401,40 @@
            <rect>
             <x>140</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Dark Mode</string>
@@ -174,9 +448,46 @@
            <rect>
             <x>250</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Speech Mode</string>
@@ -190,9 +501,40 @@
            <rect>
             <x>360</x>
             <y>10</y>
-            <width>80</width>
-            <height>24</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string>Large Text</string>
@@ -229,6 +571,9 @@
       </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>-1</number>
+        </property>
         <item>
          <spacer name="verticalSpacer_3">
           <property name="orientation">
@@ -276,15 +621,34 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -297,6 +661,22 @@
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>5</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <widget class="QLabel" name="label_5">
@@ -315,15 +695,34 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -414,15 +813,34 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>35</width>
-            <height>35</height>
+            <width>30</width>
+            <height>30</height>
            </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
           </property>
           <property name="text">
            <string/>
@@ -475,14 +893,14 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>125</width>
+            <height>125</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>125</width>
+            <height>125</height>
            </size>
           </property>
           <property name="text">
@@ -515,14 +933,14 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>650</width>
-          <height>650</height>
+          <width>500</width>
+          <height>500</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>650</width>
-          <height>650</height>
+          <width>500</width>
+          <height>500</height>
          </size>
         </property>
         <property name="sizeIncrement">
@@ -533,6 +951,9 @@
         </property>
         <property name="cursor">
          <cursorShape>CrossCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
@@ -573,12 +994,95 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
+       <widget class="QPushButton" name="addFrameButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>25</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
+}
+
+QPushButton:checked {
+  background-color: #999999; /* Color when button is checked */
+}</string>
+        </property>
+        <property name="text">
+         <string>+</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QScrollArea" name="scrollArea">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>75</width>
+          <height>75</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>75</width>
+          <height>75</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QScrollBar:horizontal {
+  background: #646464; /* White background */
+  height: 6px; /* Slim profile */
+  margin: 0px 0px 0px 0px;
+  border: 1px solid #999999; /* Light grey border */
+  border-radius: 2.5px;
+}
+
+QScrollBar::handle:horizontal {
+  background: #999999; /* Light grey handle */
+  min-width: 20px; /* Minimum width for the handle */
+}
+
+/* Hide the left/right buttons and the extra space for the buttons */
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal,
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+  height: 0px;
+  width: 0px;
+}</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
@@ -592,13 +1096,16 @@
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
         <widget class="QWidget" name="scrollAreaWidgetContents">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>922</width>
-           <height>68</height>
+           <width>75</width>
+           <height>75</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -610,6 +1117,12 @@
           </property>
           <item>
            <widget class="QLabel" name="frameLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
               <width>50</width>
@@ -622,52 +1135,30 @@
               <height>50</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="text">
              <string/>
             </property>
            </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="addFrameButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-        <property name="minimumSize">
+        <property name="sizeHint" stdset="0">
          <size>
-          <width>30</width>
-          <height>30</height>
+          <width>40</width>
+          <height>20</height>
          </size>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>+</string>
-        </property>
-       </widget>
+       </spacer>
       </item>
      </layout>
     </item>
@@ -679,7 +1170,7 @@
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
