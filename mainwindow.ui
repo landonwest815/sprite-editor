@@ -765,13 +765,6 @@ QPushButton:checked {
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Tool Color</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_10">
           <item>
            <widget class="QLabel" name="label_7">
