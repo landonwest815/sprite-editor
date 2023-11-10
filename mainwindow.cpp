@@ -39,9 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
 
-    // Connect the color signals to their respective slots
-    connect(ui->redButton, &QPushButton::clicked, this, &MainWindow::setRed);
-    connect(ui->blueButton, &QPushButton::clicked, this, &MainWindow::setBlue);
+    // Connect all three RGB spin box signals to the setRGB slot
+    connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -96,14 +97,12 @@ void MainWindow::onToolButtonClicked(int id) {
     }
 }
 
-void MainWindow::setRed() {
-    QColor red = *new QColor(255,0,0);
-    model.setSelectedColor(red);
-}
-
-void MainWindow::setBlue() {
-    QColor blue = *new QColor(0,0,255);
-    model.setSelectedColor(blue);
+void MainWindow::setRGB() {
+    int red = ui->redSpin->value();
+    int green = ui->greenSpin->value();
+    int blue = ui->blueSpin->value();
+    QColor newColor = *new QColor(red, green, blue);
+    model.setSelectedColor(newColor);
 }
 
 MainWindow::~MainWindow()

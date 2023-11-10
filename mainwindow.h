@@ -28,8 +28,7 @@ public:
 
 private slots:
     void on_addFrameButton_clicked();
-    void setRed();
-    void setBlue();
+    void setRGB();
 
 private:
     Ui::MainWindow *ui;
