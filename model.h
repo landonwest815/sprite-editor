@@ -16,6 +16,8 @@ private:
     vector<Tool> toolBar;
     QColor selectedColor;
     vector<Frame> frames;
+    Frame currentFrame;
+    int frameSize;
 
 public:
     ///@brief Blank constructor for the Model class. Sets the selected tool to the brush and selected color to black.
@@ -44,7 +46,13 @@ public:
     /// @param index index of the frame to remove.
     void removeFrame(int index);
 
-    // Canvas getCurrentFrame();
+    ///@brief getter for the currrently selected frame
+    ///@return - The currently selected frame
+    Frame getCurrentFrame();
+
+    ///@brief getter for the entire vector of frames
+    ///@return - The entire vector of frames
+    vector<Frame> getAllFrames();
 
     /// \brief setCurrentFrame Sets the current frame to the one the user selects
     /// \param index the index of the frame in the array

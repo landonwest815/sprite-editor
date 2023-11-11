@@ -158,7 +158,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addFrameButton_clicked()
 {
-    Frame frame(16);
+    //Update Model with new frame
+    model.addNewFrame();
+    model.setCurrentFrame(model.getAllFrames().size()-1);
+    Frame frame = model.getCurrentFrame();
+
+    //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
     QLabel *frameLabel = new QLabel();
     frameLabel->setMinimumWidth(50);
