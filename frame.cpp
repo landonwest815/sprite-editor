@@ -2,23 +2,37 @@
 #include <utility>
 using std::pair;
 
-bool operator <(const std::pair<int,int> point1, const std::pair<int,int> point2){
-    if((point1.first < point2.first) || ((point1.first == point2.first) && (point1.second < point2.second))){
+bool operator <(const std::pair<int,int> point1, const std::pair<int,int> point2) {
+    if((point1.first < point2.first) || ((point1.first == point2.first) && (point1.second < point2.second))) {
         return true;
     }
     return false;
 }
-Frame::Frame(int size)
-{
+
+Frame::Frame(int size) {
     this->size = size;
 }
-void Frame::SetColor(std::pair<int,int> coord, QColor color)
-{
+
+QMap<std::pair<int,int>, QColor> Frame::getPixelMap() {
+    return PixelMap;
+}
+
+void Frame::setPixelMap(QMap<std::pair<int,int>, QColor> newMap) {
+    PixelMap = newMap;
+}
+
+int Frame::getSize() {
+    return size;
+}
+
+void Frame::SetColor(std::pair<int,int> coord, QColor color) {
     PixelMap[coord] = color;
 }
-void Frame::SetTransparent(std::pair<int,int> coord){
+
+void Frame::SetTransparent(std::pair<int,int> coord) {
     PixelMap[coord] = QColor::fromRgb(64, 64, 64);
 }
-void Frame::ClearCanvas(){
+
+void Frame::ClearCanvas() {
     PixelMap.clear();
 }

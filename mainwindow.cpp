@@ -115,7 +115,7 @@ void MainWindow::setRGB() {
     int red = ui->redSpin->value();
     int green = ui->greenSpin->value();
     int blue = ui->blueSpin->value();
-    QColor newColor = *new QColor(red, green, blue);
+    QColor newColor(red, green, blue);
     model.setSelectedColor(newColor);
 }
 
