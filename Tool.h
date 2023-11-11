@@ -10,6 +10,7 @@ class Tool{
         bool selected;
         //If true, the tool can be selected with other tools, if false this tool cannot be selected with other tools
         bool togglable;
+
     public:
         ///@brief Constructor for the Tool class, which takes in a name and whether the tool is togglable
         /// @param name - The name of the tool
