@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     ui->nameEntryBox->clearFocus();
-    ui->spinBox->clearFocus();
+    ui->toolSizeSpin->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
     pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
     updateImageAndPixMap(pairMousePos);
@@ -71,6 +71,30 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
 
         // Set the pixel color to the model's selected color
         image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
+
+        for (int i = 0; i < ui->toolSizeSpin->value(); i++) {
+            //Using temporary coordinate variables, draw a square around the pixmap coordinates scaled to be "i" away from them
+            int toolX = pixmapX + i;
+            int toolY = pixmapY + i;
+            image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            while (toolY > pixmapY - i) {
+                toolY -= 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolX > pixmapX - i) {
+                toolX -= 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolY < pixmapY + i) {
+                toolY += 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolX < pixmapX + i) {
+                toolX += 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+        }
+
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
