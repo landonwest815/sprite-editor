@@ -1,3 +1,10 @@
+/************************
+ *Main Window Class
+ *Project: Sprite Editor
+ *Assignment: A8 Sprite Editor Implementation
+ *Team Geoff
+ *Description: Gets data from the internal model and displays it to the UI. Also allows the user to update the model through the UI.
+ * **********************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "frame.h"

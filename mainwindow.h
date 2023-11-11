@@ -21,13 +21,19 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    ///@brief Default constructor for main window
     MainWindow(QWidget *parent = nullptr);
+    ///@brief Destructor for main window
     ~MainWindow();
+    ///@brief Get the pixel coordinates for the mouse press and updates the canvas accordingly
     void mousePressEvent(QMouseEvent *event) override;
+    ///@brief If pressed down, get the pixel coordinates for the mouse location and updates the canvas accordingly
     void mouseMoveEvent(QMouseEvent *event) override;
 
 private slots:
+    ///@brief Create a new frame and update the UI accordingly
     void on_addFrameButton_clicked();
+    ///@brief Set the RGB of the currently selected color and update the UI accordingly
     void setRGB();
 
 private:
@@ -38,6 +44,7 @@ private:
 
     void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
     void setScaledPixmap(QLabel* label, const QPixmap &pixmap);
+    ///@brief Update the tool being used based on the button that was pressed
     void onToolButtonClicked(int id);
 
 };
