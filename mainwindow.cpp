@@ -1,3 +1,10 @@
+/************************
+ *Main Window Class
+ *Project: Sprite Editor
+ *Assignment: A8 Sprite Editor Implementation
+ *Team Geoff
+ *Description: Gets data from the internal model and displays it to the UI. Also allows the user to update the model through the UI.
+ * **********************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "frame.h"
@@ -8,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , image(16, 16, QImage::Format_RGB32)
+    , model()
 {
     ui->setupUi(this);
 
@@ -49,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     ui->nameEntryBox->clearFocus();
-    ui->spinBox->clearFocus();
+    ui->toolSizeSpin->clearFocus();
     QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
     pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
     updateImageAndPixMap(pairMousePos);
@@ -71,6 +79,30 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
 
         // Set the pixel color to the model's selected color
         image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
+
+        for (int i = 0; i < ui->toolSizeSpin->value(); i++) {
+            //Using temporary coordinate variables, draw a square around the pixmap coordinates scaled to be "i" away from them
+            int toolX = pixmapX + i;
+            int toolY = pixmapY + i;
+            image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            while (toolY > pixmapY - i) {
+                toolY -= 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolX > pixmapX - i) {
+                toolX -= 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolY < pixmapY + i) {
+                toolY += 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+            while (toolX < pixmapX + i) {
+                toolX += 1;
+                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+            }
+        }
+
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
@@ -127,7 +159,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addFrameButton_clicked()
 {
-    Frame frame(16);
+    //Update Model with new frame
+    model.addNewFrame();
+    model.setCurrentFrame(model.getAllFrames().size()-1);
+    Frame frame = model.getCurrentFrame();
+
+    //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
     QLabel *frameLabel = new QLabel();
     frameLabel->setMinimumWidth(50);
