@@ -50,6 +50,14 @@ public:
     ///@return - The currently selected frame
     Frame getCurrentFrame();
 
+    ///@brief getter for size of the frames in the vector
+    ///@return - The frame size
+    int getFrameSize();
+
+    ///@brief setter for size of the frames in the vector
+    ///@param - The new frame size
+    void setFrameSize(int newSize);
+
     ///@brief getter for the entire vector of frames
     ///@return - The entire vector of frames
     vector<Frame> getAllFrames();

@@ -55,6 +55,14 @@ Frame Model::getCurrentFrame() {
     return currentFrame;
 }
 
+int Model::getFrameSize() {
+    return frameSize;
+}
+
+void Model::setFrameSize(int newSize) {
+    frameSize = newSize;
+}
+
 vector<Frame> Model::getAllFrames() {
     return frames;
 }

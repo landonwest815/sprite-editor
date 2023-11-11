@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , image(16, 16, QImage::Format_RGB32)
+    , model()
 {
     ui->setupUi(this);
 
