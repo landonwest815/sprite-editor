@@ -7,6 +7,7 @@
 #include <iostream>
 #include <QLabel>
 #include <QAbstractButton>
+#include <QPushButton>
 
 #include "model.h"
 
@@ -44,6 +45,7 @@ private:
 
     void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
     void setScaledPixmap(QLabel* label, const QPixmap &pixmap);
+    void setScaledButton(QPushButton* label, const QPixmap &pixmap);
     ///@brief Update the tool being used based on the button that was pressed
     void onToolButtonClicked(int id);
 

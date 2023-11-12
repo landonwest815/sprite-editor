@@ -116,6 +116,13 @@ void MainWindow::setScaledPixmap(QLabel* label, const QPixmap &pixmap) {
     label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
 }
 
+void MainWindow::setScaledButton(QPushButton* label, const QPixmap &pixmap) {
+    QIcon buttonIcon;
+    buttonIcon.addPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
+    label->setIcon(buttonIcon);
+    label->setIconSize(pixmap.size() * 2.5);
+}
+
 void MainWindow::onToolButtonClicked(int id) {
     if(id == 1)
     {
@@ -156,7 +163,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_addFrameButton_clicked()
 {
     //Update Model with new frame
@@ -166,7 +172,7 @@ void MainWindow::on_addFrameButton_clicked()
 
     //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
-    QLabel *frameLabel = new QLabel();
+    QPushButton *frameLabel = new QPushButton();
     frameLabel->setMinimumWidth(50);
     frameLabel->setMinimumHeight(50);
     frameLabel->setMaximumHeight(50);
@@ -174,5 +180,5 @@ void MainWindow::on_addFrameButton_clicked()
     frameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
     ui->scrollArea->widget()->layout()->addWidget(frameLabel);
-    setScaledPixmap(frameLabel, pix);
+    setScaledButton(frameLabel, pix);
 }
