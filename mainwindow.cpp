@@ -172,13 +172,13 @@ void MainWindow::on_addFrameButton_clicked()
 
     //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
-    QPushButton *frameLabel = new QPushButton();
-    frameLabel->setMinimumWidth(50);
-    frameLabel->setMinimumHeight(50);
-    frameLabel->setMaximumHeight(50);
-    frameLabel->setMinimumHeight(50);
-    frameLabel->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QPushButton *frameButton = new QPushButton();
+    frameButton->setMinimumWidth(50);
+    frameButton->setMinimumHeight(50);
+    frameButton->setMaximumHeight(50);
+    frameButton->setMinimumHeight(50);
+    frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
-    ui->scrollArea->widget()->layout()->addWidget(frameLabel);
-    setScaledButton(frameLabel, pix);
+    ui->scrollArea->widget()->layout()->addWidget(frameButton);
+    setScaledButton(frameButton, pix);
 }
