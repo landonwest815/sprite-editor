@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     Tool.cpp \
     frame.cpp \
+    framelabel.cpp \
     main.cpp \
     mainwindow.cpp \
     model.cpp
 
 HEADERS += \
     Tool.h \
+    framelabel.h \
     mainwindow.h \
     model.h \
     frame.h \

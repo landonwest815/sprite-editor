@@ -8,6 +8,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "frame.h"
+#include "framelabel.h"
 #include <QButtonGroup>
 #include <QScrollBar>
 
@@ -21,10 +22,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     // set a fresh canvas
     image.fill(QColor::fromRgb(64, 64, 64));
+
+    on_addFrameButton_clicked();
+
     pix.convertFromImage(image);
     setScaledPixmap(ui->pixMapLabel, pix);
     setScaledPixmap(ui->previewLabel, pix);
-    setScaledPixmap(ui->frameLabel, pix);
 
     cout << "Pixmap size: " << pix.width() << ", " << pix.height() << endl;
     cout << "Label size: " << ui->pixMapLabel->width() << ", " << ui->pixMapLabel->height() << endl;
@@ -106,7 +109,7 @@ void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
         pix.convertFromImage(image);
         ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
         ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
-        ui->frameLabel->setPixmap(pix.scaled(ui->frameLabel->size(), Qt::KeepAspectRatio));
+        //ui->frameLabel->setPixmap(pix.scaled(ui->frameLabel->size(), Qt::KeepAspectRatio));
 
         std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
     }
@@ -166,7 +169,10 @@ void MainWindow::on_addFrameButton_clicked()
 
     //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
-    QLabel *frameLabel = new QLabel();
+
+    FrameLabel* frameLabel = new FrameLabel(model.getAllFrames().size()-1, this);
+    connect(frameLabel, &FrameLabel::clicked, this, &MainWindow::onFrameLabelClicked);
+
     frameLabel->setMinimumWidth(50);
     frameLabel->setMinimumHeight(50);
     frameLabel->setMaximumHeight(50);
@@ -175,4 +181,15 @@ void MainWindow::on_addFrameButton_clicked()
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
     ui->scrollArea->widget()->layout()->addWidget(frameLabel);
     setScaledPixmap(frameLabel, pix);
+}
+
+void MainWindow::onFrameLabelClicked(int frameIndex) {
+    model.setCurrentFrame(frameIndex);
+    Frame frame = model.getCurrentFrame();
+
+    for (auto it = frame.getPixelMap().constBegin(); it != frame.getPixelMap().constEnd(); ++it) {
+        image.setPixelColor(it.key().first, it.key().second, it.value());
+    }
+
+    pix.convertFromImage(image);
 }

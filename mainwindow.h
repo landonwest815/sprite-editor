@@ -33,6 +33,8 @@ public:
 private slots:
     ///@brief Create a new frame and update the UI accordingly
     void on_addFrameButton_clicked();
+
+    void onFrameLabelClicked(int frameIndex);
     ///@brief Set the RGB of the currently selected color and update the UI accordingly
     void setRGB();
 
