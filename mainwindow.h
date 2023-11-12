@@ -33,7 +33,9 @@ public:
 
 private slots:
     ///@brief Create a new frame and update the UI accordingly
-    void on_addFrameButton_clicked();
+    void addFrameClicked();
+    ///@brief Handles the selection of a specific frame and update the UI accordingly
+    void handleFrameClicked();
     ///@brief Set the RGB of the currently selected color and update the UI accordingly
     void setRGB();
 
@@ -42,6 +44,7 @@ private:
     QImage image;
     QPixmap pix;
     Model model;
+    int frameCounter;
 
     void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
     void setScaledPixmap(QLabel* label, const QPixmap &pixmap);

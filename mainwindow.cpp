@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , image(16, 16, QImage::Format_RGB32)
     , model()
+    , frameCounter(1)
 {
     ui->setupUi(this);
 
@@ -46,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Connect the button clicked signal to your slot if needed
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
+    connect(ui->addFrameButton, &QPushButton::clicked,
+            this, &MainWindow::addFrameClicked);
 
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
 
@@ -163,7 +166,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_addFrameButton_clicked()
+void MainWindow::addFrameClicked()
 {
     //Update Model with new frame
     model.addNewFrame();
@@ -172,7 +175,10 @@ void MainWindow::on_addFrameButton_clicked()
 
     //Update the UI accordingly
     frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
-    QPushButton *frameButton = new QPushButton();
+    QString frameNum = QString::number(frameCounter);
+    frameCounter++;
+    QPushButton *frameButton = new QPushButton(frameNum);
+    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
     frameButton->setMinimumWidth(50);
     frameButton->setMinimumHeight(50);
     frameButton->setMaximumHeight(50);
@@ -181,4 +187,11 @@ void MainWindow::on_addFrameButton_clicked()
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
     ui->scrollArea->widget()->layout()->addWidget(frameButton);
     setScaledButton(frameButton, pix);
+}
+
+void MainWindow::handleFrameClicked() {
+    QPushButton *clickedFrame = qobject_cast<QPushButton*>(sender());
+    if (clickedFrame) {
+        qDebug() << "Button Clicked: " << clickedFrame->text();
+    }
 }
