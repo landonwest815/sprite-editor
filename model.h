@@ -16,7 +16,7 @@ private:
     vector<Tool> toolBar;
     QColor selectedColor;
     vector<Frame> frames;
-    Frame currentFrame;
+    Frame* currentFrame;
     int frameSize;
 
 public:
@@ -48,7 +48,7 @@ public:
 
     ///@brief getter for the currrently selected frame
     ///@return - The currently selected frame
-    Frame getCurrentFrame();
+    Frame& getCurrentFrame();
 
     ///@brief getter for size of the frames in the vector
     ///@return - The frame size
@@ -60,7 +60,7 @@ public:
 
     ///@brief getter for the entire vector of frames
     ///@return - The entire vector of frames
-    vector<Frame> getAllFrames();
+    vector<Frame>& getAllFrames();
 
     /// \brief setCurrentFrame Sets the current frame to the one the user selects
     /// \param index the index of the frame in the array

@@ -20,7 +20,7 @@ Frame::Frame(int size) {
     this->size = size;
 }
 
-QMap<std::pair<int,int>, QColor> Frame::getPixelMap() {
+QMap<std::pair<int,int>, QColor> Frame::getPixelMap() const{
     return PixelMap;
 }
 
@@ -28,7 +28,7 @@ void Frame::setPixelMap(QMap<std::pair<int,int>, QColor> newMap) {
     PixelMap = newMap;
 }
 
-int Frame::getSize() {
+int Frame::getSize() const{
     return size;
 }
 
