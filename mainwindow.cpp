@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(1) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0) {
         ui->setupUi(this);
         initializeUI();
         setupConnections();
@@ -152,10 +152,77 @@ void MainWindow::addFrameClicked() {
     updateUIForNewFrame(newFrameIndex);
 }
 
+void MainWindow::deleteFrame(int frameIndex) {
+
+    // Create a fresh frame if last one
+    if (model.getAllFrames().size() < 2) {
+        addFrameClicked();
+    }
+
+    // Remove the frame from the model
+    model.removeFrame(frameIndex);
+
+    // Remove the corresponding thumbnail button
+    QPushButton* frameButton = frameThumbnails.value(frameIndex);
+    if (frameButton) {
+        // remove it from the scroll view
+        ui->scrollArea->widget()->layout()->removeWidget(frameButton->parentWidget());
+
+        // delete it
+        delete frameButton->parentWidget();
+    }
+
+    // Adjust the scroll area for nice looking spacing purposes
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() - 110);
+
+    // Remove the frame thumbnail from the map
+    frameThumbnails.remove(frameIndex);
+
+    // Update the frameCounter
+    frameCounter--;
+
+    updateFrameIndices();
+
+    // Set the frame to the right as the current
+    // unless it is the right most frame
+    if (frameIndex == model.getAllFrames().size()) {
+        frameIndex--;
+    }
+    model.setCurrentFrame(frameIndex);
+    updateUIForSelectedFrame(frameIndex);
+}
+
+void MainWindow::updateFrameIndices() {
+    // Loop over all frames and update their indices
+    QMap<int, QPushButton*> newFrameThumbnails;
+    int newIndex = 0;
+
+    for (auto &button : frameThumbnails) {
+
+        // get the container
+        auto *frameContainer = button->parentWidget();
+
+        // get the two children
+        auto *frameButton = frameContainer->findChild<QPushButton*>("frameButton");
+        auto *closeButton = frameContainer->findChild<QPushButton*>("closeButton");
+
+        // update both
+        frameButton->setText(QString::number(newIndex));
+        closeButton->setProperty("frameIndex", newIndex);
+
+        // update the map and increment
+        newFrameThumbnails[newIndex] = frameButton;
+        newIndex++;
+    }
+
+    frameThumbnails = newFrameThumbnails;
+}
+
 void MainWindow::handleFrameClicked() {
     QPushButton *clickedFrameButton = qobject_cast<QPushButton*>(sender());
     if (clickedFrameButton) {
-        int frameIndex = clickedFrameButton->text().toInt() - 1;
+        int frameIndex = clickedFrameButton->text().toInt();
+        qDebug() << frameIndex;
         model.setCurrentFrame(frameIndex);
         updateUIForSelectedFrame(frameIndex);
     }
@@ -175,30 +242,57 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     // Retrieve the new frame from the model
     Frame newFrame = model.getAllFrames().at(frameIndex);
 
+    QWidget *frameContainer = new QWidget;
+    QGridLayout *layout = new QGridLayout(frameContainer);
+    layout->setContentsMargins(0, 0, 0, 0);
+
     // Create a button for the new frame
     QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
     frameCounter++;
 
-    frameThumbnails[frameIndex] = frameButton;
-
-    // Connect the button click signal to the frame selection handler
-    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
-
-    // Configure and add the new button to the UI
     frameButton->setMinimumSize(65, 55);
     frameButton->setMaximumSize(65, 55);
     frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    ui->scrollArea->widget()->layout()->addWidget(frameButton);
+    frameButton->setObjectName("frameButton");
+
+    frameThumbnails[frameIndex] = frameButton;
+
+    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
+
+    QPushButton *closeButton = new QPushButton("X");
+    closeButton->setProperty("frameIndex", frameIndex);
+    closeButton->setFixedSize(15, 15); // Adjust size as needed
+    closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    closeButton->setObjectName("closeButton");
+
+    connect(closeButton, &QPushButton::clicked, this, [this]() {
+        QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
+        if (senderButton) {
+            int frameIndex = senderButton->property("frameIndex").toInt();
+            deleteFrame(frameIndex);
+        }
+    });
+
+    // Add the frame button to the layout, spanning 1 row and 1 column
+    layout->addWidget(frameButton, 0, 0, 1, 1);
+
+    // Add the close button in the top right corner, in the first row and second column
+    layout->addWidget(closeButton, 0, 1, 1, 1, Qt::AlignTop | Qt::AlignRight);
+
+    // Set alignment to ensure the "X" button stays in the top-right corner
+    layout->setAlignment(closeButton, Qt::AlignTop | Qt::AlignRight);
+
+    // Add the container to the UI
+    ui->scrollArea->widget()->layout()->addWidget(frameContainer);
 
     // Adjust the scroll area for nice looking spacing purposes
-    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 85);
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 110);
 
     // Set the button icon to the pixmap representing the new frame
     QImage frameImage = createImageFromFrame(newFrame);
     pix.convertFromImage(frameImage);
-    setScaledButton(frameButton, pix);
 
-    // Update the rest of the UI
+    // Update the UI
     updateAllPixmaps();
 }
 
