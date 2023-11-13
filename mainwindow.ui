@@ -49,7 +49,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="titleLabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -128,7 +128,7 @@ QTabBar::tab:selected {
 }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="tabBarAutoHide">
          <bool>false</bool>
@@ -575,7 +575,7 @@ QPushButton:checked {
          <number>6</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="toolsLabel">
           <property name="font">
            <font>
             <italic>true</italic>
@@ -589,7 +589,7 @@ QPushButton:checked {
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="drawLabel">
           <property name="text">
            <string>Draw</string>
           </property>
@@ -663,7 +663,7 @@ QPushButton:checked {
          </spacer>
         </item>
         <item>
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="erase">
           <property name="text">
            <string>Erase</string>
           </property>
@@ -721,7 +721,7 @@ QPushButton:checked {
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="toolSettingLabel">
           <property name="font">
            <font>
             <italic>true</italic>
@@ -740,7 +740,7 @@ QPushButton:checked {
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="label_17">
+           <widget class="QLabel" name="toolSizeLabel">
             <property name="text">
              <string>Tool Size</string>
             </property>
@@ -767,7 +767,7 @@ QPushButton:checked {
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_10">
           <item>
-           <widget class="QLabel" name="label_7">
+           <widget class="QLabel" name="redLabel">
             <property name="text">
              <string>Red:</string>
             </property>
@@ -785,7 +785,7 @@ QPushButton:checked {
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
-           <widget class="QLabel" name="label_8">
+           <widget class="QLabel" name="blueLabel">
             <property name="text">
              <string>Blue:</string>
             </property>
@@ -803,7 +803,7 @@ QPushButton:checked {
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_12">
           <item>
-           <widget class="QLabel" name="label_9">
+           <widget class="QLabel" name="greenLabel">
             <property name="text">
              <string>Green:</string>
             </property>
@@ -819,7 +819,7 @@ QPushButton:checked {
          </layout>
         </item>
         <item>
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="mirrorLabel">
           <property name="text">
            <string>Mirror</string>
           </property>
@@ -880,7 +880,7 @@ QPushButton:checked {
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_18">
+         <widget class="QLabel" name="previewLabel_2">
           <property name="font">
            <font>
             <italic>true</italic>
