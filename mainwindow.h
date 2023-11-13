@@ -51,6 +51,8 @@ private:
     void updateUIForNewFrame(int frameIndex);
     QImage createImageFromFrame(const Frame &frame);
     void updateUIForSelectedFrame(int frameIndex);
+    void deleteFrame(int frameIndex);
+    void updateFrameIndices();
 };
 
 #endif // MAINWINDOW_H
