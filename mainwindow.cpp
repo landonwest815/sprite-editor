@@ -65,6 +65,9 @@ void MainWindow::updateAllPixmaps() {
     // Display it
     setScaledCanvas(ui->pixMapLabel, pix);
     setScaledCanvas(ui->previewLabel, pix);
+
+    // Update the Frame thumbnail
+    setScaledButton(frameThumbnails[model.getCurrentFrameIndex()], pix);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -176,17 +179,19 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
     frameCounter++;
 
+    frameThumbnails[frameIndex] = frameButton;
+
     // Connect the button click signal to the frame selection handler
     connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
 
     // Configure and add the new button to the UI
-    frameButton->setMinimumSize(50, 50);
-    frameButton->setMaximumSize(50, 50);
+    frameButton->setMinimumSize(65, 55);
+    frameButton->setMaximumSize(65, 55);
     frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->scrollArea->widget()->layout()->addWidget(frameButton);
 
     // Adjust the scroll area for nice looking spacing purposes
-    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 85);
 
     // Set the button icon to the pixmap representing the new frame
     QImage frameImage = createImageFromFrame(newFrame);
@@ -237,6 +242,6 @@ QImage MainWindow::createImageFromFrame(const Frame &frame) {
 }
 
 void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
-    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
     button->setIconSize(button->size());
 }
