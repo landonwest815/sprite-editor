@@ -129,10 +129,11 @@ void MainWindow::setRGB() {
 }
 
 void MainWindow::onToolButtonClicked(int id) {
-    if (id == 1)
-        model.setSelectedColor(model.getSelectedColor());
-    else
+    if (id == 1) {
+        model.setSelectedColor(QColor::fromRgb(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value()));
+    } else {
         model.setSelectedColor(QColor::fromRgb(64, 64, 64)); // erase by drawing with background color
+    }
 }
 
 void MainWindow::addFrameClicked() {
@@ -141,8 +142,8 @@ void MainWindow::addFrameClicked() {
     model.addNewFrame();
 
     // Set the current frame
-    int newFrameIndex = model.getAllFrames().size() - 1; // Get the index of the new frame
-    model.setCurrentFrame(newFrameIndex); // Set the new frame as the current frame
+    int newFrameIndex = model.getAllFrames().size() - 1;
+    model.setCurrentFrame(newFrameIndex);
 
     // Update the UI to reflect the addition of the new frame
     updateUIForNewFrame(newFrameIndex);
@@ -188,7 +189,7 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
 
     // Set the button icon to the pixmap representing the new frame
-    QImage frameImage = createImageFromFrame(newFrame); // You will need to implement createPixmapFromFrame
+    QImage frameImage = createImageFromFrame(newFrame);
     pix.convertFromImage(frameImage);
     setScaledButton(frameButton, pix);
 
@@ -236,9 +237,6 @@ QImage MainWindow::createImageFromFrame(const Frame &frame) {
 }
 
 void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
-    QSize buttonSize = button->size();
-    QIcon buttonIcon(pixmap.scaled(buttonSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    button->setIcon(buttonIcon);
-    button->setIconSize(buttonSize);
+    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    button->setIconSize(button->size());
 }
