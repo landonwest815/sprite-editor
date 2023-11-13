@@ -1062,13 +1062,13 @@ QPushButton:checked {
         </property>
         <property name="minimumSize">
          <size>
-          <width>75</width>
+          <width>5</width>
           <height>75</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>75</width>
+          <width>5</width>
           <height>75</height>
          </size>
         </property>
@@ -1113,8 +1113,8 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>75</width>
-           <height>75</height>
+           <width>24</width>
+           <height>69</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1124,34 +1124,6 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
           <property name="leftMargin">
            <number>12</number>
           </property>
-          <item>
-           <widget class="QLabel" name="frameLabel">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>50</width>
-              <height>50</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
        </widget>
@@ -1179,7 +1151,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>

@@ -12,186 +12,231 @@
 #include <QScrollBar>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , image(16, 16, QImage::Format_RGB32)
-    , model()
-    , frameCounter(1)
-{
-    ui->setupUi(this);
+    : QMainWindow(parent), ui(new Ui::MainWindow),
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(1) {
+        ui->setupUi(this);
+        initializeUI();
+        setupConnections();
+}
 
-    // set a fresh canvas
-    image.fill(QColor::fromRgb(64, 64, 64));
-    pix.convertFromImage(image);
-    setScaledPixmap(ui->pixMapLabel, pix);
-    setScaledPixmap(ui->previewLabel, pix);
-    setScaledPixmap(ui->frameLabel, pix);
+MainWindow::~MainWindow() {
+    delete ui;
+}
 
-    cout << "Pixmap size: " << pix.width() << ", " << pix.height() << endl;
-    cout << "Label size: " << ui->pixMapLabel->width() << ", " << ui->pixMapLabel->height() << endl;
+void MainWindow::initializeUI() {
 
-    // Create a new button group
-    QButtonGroup* toolButtonGroup = new QButtonGroup(this);
+    // Create an initial frame and display it
+    addFrameClicked();
+    updateUIForSelectedFrame(0);
 
-    // Add buttons to the group with IDs
+    // Configure the tools
+    toolButtonGroup = new QButtonGroup(this);
     toolButtonGroup->addButton(ui->penTool, 1);
     toolButtonGroup->addButton(ui->eraseTool, 2);
-
-    // Set the button group to exclusive
     toolButtonGroup->setExclusive(true);
-
-    // Set pen as default tool
     ui->penTool->setChecked(true);
     onToolButtonClicked(1);
 
-    // Connect the button clicked signal to your slot if needed
+    // Disable vertical scroll bar for a nicer visual
+    ui->scrollArea->verticalScrollBar()->setEnabled(false);
+}
+
+void MainWindow::setupConnections() {
+    // Tool buttons
     connect(toolButtonGroup, &QButtonGroup::idClicked,
             this, &MainWindow::onToolButtonClicked);
-    connect(ui->addFrameButton, &QPushButton::clicked,
-            this, &MainWindow::addFrameClicked);
 
-    ui->scrollArea->verticalScrollBar()->setEnabled(false);
-
-    // Connect the RGB spin box signals to the setRGB slot
+    // RGB Spin Boxes
     connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
     connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
     connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+
+    // Frame addition
+    connect(ui->addFrameButton, &QPushButton::clicked,
+            this, &MainWindow::addFrameClicked);
+}
+
+void MainWindow::updateAllPixmaps() {
+
+    // Pull the image from the currently selected frame
+    image = createImageFromFrame(model.getCurrentFrame());
+    pix.convertFromImage(image);
+
+    // Display it
+    setScaledCanvas(ui->pixMapLabel, pix);
+    setScaledCanvas(ui->previewLabel, pix);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-    ui->nameEntryBox->clearFocus();
-    ui->toolSizeSpin->clearFocus();
-    QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-    pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
-    updateImageAndPixMap(pairMousePos);
+
+    clearFocusOnWidgets(); // visual purposes
+    QPoint pos = mapToCanvasPos(event->pos());
+    if (isValidCanvasPos(pos)) {
+        updateImageAndCanvas(pos);
+    }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
-    QPoint pixmapMousePos = event->pos() - ui->pixMapLabel->mapTo(this, QPoint(0, 0));
-    pair<int, int> pairMousePos(pixmapMousePos.x(), pixmapMousePos.y());
-    updateImageAndPixMap(pairMousePos);
+    QPoint pos = mapToCanvasPos(event->pos());
+    if (isValidCanvasPos(pos)) {
+        updateImageAndCanvas(pos);
+    }
 }
 
-void MainWindow::updateImageAndPixMap(const pair<int, int> &pixmapMousePos) {
-    // Checks if mouse position is within the QLabel pixmap
-    if (0 <= pixmapMousePos.first && pixmapMousePos.first < ui->pixMapLabel->width() &&
-        0 <= pixmapMousePos.second && pixmapMousePos.second < ui->pixMapLabel->height()) {
-        // Use the scaling factor to determine the pixel position.
-        int pixmapX = pixmapMousePos.first / (ui->pixMapLabel->width() / pix.width());
-        int pixmapY = pixmapMousePos.second / (ui->pixMapLabel->height() / pix.height());
+bool MainWindow::isValidCanvasPos(const QPoint& pos) const {
+    return pos.x() >= 0 && pos.x() < ui->pixMapLabel->width() &&
+           pos.y() >= 0 && pos.y() < ui->pixMapLabel->height();
+}
 
-        // Set the pixel color to the model's selected color
-        image.setPixelColor(pixmapX, pixmapY, model.getSelectedColor());
+QPoint MainWindow::mapToCanvasPos(const QPoint& pos) const {
+    return pos - ui->pixMapLabel->mapToParent(QPoint(0, 0));
+}
 
-        for (int i = 0; i < ui->toolSizeSpin->value(); i++) {
-            //Using temporary coordinate variables, draw a square around the pixmap coordinates scaled to be "i" away from them
-            int toolX = pixmapX + i;
-            int toolY = pixmapY + i;
-            image.setPixelColor(toolX, toolY, model.getSelectedColor());
-            while (toolY > pixmapY - i) {
-                toolY -= 1;
-                image.setPixelColor(toolX, toolY, model.getSelectedColor());
-            }
-            while (toolX > pixmapX - i) {
-                toolX -= 1;
-                image.setPixelColor(toolX, toolY, model.getSelectedColor());
-            }
-            while (toolY < pixmapY + i) {
-                toolY += 1;
-                image.setPixelColor(toolX, toolY, model.getSelectedColor());
-            }
-            while (toolX < pixmapX + i) {
-                toolX += 1;
-                image.setPixelColor(toolX, toolY, model.getSelectedColor());
+void MainWindow::updateImageAndCanvas(const QPoint& pos) {
+
+    // Convert the position to the image's scale
+    int pixmapX = static_cast<int>(pos.x() * (static_cast<double>(model.getCurrentFrame().getSize()) / ui->pixMapLabel->width()));
+    int pixmapY = static_cast<int>(pos.y() * (static_cast<double>(model.getCurrentFrame().getSize()) / ui->pixMapLabel->height()));
+
+    // Ensure the coordinates are within the bounds of the image
+    if (pixmapX >= 0 && pixmapX < image.width() && pixmapY >= 0 && pixmapY < image.height()) {
+
+        // Set the pixel color at the scaled position
+        QColor selectedColor = model.getSelectedColor();
+        model.getCurrentFrame().SetColor(std::make_pair(pixmapX, pixmapY), selectedColor);
+
+        // Draw a square based on the tool size if applicable
+        int toolSize = ui->toolSizeSpin->value();
+        for (int dx = -toolSize / 2; dx <= toolSize / 2; ++dx) {
+            for (int dy = -toolSize / 2; dy <= toolSize / 2; ++dy) {
+                int toolX = pixmapX + dx;
+                int toolY = pixmapY + dy;
+                // Check bounds again for the tool size
+                if (toolX >= 0 && toolX < image.width() && toolY >= 0 && toolY < image.height()) {
+                    model.getCurrentFrame().SetColor(std::make_pair(toolX, toolY), selectedColor);
+                }
             }
         }
 
-        pix.convertFromImage(image);
-        ui->pixMapLabel->setPixmap(pix.scaled(ui->pixMapLabel->size(), Qt::KeepAspectRatio));
-        ui->previewLabel->setPixmap(pix.scaled(ui->previewLabel->size(), Qt::KeepAspectRatio));
-        ui->frameLabel->setPixmap(pix.scaled(ui->frameLabel->size(), Qt::KeepAspectRatio));
-
-        std::cout << "Mouse Pressed on Pixmap at Position: " << pixmapX << ", " << pixmapY << std::endl;
-    }
-}
-
-void MainWindow::setScaledPixmap(QLabel* label, const QPixmap &pixmap) {
-    label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
-}
-
-void MainWindow::setScaledButton(QPushButton* label, const QPixmap &pixmap) {
-    QIcon buttonIcon;
-    buttonIcon.addPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
-    label->setIcon(buttonIcon);
-    label->setIconSize(pixmap.size() * 2.5);
-}
-
-void MainWindow::onToolButtonClicked(int id) {
-    if(id == 1)
-    {
-        ui->mirrorTool->setEnabled(true);
-
-        // re-enable the color selection and reset the color to the one stored in the spin boxes
-        ui->redSpin->setEnabled(true);
-        ui->blueSpin->setEnabled(true);
-        ui->greenSpin->setEnabled(true);
-
-        // Pen tool was selected - do stuff with model
-        setRGB();
-    }
-    else if(id == 2)
-    {
-        ui->mirrorTool->setEnabled(false);
-
-        ui->redSpin->setEnabled(false);
-        ui->blueSpin->setEnabled(false);
-        ui->greenSpin->setEnabled(false);
-
-        // Erase tool was selected - do stuff with model
-        // Set model selected color to the background color
-        model.setSelectedColor(QColor::fromRgb(64, 64, 64));
+        // Update the displayed UI
+        updateAllPixmaps();
     }
 }
 
 void MainWindow::setRGB() {
-    int red = ui->redSpin->value();
-    int green = ui->greenSpin->value();
-    int blue = ui->blueSpin->value();
-    QColor newColor(red, green, blue);
+    QColor newColor(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value());
     model.setSelectedColor(newColor);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+void MainWindow::onToolButtonClicked(int id) {
+    if (id == 1) {
+        model.setSelectedColor(QColor::fromRgb(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value()));
+    } else {
+        model.setSelectedColor(QColor::fromRgb(64, 64, 64)); // erase by drawing with background color
+    }
 }
 
-void MainWindow::addFrameClicked()
-{
-    //Update Model with new frame
-    model.addNewFrame();
-    model.setCurrentFrame(model.getAllFrames().size()-1);
-    Frame frame = model.getCurrentFrame();
+void MainWindow::addFrameClicked() {
 
-    //Update the UI accordingly
-    frame.SetColor(pair<int,int>(1, 3), QColor::fromRgb(0, 0, 0));
-    QString frameNum = QString::number(frameCounter);
-    frameCounter++;
-    QPushButton *frameButton = new QPushButton(frameNum);
-    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
-    frameButton->setMinimumWidth(50);
-    frameButton->setMinimumHeight(50);
-    frameButton->setMaximumHeight(50);
-    frameButton->setMinimumHeight(50);
-    frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
-    ui->scrollArea->widget()->layout()->addWidget(frameButton);
-    setScaledButton(frameButton, pix);
+    // Add a new frame to the model
+    model.addNewFrame();
+
+    // Set the current frame
+    int newFrameIndex = model.getAllFrames().size() - 1;
+    model.setCurrentFrame(newFrameIndex);
+
+    // Update the UI to reflect the addition of the new frame
+    updateUIForNewFrame(newFrameIndex);
 }
 
 void MainWindow::handleFrameClicked() {
-    QPushButton *clickedFrame = qobject_cast<QPushButton*>(sender());
-    if (clickedFrame) {
-        qDebug() << "Button Clicked: " << clickedFrame->text();
+    QPushButton *clickedFrameButton = qobject_cast<QPushButton*>(sender());
+    if (clickedFrameButton) {
+        int frameIndex = clickedFrameButton->text().toInt() - 1;
+        model.setCurrentFrame(frameIndex);
+        updateUIForSelectedFrame(frameIndex);
     }
+}
+
+void MainWindow::setScaledCanvas(QLabel* label, const QPixmap &pixmap) {
+    label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
+}
+
+void MainWindow::clearFocusOnWidgets() {
+    ui->nameEntryBox->clearFocus();
+    ui->toolSizeSpin->clearFocus();
+}
+
+void MainWindow::updateUIForNewFrame(int frameIndex) {
+
+    // Retrieve the new frame from the model
+    Frame newFrame = model.getAllFrames().at(frameIndex);
+
+    // Create a button for the new frame
+    QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
+    frameCounter++;
+
+    // Connect the button click signal to the frame selection handler
+    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
+
+    // Configure and add the new button to the UI
+    frameButton->setMinimumSize(50, 50);
+    frameButton->setMaximumSize(50, 50);
+    frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ui->scrollArea->widget()->layout()->addWidget(frameButton);
+
+    // Adjust the scroll area for nice looking spacing purposes
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 70);
+
+    // Set the button icon to the pixmap representing the new frame
+    QImage frameImage = createImageFromFrame(newFrame);
+    pix.convertFromImage(frameImage);
+    setScaledButton(frameButton, pix);
+
+    // Update the rest of the UI
+    updateAllPixmaps();
+}
+
+void MainWindow::updateUIForSelectedFrame(int frameIndex) {
+
+    // Get a reference to the selected frame
+    Frame selectedFrame = model.getAllFrames().at(frameIndex);
+
+    // Update the current frame in the model
+    model.setCurrentFrame(frameIndex);
+
+    // Create an image from the frame's pixel data
+    QImage frameImage = createImageFromFrame(selectedFrame);
+
+    // Update the pixMap with it
+    pix.convertFromImage(frameImage);
+
+    updateAllPixmaps();
+
+   // highlightSelectedFrameThumbnail(frameIndex);
+}
+
+QImage MainWindow::createImageFromFrame(const Frame &frame) {
+
+    // Create an image of the correct size
+    int size = frame.getSize(); // length = width
+    QImage frameImage(size, size, QImage::Format_ARGB32);
+
+    // Get the map of pixels from the frame
+    QMap<std::pair<int,int>, QColor> pixelMap = frame.getPixelMap();
+
+    // Loop through each pixel and set the color to the image
+    for (int x = 0; x < size; ++x) {
+        for (int y = 0; y < size; ++y) {
+            std::pair<int, int> coord = std::make_pair(x, y);
+            frameImage.setPixelColor(x, y, pixelMap.value(coord));
+        }
+    }
+
+    return frameImage;
+}
+
+void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
+    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    button->setIconSize(button->size());
 }
