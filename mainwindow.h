@@ -37,6 +37,7 @@ private:
     Model model;
     int frameCounter;
     QButtonGroup* toolButtonGroup;
+    QMap<int, QPushButton*> frameThumbnails;
 
     void initializeUI();
     void setupConnections();

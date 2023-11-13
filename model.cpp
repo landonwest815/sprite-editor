@@ -14,7 +14,8 @@ Model::Model() :
     toolBar(),
     selectedColor(255,255,255),
     frames(),
-    currentFrame(nullptr)
+    currentFrame(nullptr),
+    currentFrameIndex(0)
 {
     //Temporarily hard-coded the size to be 16
     frameSize = 16;
@@ -59,10 +60,15 @@ void Model::removeFrame(int index) {
 
 void Model::setCurrentFrame(int index) {
     currentFrame = &frames[index];
+    currentFrameIndex = index;
 }
 
 Frame& Model::getCurrentFrame() {
     return *currentFrame;
+}
+
+int Model::getCurrentFrameIndex() {
+    return currentFrameIndex;
 }
 
 int Model::getFrameSize() {

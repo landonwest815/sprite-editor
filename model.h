@@ -18,6 +18,7 @@ private:
     vector<Frame> frames;
     Frame* currentFrame;
     int frameSize;
+    int currentFrameIndex;
 
 public:
     ///@brief Blank constructor for the Model class. Sets the selected tool to the brush and selected color to black.
@@ -49,6 +50,8 @@ public:
     ///@brief getter for the currrently selected frame
     ///@return - The currently selected frame
     Frame& getCurrentFrame();
+
+    int getCurrentFrameIndex();
 
     ///@brief getter for size of the frames in the vector
     ///@return - The frame size
