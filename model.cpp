@@ -95,7 +95,7 @@ vector<Frame>& Model::getAllFrames() {
     return frames;
 }
 
-vector<Frame>& Model::setAllFrames(vector<Frame> newFrames) {
+void Model::setAllFrames(vector<Frame> newFrames) {
     frames = newFrames;
 }
 
