@@ -159,12 +159,7 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
         QColor selectedColor = model.getSelectedColor();
         model.getCurrentFrame().SetColor(std::make_pair(pixmapX, pixmapY), selectedColor);
 
-        // If mirror tool is active, do some math to mirror the x-position of the placed pixel
-        if (ui->mirrorTool->isChecked()) {
-            int mirrorX = 0;
-            mirrorX = (image.width() - 1) - pixmapX;
-            model.getCurrentFrame().SetColor(std::make_pair(mirrorX, pixmapY), selectedColor);
-        }
+        mirrorPixel(pixmapX, pixmapY, selectedColor);
 
         // Draw a square based on the tool size if applicable
         int toolSize = ui->toolSizeSpin->value();
@@ -175,12 +170,22 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
                 // Check bounds again for the tool size
                 if (toolX >= 0 && toolX < image.width() && toolY >= 0 && toolY < image.height()) {
                     model.getCurrentFrame().SetColor(std::make_pair(toolX, toolY), selectedColor);
+                    mirrorPixel(toolX, toolY, selectedColor);
                 }
             }
         }
 
         // Update the displayed UI
         updateAllPixmaps();
+    }
+}
+
+void MainWindow::mirrorPixel(int pixX, int pixY, QColor selectedColor) {
+    // If mirror tool is active, do some math to mirror the x-position of the placed pixel
+    if (ui->mirrorTool->isChecked()) {
+        int mirrorX = 0;
+        mirrorX = (image.width() - 1) - pixX;
+        model.getCurrentFrame().SetColor(std::make_pair(mirrorX, pixY), selectedColor);
     }
 }
 

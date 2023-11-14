@@ -73,6 +73,7 @@ private:
     void saveFile();
     void loadFile();
     void updateAllThumbnails();
+    void mirrorPixel(int pixX, int pixY, QColor selectedColor);
 };
 
 #endif // MAINWINDOW_H
