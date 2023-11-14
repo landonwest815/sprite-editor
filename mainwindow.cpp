@@ -186,7 +186,7 @@ void MainWindow::onToolButtonClicked(int id) {
     if (id == 1) {
         model.setSelectedColor(QColor::fromRgb(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value()));
     } else {
-        model.setSelectedColor(QColor::fromRgb(64, 64, 64)); // erase by drawing with background color
+        model.setSelectedColor(model.getBackgroundColor()); // erase by drawing with background color
     }
 }
 
@@ -635,6 +635,7 @@ void MainWindow::darkModeClicked() {
         }
 
     }
+    onToolButtonClicked(1);
 }
 
 void MainWindow::largeTextClicked(int toggled) {
