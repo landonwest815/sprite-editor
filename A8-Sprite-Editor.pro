@@ -35,3 +35,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Assets.qrc
+
+unix|win32: LIBS += -L$$PWD/../../../../../../Qt/6.6.0/mingw_64/lib/ -lQt6TextToSpeech
+
+INCLUDEPATH += $$PWD/../../../../../../Qt/6.6.0/mingw_64/include
+DEPENDPATH += $$PWD/../../../../../../Qt/6.6.0/mingw_64/include
