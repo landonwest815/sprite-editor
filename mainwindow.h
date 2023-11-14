@@ -61,6 +61,8 @@ private:
     QImage createImageFromFrame(const Frame &frame);
     void updateUIForSelectedFrame(int frameIndex);
     QPixmap getPixMap(Frame frame);
+    void deleteFrame(int frameIndex);
+    void updateFrameIndices();
 };
 
 #endif // MAINWINDOW_H
