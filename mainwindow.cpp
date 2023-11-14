@@ -14,9 +14,9 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
     image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false) {
-        ui->setupUi(this);
-        initializeUI();
-        setupConnections();
+    ui->setupUi(this);
+    initializeUI();
+    setupConnections();
 }
 
 MainWindow::~MainWindow() {
@@ -36,6 +36,11 @@ void MainWindow::initializeUI() {
     toolButtonGroup->setExclusive(true);
     ui->penTool->setChecked(true);
     onToolButtonClicked(1);
+
+    // Connect the accessibility buttons to the required slots
+    connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
+    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkModeClicked);
+    connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
 
     auto animationButtonGroup = new QButtonGroup(this);
     animationButtonGroup->addButton(ui->startAnimation, 1);
@@ -268,7 +273,6 @@ void MainWindow::setScaledCanvas(QLabel* label, const QPixmap &pixmap) {
 }
 
 void MainWindow::clearFocusOnWidgets() {
-    ui->nameEntryBox->clearFocus();
     ui->toolSizeSpin->clearFocus();
 }
 
@@ -347,7 +351,7 @@ void MainWindow::updateUIForSelectedFrame(int frameIndex) {
 
     updateAllPixmaps();
 
-   // highlightSelectedFrameThumbnail(frameIndex);
+    // highlightSelectedFrameThumbnail(frameIndex);
 }
 
 QImage MainWindow::createImageFromFrame(const Frame &frame) {
@@ -412,9 +416,46 @@ void MainWindow::updatePreviewWindow(){
     }
 }
 
-
 void MainWindow::onStopAnimationClicked(){
     animatingPreview = false;
     timer.stop();
     updateAllPixmaps();
+}
+
+void MainWindow::showTutorialPopup() {
+    QDialog* tutorialDialog = new QDialog(this);
+    tutorialDialog->setWindowTitle("Tutorial Popup");
+    QVBoxLayout* layout = new QVBoxLayout(tutorialDialog);
+    QLabel* tutorialLabel = new QLabel(tutorialDialog);
+    tutorialLabel->setPixmap(QPixmap(":/icons/tutorial.png"));  // Replace with the path to your image
+    layout->addWidget(tutorialLabel);
+    tutorialDialog->exec();
+}
+
+void MainWindow::darkModeClicked(int toggled) {
+    if (toggled) {
+        ui->darkModeButton->setText("Light Mode");
+        this->setStyleSheet("background-color: white;");
+
+    }
+    if (!toggled) {
+        ui->darkModeButton->setText("Dark Mode");
+        this->setStyleSheet("background-color: #303030;");
+    }
+}
+
+void MainWindow::largeTextClicked(int toggled) {
+    QFont largeFont("Segoe UI", 14);
+    QFont regularFont("Segoe UI", 9);
+    QString textOption[2] = {"Large Text", "Regular Text"};
+    QFont fontSize[2] = {regularFont, largeFont};
+    QWidget* wigets[17] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
+                           ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
+                           ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
+                           ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
+                           ui->previewLabel_2, ui->FPSLabel};
+    ui->largeTextButton->setText(textOption[toggled]);
+    for (QWidget* widget : wigets) {
+        widget->setFont(fontSize[toggled]);
+    }
 }

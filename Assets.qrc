@@ -7,5 +7,6 @@
         <file>play.png</file>
         <file>add.png</file>
         <file>copy.png</file>
+        <file>tutorial.png</file>
     </qresource>
 </RCC>

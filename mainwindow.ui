@@ -128,7 +128,7 @@ QTabBar::tab:selected {
 }</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <property name="tabBarAutoHide">
          <bool>false</bool>
@@ -223,37 +223,6 @@ QPushButton:checked {
           </property>
           <property name="text">
            <string>Load</string>
-          </property>
-         </widget>
-         <widget class="QLineEdit" name="nameEntryBox">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>10</y>
-            <width>224</width>
-            <height>24</height>
-           </rect>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="inputMask">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <property name="placeholderText">
-           <string>Program Name Here</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>false</bool>
           </property>
          </widget>
         </widget>
@@ -490,7 +459,7 @@ QPushButton:checked {
 }</string>
           </property>
           <property name="text">
-           <string>Speech Mode</string>
+           <string>Speech On</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -599,8 +568,14 @@ QPushButton:checked {
             <underline>false</underline>
            </font>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::WinPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
           <property name="text">
-           <string>Tools</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Tools&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -654,7 +629,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Assets.qrc">
+           <iconset>
             <normaloff>:/icons/pen.png</normaloff>:/icons/pen.png</iconset>
           </property>
           <property name="checkable">
@@ -728,7 +703,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Assets.qrc">
+           <iconset>
             <normaloff>:/icons/erase.png</normaloff>:/icons/erase.png</iconset>
           </property>
           <property name="checkable">
@@ -761,8 +736,14 @@ QPushButton:checked {
             <underline>false</underline>
            </font>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::WinPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
           <property name="text">
-           <string>Tool Settings</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Tool Settings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -916,7 +897,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Assets.qrc">
+           <iconset>
             <normaloff>:/icons/mirror.png</normaloff>:/icons/mirror.png</iconset>
           </property>
           <property name="checkable">
@@ -1015,8 +996,14 @@ QPushButton:checked {
             <bold>true</bold>
            </font>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::WinPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
           <property name="text">
-           <string>Preview</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Preview&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -1107,7 +1094,7 @@ QPushButton:checked {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="Assets.qrc">
+             <iconset>
               <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
             </property>
             <property name="checkable">
@@ -1152,7 +1139,7 @@ QPushButton:checked {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="Assets.qrc">
+             <iconset>
               <normaloff>:/icons/pause.png</normaloff>:/icons/pause.png</iconset>
             </property>
             <property name="checkable">
@@ -1258,7 +1245,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>24</width>
+           <width>21</width>
            <height>69</height>
           </rect>
          </property>
@@ -1320,7 +1307,7 @@ QPushButton:pressed {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Assets.qrc">
+           <iconset>
             <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
           </property>
          </widget>
@@ -1370,7 +1357,7 @@ QPushButton:pressed {
            <string/>
           </property>
           <property name="icon">
-           <iconset resource="Assets.qrc">
+           <iconset>
             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
           </property>
          </widget>
@@ -1400,14 +1387,12 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="Assets.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
