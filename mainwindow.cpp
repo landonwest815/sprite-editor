@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false) {
         ui->setupUi(this);
         initializeUI();
         setupConnections();
@@ -54,6 +54,19 @@ void MainWindow::setupConnections() {
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
             this, &MainWindow::addFrameClicked);
+
+    connect(ui->fpsSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::onSelectFPS);
+
+    connect(ui->startAnimation, &QPushButton::clicked,
+            this, &MainWindow::onAnimateButtonClicked);
+
+    connect(ui->stopAnimation, &QPushButton::clicked,
+            this, &MainWindow::onStopAnimationClicked);
+
+    connect(&timer, &QTimer::timeout,
+            this, &MainWindow::updatePreviewWindow);
+
 }
 
 void MainWindow::updateAllPixmaps() {
@@ -338,4 +351,46 @@ QImage MainWindow::createImageFromFrame(const Frame &frame) {
 void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
     button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
     button->setIconSize(button->size());
+}
+
+void MainWindow::onSelectFPS(int FPS){
+
+    this->FPS = 1000/FPS;
+    qDebug() << "frame counter set to: " << this->FPS;
+    // resets the FPS on GUI
+    if(animatingPreview){
+        timer.start(this->FPS);
+    }
+}
+
+void MainWindow::onAnimateButtonClicked()
+{
+    animatingPreview = true;
+    qDebug() << "animation should start";
+    timer.start(FPS);
+}
+
+QPixmap MainWindow::getPixMap(Frame frame){
+    // gets pixmap for frame
+    QImage frameImage = createImageFromFrame(frame);
+    QPixmap framePixMap;
+    framePixMap.convertFromImage(frameImage);
+    return framePixMap;
+}
+
+void MainWindow::updatePreviewWindow(){
+    static int i = 0;
+    qDebug() << "showing frame: " << i;
+    QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
+    ui->previewLabel->setPixmap(pixmap);
+    setScaledCanvas(ui->previewLabel, pixmap);
+    // this allows the animation to repeat until the timer is stopped.
+    i = (i + 1) % model.getNumberOfFrames();
+}
+
+
+void MainWindow::onStopAnimationClicked(){
+    animatingPreview = false;
+    timer.stop();
+    updateAllPixmaps();
 }
