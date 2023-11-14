@@ -1046,6 +1046,40 @@ QPushButton:checked {
          </widget>
         </item>
         <item>
+         <widget class="QLabel" name="FPSLabel">
+          <property name="text">
+           <string>FPS</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSlider" name="fpsSlider">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>15</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="startAnimation">
+          <property name="text">
+           <string>Start Animation</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="stopAnimation">
+          <property name="text">
+           <string>Stop Animation</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -1141,7 +1175,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>24</width>
+           <width>21</width>
            <height>69</height>
           </rect>
          </property>
@@ -1229,7 +1263,7 @@ QPushButton:checked {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

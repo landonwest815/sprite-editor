@@ -6,6 +6,7 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QPushButton>
+#include <QTimer>
 
 #include "model.h" // Ensure this includes the definition of the Model class
 
@@ -29,7 +30,10 @@ private slots:
     void handleFrameClicked();
     void setRGB();
     void onToolButtonClicked(int id);
-
+    void onSelectFPS(int FPS);
+    void onAnimateButtonClicked();
+    void updatePreviewWindow();
+    void onStopAnimationClicked();
 private:
     Ui::MainWindow *ui;
     QImage image;
@@ -38,6 +42,9 @@ private:
     int frameCounter;
     QButtonGroup* toolButtonGroup;
     QMap<int, QPushButton*> frameThumbnails;
+    QTimer timer;
+    int FPS;
+    bool animatingPreview;
 
     void initializeUI();
     void setupConnections();
@@ -53,6 +60,7 @@ private:
     void updateUIForSelectedFrame(int frameIndex);
     void deleteFrame(int frameIndex);
     void updateFrameIndices();
+    QPixmap getPixMap(Frame frame);
 };
 
 #endif // MAINWINDOW_H

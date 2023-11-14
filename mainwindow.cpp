@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false) {
         ui->setupUi(this);
         initializeUI();
         setupConnections();
@@ -54,6 +54,19 @@ void MainWindow::setupConnections() {
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
             this, &MainWindow::addFrameClicked);
+
+    connect(ui->fpsSlider, &QAbstractSlider::valueChanged,
+            this, &MainWindow::onSelectFPS);
+
+    connect(ui->startAnimation, &QPushButton::clicked,
+            this, &MainWindow::onAnimateButtonClicked);
+
+    connect(ui->stopAnimation, &QPushButton::clicked,
+            this, &MainWindow::onStopAnimationClicked);
+
+    connect(&timer, &QTimer::timeout,
+            this, &MainWindow::updatePreviewWindow);
+
 }
 
 void MainWindow::updateAllPixmaps() {
@@ -341,15 +354,18 @@ void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
 }
 
 void MainWindow::onSelectFPS(int FPS){
+
     this->FPS = 1000/FPS;
     qDebug() << "frame counter set to: " << this->FPS;
     // resets the FPS on GUI
-    timer.stop();
-    timer.start(this->FPS);
+    if(animatingPreview){
+        timer.start(this->FPS);
+    }
 }
 
 void MainWindow::onAnimateButtonClicked()
 {
+    animatingPreview = true;
     qDebug() << "animation should start";
     timer.start(FPS);
 }
@@ -374,6 +390,7 @@ void MainWindow::updatePreviewWindow(){
 
 
 void MainWindow::onStopAnimationClicked(){
+    animatingPreview = false;
     timer.stop();
     updateAllPixmaps();
 }
