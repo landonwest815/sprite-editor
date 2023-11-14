@@ -162,14 +162,7 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
         // If mirror tool is active, do some math to mirror the x-position of the placed pixel
         if (ui->mirrorTool->isChecked()) {
             int mirrorX = 0;
-            if (pixmapX < image.width() / 2) {
-                mirrorX = image.width() - pixmapX;
-            }
-            if (pixmapX > image.width() / 2) {
-                int distanceToLine = pixmapX - (image.width()/2);
-                mirrorX = pixmapX - 2*distanceToLine;
-            }
-
+            mirrorX = (image.width() - 1) - pixmapX;
             model.getCurrentFrame().SetColor(std::make_pair(mirrorX, pixmapY), selectedColor);
         }
 
