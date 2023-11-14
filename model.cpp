@@ -82,3 +82,7 @@ void Model::setFrameSize(int newSize) {
 vector<Frame>& Model::getAllFrames() {
     return frames;
 }
+
+int Model::getNumberOfFrames(){
+    return (int)frames.size();
+}

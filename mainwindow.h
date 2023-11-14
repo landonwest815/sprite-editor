@@ -36,6 +36,8 @@ private slots:
     void onAnimateButtonClicked();
     void updatePreviewWindow();
 
+    void onStopAnimationClicked();
+
 private:
     Ui::MainWindow *ui;
     QImage image;
@@ -45,7 +47,7 @@ private:
     QButtonGroup* toolButtonGroup;
     QMap<int, QPushButton*> frameThumbnails;
     QTimer timer;
-
+    int FPS;
     void initializeUI();
     void setupConnections();
     void updateAllPixmaps();
