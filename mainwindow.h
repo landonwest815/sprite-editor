@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QDialog>
 #include "filemanager.h"
+#include <QtTextToSpeech/QTextToSpeech>
 #include "model.h" // Ensure this includes the definition of the Model class
 
 QT_BEGIN_NAMESPACE
@@ -51,6 +52,8 @@ private:
     int FPS;
     bool animatingPreview;
     bool darkMode;
+    bool speech;
+    QTextToSpeech say;
 
     void initializeUI();
     void setupConnections();
@@ -70,8 +73,10 @@ private:
     void showTutorialPopup();
     void darkModeClicked();
     void largeTextClicked(int);
+    void speechModeClicked(int);
     void saveFile();
     void loadFile();
+    void sayObjectName();
     void updateAllThumbnails();
     void mirrorPixel(int pixX, int pixY, QColor selectedColor);
 };
