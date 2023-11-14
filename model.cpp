@@ -54,6 +54,11 @@ void Model::addNewFrame() {
     frames.push_back(newFrame);
 }
 
+void Model::duplicateNewFrame(Frame& frame) {
+    Frame newFrame = frame;
+    frames.push_back(newFrame);
+}
+
 void Model::removeFrame(int index) {
     frames.erase(frames.begin() + index);
     currentFrameIndex = std::max(0, currentFrameIndex - 1);

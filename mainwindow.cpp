@@ -63,6 +63,9 @@ void MainWindow::setupConnections() {
     connect(ui->addFrameButton, &QPushButton::clicked,
             this, &MainWindow::addFrameClicked);
 
+    connect(ui->duplicateFrameButton, &QPushButton::clicked,
+            this, &MainWindow::duplicateFrameClicked);
+
     connect(ui->fpsSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::onSelectFPS);
 
@@ -164,6 +167,17 @@ void MainWindow::addFrameClicked() {
 
     // Add a new frame to the model
     model.addNewFrame();
+
+    // Set the current frame
+    int newFrameIndex = model.getAllFrames().size() - 1;
+    model.setCurrentFrame(newFrameIndex);
+
+    // Update the UI to reflect the addition of the new frame
+    updateUIForNewFrame(newFrameIndex);
+}
+
+void MainWindow::duplicateFrameClicked() {
+    model.duplicateNewFrame(model.getCurrentFrame());
 
     // Set the current frame
     int newFrameIndex = model.getAllFrames().size() - 1;

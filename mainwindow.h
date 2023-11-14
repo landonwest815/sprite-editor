@@ -27,6 +27,7 @@ public:
 
 private slots:
     void addFrameClicked();
+    void duplicateFrameClicked();
     void handleFrameClicked();
     void setRGB();
     void onToolButtonClicked(int id);
@@ -34,6 +35,7 @@ private slots:
     void onAnimateButtonClicked();
     void updatePreviewWindow();
     void onStopAnimationClicked();
+
 private:
     Ui::MainWindow *ui;
     QImage image;
