@@ -16,8 +16,9 @@ bool operator <(const std::pair<int,int> point1, const std::pair<int,int> point2
     return false;
 }
 
-Frame::Frame(int size) {
+Frame::Frame(int size, QColor backgroundColor) {
     this->size = size;
+    this->backgroundColor = backgroundColor;
 }
 
 QMap<std::pair<int,int>, QColor> Frame::getPixelMap() const{
@@ -37,9 +38,19 @@ void Frame::SetColor(std::pair<int,int> coord, QColor color) {
 }
 
 void Frame::SetTransparent(std::pair<int,int> coord) {
-    PixelMap[coord] = QColor::fromRgb(64, 64, 64);
+    PixelMap[coord] = backgroundColor;
 }
 
 void Frame::ClearCanvas() {
     PixelMap.clear();
+}
+
+void Frame::toggleBackgroundColor(QColor newColor) {
+    QMap<std::pair<int, int>, QColor>::iterator i;
+    for (i = PixelMap.begin(); i != PixelMap.end(); ++i) {
+        if (i.value() == backgroundColor) {
+            i.value() = newColor; // Replace the old color with the new color
+        }
+    }
+    backgroundColor = newColor;
 }
