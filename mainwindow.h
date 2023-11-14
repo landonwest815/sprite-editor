@@ -36,6 +36,7 @@ private slots:
     void onAnimateButtonClicked();
     void updatePreviewWindow();
     void onStopAnimationClicked();
+    void onColorButtonClicked();
 
 private:
     Ui::MainWindow *ui;
@@ -67,7 +68,7 @@ private:
     void updateFrameIndices();
     QPixmap getPixMap(Frame frame);
     void showTutorialPopup();
-    void darkModeClicked(int);
+    void darkModeClicked();
     void largeTextClicked(int);
     void saveFile();
     void loadFile();
