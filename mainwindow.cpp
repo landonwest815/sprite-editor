@@ -40,7 +40,7 @@ void MainWindow::initializeUI() {
 
     // Connect the accessibility buttons to the required slots
     connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
-    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkModeClicked);
+    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkOrLightModeClicked);
     connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
     connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
 
@@ -65,7 +65,7 @@ void MainWindow::initializeUI() {
     // Disable vertical scroll bar for a nicer visual
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
 
-    darkModeClicked();
+    darkOrLightModeClicked();
 }
 
 void MainWindow::setupConnections() {
@@ -90,6 +90,7 @@ void MainWindow::setupConnections() {
     connect(ui->duplicateFrameButton, &QPushButton::clicked,
             this, &MainWindow::duplicateFrameClicked);
 
+    // Preview Animation
     connect(ui->fpsSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::onSelectFPS);
 
@@ -485,7 +486,7 @@ void MainWindow::showTutorialPopup() {
     tutorialDialog->exec();
 }
 
-void MainWindow::darkModeClicked() {
+void MainWindow::darkOrLightModeClicked() {
     if (darkMode) {
         darkMode = false;
         ui->darkModeButton->setText("Light Mode");
@@ -504,6 +505,9 @@ void MainWindow::darkModeClicked() {
 
         QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                                ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+
+        // sets the style sheet for the darkmode feature
+        // first goes over the buttons
         for (QWidget* button : buttons) {
             button->setStyleSheet(R"(   QPushButton {
                                             background-color: #e6e6e6; /* Light grey background for light mode */
@@ -525,6 +529,7 @@ void MainWindow::darkModeClicked() {
                                     )");
         }
 
+        // then go over other elements of the GUI
         ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
                                         alignment: center;
                                     }
@@ -588,6 +593,9 @@ void MainWindow::darkModeClicked() {
 
         QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                               ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+
+        // sets the style sheet for the darkmode feature
+        // first goes over the buttons
         for (QWidget* button : buttons) {
             button->setStyleSheet(R"(   QPushButton {
                                             background-color: #646464; /* Dark grey background, matching the handle */
@@ -609,6 +617,7 @@ void MainWindow::darkModeClicked() {
                                     )");
         }
 
+        //then modify other ui elements
         ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
                                             alignment: center;
                                         }
@@ -667,6 +676,7 @@ void MainWindow::largeTextClicked(int toggled) {
                            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                            ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
                            ui->previewLabel_2, ui->FPSLabel};
+    // after putting all widgets into array, loop through and set the text to what has been toggled.
     ui->largeTextButton->setText(textOption[toggled]);
     for (QWidget* widget : wigets) {
         widget->setFont(fontSize[toggled]);

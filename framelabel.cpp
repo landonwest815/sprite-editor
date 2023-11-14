@@ -1,3 +1,10 @@
+/************************
+ *FrameLabel Class
+ *Project: Sprite Editor
+ *Assignment: A8 Sprite Editor Implementation
+ *Team Geoff
+ *Description: Frame Label class is used to create a FrameLabel
+ * **********************/
 #include "FrameLabel.h"
 
 FrameLabel::FrameLabel(int frameIndex, QWidget *parent) :

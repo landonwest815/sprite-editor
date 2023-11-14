@@ -10,6 +10,7 @@ private:
     QMap<std::pair<int,int>, QColor> PixelMap;
     ///@brief The size of the frame
     int size;
+    /// \brief backgroundColor - color of the background
     QColor backgroundColor;
 
 public:
@@ -31,12 +32,15 @@ public:
     ///@brief Set the particular color of a pixel on the pixel map
     void SetColor(std::pair<int,int> coord, QColor color);
 
-    ///@brief Clear the particular color of a pixel on the pixel map
-    void SetTransparent(std::pair<int,int> coord);
+//    ///@brief Clear the particular color of a pixel on the pixel map
+//    void SetTransparent(std::pair<int,int> coord);
 
-    ///@brief Clear the entire canvas
-    void ClearCanvas();
+//    ///@brief Clear the entire canvas
+//    void ClearCanvas();
 
+    /// \brief toggleBackgroundColor - changes the background color when different modes selected
+    /// (like Dark mode or Light mode)
+    /// \param newColor - The color that will be set onto the background of the frame
     void toggleBackgroundColor(QColor newColor);
 };
 

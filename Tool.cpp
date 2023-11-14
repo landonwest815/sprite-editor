@@ -1,3 +1,10 @@
+/************************
+ *Tool Class
+ *Project: Sprite Editor
+ *Assignment: A8 Sprite Editor Implementation
+ *Team Geoff
+ *Description: Stores information about the different tools used in the Srite Editor.
+ * **********************/
 #include <string>
 #include "Tool.h"
 

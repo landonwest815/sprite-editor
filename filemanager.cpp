@@ -1,3 +1,10 @@
+/************************
+ *FileManager Class
+ *Project: Sprite Editor
+ *Assignment: A8 Sprite Editor Implementation
+ *Team Geoff
+ *Description: used to manage Files using Json to be able to save and load a Sprite Editor Project
+ * **********************/
 #include <filemanager.h>
 #include "model.h"
 #include <iostream>
