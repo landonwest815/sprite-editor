@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(false) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(false), speech(false) {
     ui->setupUi(this);
     initializeUI();
     setupConnections();
@@ -42,10 +42,17 @@ void MainWindow::initializeUI() {
     connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
     connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkModeClicked);
     connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
+    connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
 
     // Connect the save and load buttons to the required slots
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
     connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
+
+    // Connect all button clicks to a speech slot
+    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
+    for (QPushButton* button : allButtons) {
+        connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
+    }
 
     auto animationButtonGroup = new QButtonGroup(this);
     animationButtonGroup->addButton(ui->startAnimation, 1);
@@ -706,5 +713,25 @@ void MainWindow::onColorButtonClicked() {
             ui->greenSpin->setValue(newColor.green());
             ui->blueSpin->setValue(newColor.blue());
         }
+    }
+}
+
+void MainWindow::speechModeClicked(int toggled) {
+    if (toggled) {
+        ui->speechModeButton->setText("Speech Off");
+        speech = true;
+
+    }
+    if (!toggled) {
+        ui->speechModeButton->setText("Speech On");
+        speech = false;
+    }
+}
+
+void MainWindow::sayObjectName() {
+    if(speech) {
+        QPushButton* clickedButton = qobject_cast<QPushButton*>(sender());
+        const QString name = clickedButton->objectName();
+        say.say(name);
     }
 }
