@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTimer>
+#include <QDialog>
 
 #include "model.h" // Ensure this includes the definition of the Model class
 
@@ -63,6 +64,9 @@ private:
     void deleteFrame(int frameIndex);
     void updateFrameIndices();
     QPixmap getPixMap(Frame frame);
+    void showTutorialPopup();
+    void darkModeClicked(int);
+    void largeTextClicked(int);
 };
 
 #endif // MAINWINDOW_H
