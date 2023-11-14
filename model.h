@@ -69,7 +69,7 @@ public:
 
     ///@brief s]etter for the entire vector of frames
     ///@return - The entire vector of frames
-    vector<Frame>& setAllFrames(vector<Frame>);
+    void setAllFrames(vector<Frame>);
 
     /// \brief setCurrentFrame Sets the current frame to the one the user selects
     /// \param index the index of the frame in the array
