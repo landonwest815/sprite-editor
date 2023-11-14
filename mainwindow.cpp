@@ -10,13 +10,10 @@
 #include "frame.h"
 #include <QButtonGroup>
 #include <QScrollBar>
-#include <ostream>
-#include <QTimer>
-#include <QPropertyAnimation>
-#include <QDebug>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(1), FPS(1000) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0) {
         ui->setupUi(this);
         initializeUI();
         setupConnections();
@@ -57,21 +54,6 @@ void MainWindow::setupConnections() {
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
             this, &MainWindow::addFrameClicked);
-
-    // changes the value of frame counter.
-    connect(ui->selectFPS, &QAbstractSlider::valueChanged,
-            this, &MainWindow::onSelectFPS);
-
-    //this should start animation process
-    connect(ui->animateButton, &QPushButton::clicked,
-            this, &MainWindow::onAnimateButtonClicked);
-
-    // whenever timeout occurs change preview screen.
-    connect(&timer, &QTimer::timeout,
-            this, &MainWindow::updatePreviewWindow);
-
-    connect(ui->stopAnimation, &QPushButton::clicked,
-            this, &MainWindow::onStopAnimationClicked);
 }
 
 void MainWindow::updateAllPixmaps() {
@@ -357,39 +339,3 @@ void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
     button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
     button->setIconSize(button->size());
 }
-
-void MainWindow::onSelectFPS(int FPS){
-    this->FPS = 1000/FPS;
-    qDebug() << "frame counter set to: " << this->FPS;
-    timer.stop();
-    timer.start(this->FPS);
-}
-
-void MainWindow::onAnimateButtonClicked()
-{
-    qDebug() << "animation should start";
-    timer.start(FPS);
-}
-
-QPixmap MainWindow::getPixMap(Frame frame){
-    QImage frameImage = createImageFromFrame(frame);
-    QPixmap framePixMap;
-    framePixMap.convertFromImage(frameImage);
-    return framePixMap;
-}
-
-void MainWindow::updatePreviewWindow(){
-    static int i = 0;
-    qDebug() << "showing frame: " << i;
-    QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
-    ui->previewLabel->setPixmap(pixmap);
-    setScaledCanvas(ui->previewLabel, pixmap);
-    i = (i + 1) % model.getNumberOfFrames();
-}
-
-
-void MainWindow::onStopAnimationClicked(){
-    timer.stop();
-    updateAllPixmaps();
-}
-
