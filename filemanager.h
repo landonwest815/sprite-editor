@@ -7,11 +7,13 @@
 #include <QMessageBox>
 #include <cmath>
 #include <frame.h>
+#include "model.h"
 
 class FileManager : public QObject
 {
 private:
     QJsonObject writeJson;
+    Model model;
 
 public:
     FileManager(QObject *parent = nullptr);

@@ -10,10 +10,11 @@ private:
     QMap<std::pair<int,int>, QColor> PixelMap;
     ///@brief The size of the frame
     int size;
+    QColor backgroundColor;
 
 public:
     ///@brief Default constructor for the frame, in which the size can be set
-    Frame(int size);
+    Frame(int size, QColor backgroundColor);
 
     ///@brief Returns the pixel map
     ///@return - The current pixel map
@@ -35,6 +36,8 @@ public:
 
     ///@brief Clear the entire canvas
     void ClearCanvas();
+
+    void toggleBackgroundColor(QColor newColor);
 };
 
 #endif // FRAME_H

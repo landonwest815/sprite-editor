@@ -33,15 +33,20 @@ void Model::setSelectedColor(QColor color) {
     selectedColor = color;
 }
 
+QColor Model::getBackgroundColor() {
+    return backgroundColor;
+}
+
+void Model::setBackgroundColor(QColor color) {
+    backgroundColor = color;
+}
+
 std::vector<Tool> Model::getTools() {
     return toolBar;
 }
 
 void Model::addNewFrame() {
-    Frame newFrame(frameSize);
-
-    // The color to set all pixels to
-    QColor backgroundColor(64, 64, 64);
+    Frame newFrame(frameSize, backgroundColor);
 
     // Fill the new frame with the background color
     for (int x = 0; x < frameSize; ++x) {

@@ -613,7 +613,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Assets.qrc">
             <normaloff>:/icons/pen.png</normaloff>:/icons/pen.png</iconset>
           </property>
           <property name="checkable">
@@ -687,7 +687,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Assets.qrc">
             <normaloff>:/icons/erase.png</normaloff>:/icons/erase.png</iconset>
           </property>
           <property name="checkable">
@@ -772,6 +772,9 @@ QPushButton:checked {
           </item>
           <item>
            <widget class="QSpinBox" name="redSpin">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
             <property name="maximum">
              <number>255</number>
             </property>
@@ -881,7 +884,7 @@ QPushButton:checked {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Assets.qrc">
             <normaloff>:/icons/mirror.png</normaloff>:/icons/mirror.png</iconset>
           </property>
           <property name="checkable">
@@ -1078,7 +1081,7 @@ QPushButton:checked {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Assets.qrc">
               <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
             </property>
             <property name="checkable">
@@ -1123,7 +1126,7 @@ QPushButton:checked {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="Assets.qrc">
               <normaloff>:/icons/pause.png</normaloff>:/icons/pause.png</iconset>
             </property>
             <property name="checkable">
@@ -1229,7 +1232,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>21</width>
+           <width>24</width>
            <height>69</height>
           </rect>
          </property>
@@ -1291,7 +1294,7 @@ QPushButton:pressed {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Assets.qrc">
             <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
           </property>
          </widget>
@@ -1341,7 +1344,7 @@ QPushButton:pressed {
            <string/>
           </property>
           <property name="icon">
-           <iconset>
+           <iconset resource="Assets.qrc">
             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
           </property>
          </widget>
@@ -1371,12 +1374,14 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>21</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="Assets.qrc"/>
+ </resources>
  <connections/>
 </ui>

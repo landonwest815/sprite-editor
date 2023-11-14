@@ -19,6 +19,7 @@ private:
     Frame* currentFrame;
     int frameSize;
     int currentFrameIndex;
+    QColor backgroundColor;
 
 public:
     ///@brief Blank constructor for the Model class. Sets the selected tool to the brush and selected color to black.
@@ -39,6 +40,10 @@ public:
     ///@brief getter for the currrently selected color
     ///@return - The currently selected color
     QColor getSelectedColor();
+
+    QColor getBackgroundColor();
+
+    void setBackgroundColor(QColor color);
 
     /// @brief addNewFrame Adds a new frame to the sprite editor
     void addNewFrame();

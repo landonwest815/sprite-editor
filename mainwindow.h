@@ -49,6 +49,7 @@ private:
     QTimer timer;
     int FPS;
     bool animatingPreview;
+    bool darkMode;
 
     void initializeUI();
     void setupConnections();
@@ -70,6 +71,7 @@ private:
     void largeTextClicked(int);
     void saveFile();
     void loadFile();
+    void updateAllThumbnails();
 };
 
 #endif // MAINWINDOW_H

@@ -1,7 +1,8 @@
 #include <filemanager.h>
+#include "model.h"
 #include <iostream>
 
-FileManager::FileManager(QObject *parent) : QObject{parent} {}
+FileManager::FileManager(QObject *parent) : QObject{parent}, model() {}
 
 void FileManager::exportJson(std::vector<Frame> frames, QString docName) {
     int frameCounter = 0;
@@ -51,7 +52,7 @@ std::vector<Frame> FileManager::importJson(QString docName) {
         std::vector<Frame> frames;
         for (int frameCounter = 0; frameCounter < frameTotal; frameCounter++) {
             QJsonArray rows = frameCollection.value("frameNum" + QString::number(frameCounter)).toArray();
-            Frame frame(frameDimension);
+            Frame frame(frameDimension, model.getBackgroundColor());
             QMap<std::pair<int, int>, QColor> pixelCollection;
             for(int rowIndex = 0; rowIndex < pow(frameDimension,2); rowIndex++)
             {

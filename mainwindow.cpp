@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(true) {
     ui->setupUi(this);
     initializeUI();
     setupConnections();
@@ -26,6 +26,7 @@ MainWindow::~MainWindow() {
 void MainWindow::initializeUI() {
 
     // Create an initial frame and display it
+    model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
     addFrameClicked();
     updateUIForSelectedFrame(0);
 
@@ -101,6 +102,16 @@ void MainWindow::updateAllPixmaps() {
 
     // Update the Frame thumbnail
     setScaledButton(frameThumbnails[model.getCurrentFrameIndex()], pix);
+}
+
+void MainWindow::updateAllThumbnails() {
+    // Loop through all frames and update their thumbnails
+    for (int i = 0; i < model.getNumberOfFrames(); ++i) {
+        QImage frameImage = createImageFromFrame(model.getAllFrames().at(i));
+        QPixmap framePixmap;
+        framePixmap.convertFromImage(frameImage);
+        setScaledButton(frameThumbnails[i], framePixmap);
+    }
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
@@ -229,7 +240,7 @@ void MainWindow::deleteFrame(int frameIndex) {
 
     // Set the frame to the right as the current
     // unless it is the right most frame
-    if (frameIndex == model.getAllFrames().size()) {
+    if (frameIndex == static_cast<int>(model.getAllFrames().size())) {
         frameIndex--;
     }
     model.setCurrentFrame(frameIndex);
@@ -293,6 +304,12 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
     frameCounter++;
 
+    if (darkMode) {
+        frameButton->setStyleSheet("color: white;");
+    } else {
+        frameButton->setStyleSheet("color: black;");
+    }
+
     frameButton->setMinimumSize(65, 55);
     frameButton->setMaximumSize(65, 55);
     frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -307,6 +324,12 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     closeButton->setFixedSize(15, 15); // Adjust size as needed
     closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     closeButton->setObjectName("closeButton");
+
+    if (darkMode) {
+        closeButton->setStyleSheet("color: white;");
+    } else {
+        closeButton->setStyleSheet("color: black;");
+    }
 
     connect(closeButton, &QPushButton::clicked, this, [this]() {
         QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
@@ -411,7 +434,7 @@ QPixmap MainWindow::getPixMap(Frame frame){
 void MainWindow::updatePreviewWindow(){
     static int i = 0;
     qDebug() << "showing frame: " << i;
-    if (i < model.getAllFrames().size()) {
+    if (i < static_cast<int>(model.getAllFrames().size())) {
         QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
         ui->previewLabel->setPixmap(pixmap);
         setScaledCanvas(ui->previewLabel, pixmap);
@@ -438,13 +461,160 @@ void MainWindow::showTutorialPopup() {
 
 void MainWindow::darkModeClicked(int toggled) {
     if (toggled) {
+        darkMode = false;
         ui->darkModeButton->setText("Light Mode");
-        this->setStyleSheet("background-color: white;");
+        this->setStyleSheet("background-color: #fafafa;");
+        QWidget* wigets[22] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
+                               ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
+                               ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
+                               ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
+                               ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
+                               ui->titleLabel
+                               };
+
+        for (QWidget* widget : wigets) {
+            widget->setStyleSheet("color: black");
+        }
+
+        QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+                               ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+        for (QWidget* button : buttons) {
+            button->setStyleSheet(R"(   QPushButton {
+                                            background-color: #e6e6e6; /* Light grey background for light mode */
+                                            color: black; /* Dark text for contrast */
+                                            border-radius: 5px; /* Rounded corners with a radius of 5 pixels */
+                                        }
+
+                                        QPushButton:hover {
+                                            background-color: #cccccc; /* Slightly darker grey for hover state */
+                                        }
+
+                                        QPushButton:pressed {
+                                            background-color: #b3b3b3; /* Even darker grey for pressed state */
+                                        }
+
+                                        QPushButton:checked {
+                                            background-color: #cccccc; /* Lighter grey color when button is checked */
+                                        }
+                                    )");
+        }
+
+        ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
+                                        alignment: center;
+                                    }
+
+                                    /* Style the tab itself */
+                                    QTabBar::tab {
+                                        background: #e6e6e6; /* Light grey background for light mode */
+                                        color: black; /* Dark text color for contrast */
+                                        padding: 5px; /* Space between text and edge */
+                                        margin-left: 5px; /* Space between tabs */
+                                        border-top-left-radius: 5px; /* Rounded top left corner */
+                                        border-top-right-radius: 5px; /* Rounded top right corner */
+                                        border-bottom-left-radius: 5px; /* Rounded bottom left corner */
+                                        border-bottom-right-radius: 5px; /* Rounded bottom right corner */
+                                    }
+
+                                    /* Style the selected tab */
+                                    QTabBar::tab:selected {
+                                        background: #cccccc; /* A lighter shade for the selected tab */
+                                    }
+                                    )");
+
+        model.setBackgroundColor(QColor::fromRgb(230, 230, 230));
+        for (Frame& frame : model.getAllFrames()) {
+            frame.toggleBackgroundColor(model.getBackgroundColor());
+        }
+
+        updateUIForSelectedFrame(model.getCurrentFrameIndex());
+        updateAllThumbnails();
+
+        for (auto it = frameThumbnails.constBegin(); it != frameThumbnails.constEnd(); ++it) {
+            it.value()->setStyleSheet("QPushButton { color: black; }");
+            QPushButton* closeButton = it.value()->parentWidget()->findChild<QPushButton*>("closeButton");
+            if (closeButton) {
+                closeButton->setStyleSheet("QPushButton { color: black; }");
+            }
+        }
 
     }
-    if (!toggled) {
+    else {
+        darkMode = true;
         ui->darkModeButton->setText("Dark Mode");
         this->setStyleSheet("background-color: #303030;");
+
+        QWidget* wigets[22] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
+                               ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
+                               ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
+                               ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
+                               ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
+                               ui->titleLabel
+                                };
+        for (QWidget* widget : wigets) {
+            widget->setStyleSheet("color: white");
+        }
+
+        QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+                              ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+        for (QWidget* button : buttons) {
+            button->setStyleSheet(R"(   QPushButton {
+                                            background-color: #646464; /* Dark grey background, matching the handle */
+                                            color: white; /* Light text for contrast */
+                                            border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+                                        }
+
+                                        QPushButton:hover {
+                                            background-color: #505050; /* Slightly lighter grey for hover state */
+                                        }
+
+                                        QPushButton:pressed {
+                                            background-color: #303030; /* Slightly darker grey for pressed state */
+                                        }
+
+                                        QPushButton:checked {
+                                            background-color: #999999; /* Color when button is checked */
+                                        }
+                                    )");
+        }
+
+        ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
+                                            alignment: center;
+                                        }
+
+                                        /* Style the tab itself */
+                                        QTabBar::tab {
+                                            background: #646464; /* Light gray background */
+                                            color: white; /* Dark text color for contrast */
+                                            padding: 5px; /* Space between text and edge */
+                                            margin-left: 5px; /* Space between tabs */
+                                            border-top-left-radius: 5px; /* Rounded top left corner */
+                                            border-top-right-radius: 5px; /* Rounded top right corner */
+                                           border-bottom-left-radius: 5px; /* Rounded top left corner */
+                                            border-bottom-right-radius: 5px; /* Rounded top right corner */
+                                        }
+
+                                        /* Style the selected tab */
+                                        QTabBar::tab:selected {
+                                            background: #999999; /* A different shade for the selected tab */
+                                        }
+                                    )");
+
+        model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
+        for (Frame& frame : model.getAllFrames()) {
+            frame.toggleBackgroundColor(model.getBackgroundColor());
+        }
+
+        updateUIForSelectedFrame(model.getCurrentFrameIndex());
+        updateAllThumbnails();
+
+        for (auto it = frameThumbnails.constBegin(); it != frameThumbnails.constEnd(); ++it) {
+            it.value()->setStyleSheet("QPushButton { color: white; }");
+            QPushButton* closeButton = it.value()->parentWidget()->findChild<QPushButton*>("closeButton");
+            if (closeButton) {
+                closeButton->setStyleSheet("QPushButton { color: white; }");
+            }
+        }
+
     }
 }
 
