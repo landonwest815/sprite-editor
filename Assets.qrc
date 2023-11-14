@@ -5,5 +5,7 @@
         <file>mirror.png</file>
         <file>pause.png</file>
         <file>play.png</file>
+        <file>add.png</file>
+        <file>copy.png</file>
     </qresource>
 </RCC>

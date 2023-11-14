@@ -1274,33 +1274,35 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="addFrameButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>25</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>13</pointsize>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QPushButton" name="addFrameButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
   background-color: #646464; /* Dark grey background, matching the handle */
   color: white; /* Light text for contrast */
   border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
@@ -1312,16 +1314,68 @@ QPushButton:hover {
 
 QPushButton:pressed {
   background-color: #303030; /* Slightly darker grey for pressed state */
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="Assets.qrc">
+            <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="duplicateFrameButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>30</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>13</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #646464; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
 }
 
-QPushButton:checked {
-  background-color: #999999; /* Color when button is checked */
+QPushButton:hover {
+  background-color: #505050; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #303030; /* Slightly darker grey for pressed state */
 }</string>
-        </property>
-        <property name="text">
-         <string>+</string>
-        </property>
-       </widget>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset resource="Assets.qrc">
+            <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer name="horizontalSpacer_2">

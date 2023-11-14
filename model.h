@@ -43,6 +43,8 @@ public:
     /// @brief addNewFrame Adds a new frame to the sprite editor
     void addNewFrame();
 
+    void duplicateNewFrame(Frame&);
+
     /// @brief removeFrame Removes frame from the sprite editor
     /// @param index index of the frame to remove.
     void removeFrame(int index);
