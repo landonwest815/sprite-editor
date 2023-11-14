@@ -159,6 +159,20 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
         QColor selectedColor = model.getSelectedColor();
         model.getCurrentFrame().SetColor(std::make_pair(pixmapX, pixmapY), selectedColor);
 
+        // If mirror tool is active, do some math to mirror the x-position of the placed pixel
+        if (ui->mirrorTool->isChecked()) {
+            int mirrorX = 0;
+            if (pixmapX < image.width() / 2) {
+                mirrorX = image.width() - pixmapX;
+            }
+            if (pixmapX > image.width() / 2) {
+                int distanceToLine = pixmapX - (image.width()/2);
+                mirrorX = pixmapX - 2*distanceToLine;
+            }
+
+            model.getCurrentFrame().SetColor(std::make_pair(mirrorX, pixmapY), selectedColor);
+        }
+
         // Draw a square based on the tool size if applicable
         int toolSize = ui->toolSizeSpin->value();
         for (int dx = -toolSize / 2; dx <= toolSize / 2; ++dx) {
