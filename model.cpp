@@ -56,6 +56,13 @@ void Model::addNewFrame() {
 
 void Model::removeFrame(int index) {
     frames.erase(frames.begin() + index);
+    currentFrameIndex = std::max(0, currentFrameIndex - 1);
+    if (!frames.empty()) {
+        currentFrame = &frames[currentFrameIndex];
+    } else {
+        addNewFrame();
+        setCurrentFrame(0);
+    }
 }
 
 void Model::setCurrentFrame(int index) {
@@ -81,8 +88,4 @@ void Model::setFrameSize(int newSize) {
 
 vector<Frame>& Model::getAllFrames() {
     return frames;
-}
-
-int Model::getNumberOfFrames(){
-    return (int)frames.size();
 }

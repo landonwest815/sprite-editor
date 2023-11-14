@@ -68,10 +68,6 @@ public:
     /// \brief setCurrentFrame Sets the current frame to the one the user selects
     /// \param index the index of the frame in the array
     void setCurrentFrame(int index);
-
-    /// @brief getNumberOfFrames Gets the Number of frames in the vector of frames
-    /// @return returns the size frames vector
-    int getNumberOfFrames();
 };
 
 #endif // MODEL_H
