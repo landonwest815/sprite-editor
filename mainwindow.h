@@ -4,13 +4,11 @@
 #include <QMainWindow>
 #include <QPixmap>
 #include <QMouseEvent>
-#include <iostream>
 #include <QLabel>
-#include <QAbstractButton>
+#include <QPushButton>
+#include <QTimer>
 
-#include "model.h"
-
-using namespace std;
+#include "model.h" // Ensure this includes the definition of the Model class
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,33 +19,48 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    ///@brief Default constructor for main window
-    MainWindow(QWidget *parent = nullptr);
-    ///@brief Destructor for main window
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    ///@brief Get the pixel coordinates for the mouse press and updates the canvas accordingly
+
     void mousePressEvent(QMouseEvent *event) override;
-    ///@brief If pressed down, get the pixel coordinates for the mouse location and updates the canvas accordingly
     void mouseMoveEvent(QMouseEvent *event) override;
 
 private slots:
-    ///@brief Create a new frame and update the UI accordingly
-    void on_addFrameButton_clicked();
-
-    void onFrameLabelClicked(int frameIndex);
-    ///@brief Set the RGB of the currently selected color and update the UI accordingly
+    void addFrameClicked();
+    void handleFrameClicked();
     void setRGB();
-
+    void onToolButtonClicked(int id);
+    void onSelectFPS(int FPS);
+    void onAnimateButtonClicked();
+    void updatePreviewWindow();
+    void onStopAnimationClicked();
 private:
     Ui::MainWindow *ui;
     QImage image;
     QPixmap pix;
     Model model;
+    int frameCounter;
+    QButtonGroup* toolButtonGroup;
+    QMap<int, QPushButton*> frameThumbnails;
+    QTimer timer;
+    int FPS;
+    bool animatingPreview;
 
-    void updateImageAndPixMap(const pair<int,int> &pixmapMousePos);
-    void setScaledPixmap(QLabel* label, const QPixmap &pixmap);
-    ///@brief Update the tool being used based on the button that was pressed
-    void onToolButtonClicked(int id);
-
+    void initializeUI();
+    void setupConnections();
+    void updateAllPixmaps();
+    void clearFocusOnWidgets();
+    void updateImageAndCanvas(const QPoint &pos);
+    bool isValidCanvasPos(const QPoint& pos) const;
+    QPoint mapToCanvasPos(const QPoint& pos) const;
+    void setScaledCanvas(QLabel* label, const QPixmap &pixmap);
+    void setScaledButton(QPushButton* label, const QPixmap &pixmap);
+    void updateUIForNewFrame(int frameIndex);
+    QImage createImageFromFrame(const Frame &frame);
+    void updateUIForSelectedFrame(int frameIndex);
+    void deleteFrame(int frameIndex);
+    void updateFrameIndices();
+    QPixmap getPixMap(Frame frame);
 };
+
 #endif // MAINWINDOW_H

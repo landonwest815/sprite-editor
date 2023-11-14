@@ -14,7 +14,8 @@ Model::Model() :
     toolBar(),
     selectedColor(255,255,255),
     frames(),
-    currentFrame(16)
+    currentFrame(nullptr),
+    currentFrameIndex(0)
 {
     //Temporarily hard-coded the size to be 16
     frameSize = 16;
@@ -22,9 +23,6 @@ Model::Model() :
     toolBar.push_back(*new Tool("draw",false));
     toolBar.push_back(*new Tool("erase",false));
     toolBar.push_back(*new Tool("mirror",true));
-
-    frames.push_back(*new Frame(frameSize));
-    currentFrame = frames[0];
 }
 
 QColor Model::getSelectedColor() {
@@ -40,19 +38,44 @@ std::vector<Tool> Model::getTools() {
 }
 
 void Model::addNewFrame() {
-    frames.push_back(*new Frame(frameSize));
+    Frame newFrame(frameSize);
+
+    // The color to set all pixels to
+    QColor backgroundColor(64, 64, 64);
+
+    // Fill the new frame with the background color
+    for (int x = 0; x < frameSize; ++x) {
+        for (int y = 0; y < frameSize; ++y) {
+            newFrame.SetColor(std::make_pair(x, y), backgroundColor);
+        }
+    }
+
+    // Add the new frame to the list of frames
+    frames.push_back(newFrame);
 }
 
 void Model::removeFrame(int index) {
     frames.erase(frames.begin() + index);
+    currentFrameIndex = std::max(0, currentFrameIndex - 1);
+    if (!frames.empty()) {
+        currentFrame = &frames[currentFrameIndex];
+    } else {
+        addNewFrame();
+        setCurrentFrame(0);
+    }
 }
 
 void Model::setCurrentFrame(int index) {
-    currentFrame = frames[index];
+    currentFrame = &frames[index];
+    currentFrameIndex = index;
 }
 
-Frame Model::getCurrentFrame() {
-    return currentFrame;
+Frame& Model::getCurrentFrame() {
+    return *currentFrame;
+}
+
+int Model::getCurrentFrameIndex() {
+    return currentFrameIndex;
 }
 
 int Model::getFrameSize() {
@@ -63,6 +86,10 @@ void Model::setFrameSize(int newSize) {
     frameSize = newSize;
 }
 
-vector<Frame> Model::getAllFrames() {
+vector<Frame>& Model::getAllFrames() {
     return frames;
+}
+
+int Model::getNumberOfFrames(){
+    return (int)frames.size();
 }

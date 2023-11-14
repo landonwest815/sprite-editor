@@ -17,7 +17,7 @@ public:
 
     ///@brief Returns the pixel map
     ///@return - The current pixel map
-    QMap<std::pair<int,int>, QColor> getPixelMap();
+    QMap<std::pair<int,int>, QColor> getPixelMap() const;
 
     ///@brief Set a new pixel map for the frame
     ///@param - The new pixel map to set
@@ -25,7 +25,7 @@ public:
 
     ///@brief Getter for frame size
     ///@return - The size of the frame
-    int getSize();
+    int getSize() const;
 
     ///@brief Set the particular color of a pixel on the pixel map
     void SetColor(std::pair<int,int> coord, QColor color);
