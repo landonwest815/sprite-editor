@@ -42,6 +42,10 @@ void MainWindow::initializeUI() {
     connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkModeClicked);
     connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
 
+    // Connect the save and load buttons to the required slots
+    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
+    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
+
     auto animationButtonGroup = new QButtonGroup(this);
     animationButtonGroup->addButton(ui->startAnimation, 1);
     animationButtonGroup->addButton(ui->stopAnimation, 2);
@@ -427,7 +431,7 @@ void MainWindow::showTutorialPopup() {
     tutorialDialog->setWindowTitle("Tutorial Popup");
     QVBoxLayout* layout = new QVBoxLayout(tutorialDialog);
     QLabel* tutorialLabel = new QLabel(tutorialDialog);
-    tutorialLabel->setPixmap(QPixmap(":/icons/tutorial.png"));  // Replace with the path to your image
+    tutorialLabel->setPixmap(QPixmap(":/icons/tutorial.png"));
     layout->addWidget(tutorialLabel);
     tutorialDialog->exec();
 }
@@ -457,5 +461,33 @@ void MainWindow::largeTextClicked(int toggled) {
     ui->largeTextButton->setText(textOption[toggled]);
     for (QWidget* widget : wigets) {
         widget->setFont(fontSize[toggled]);
+    }
+}
+
+void MainWindow::saveFile() {
+    QString saveFilePath = QFileDialog::getSaveFileName(this, "Save File", QDir::homePath(), "SSP Files (*.ssp)");
+    if (!saveFilePath.isEmpty()) {
+        if (!saveFilePath.endsWith(".ssp", Qt::CaseInsensitive)) {
+            QMessageBox::information(this, "Save File Failed", "Please save the file with a .ssp extension.");
+        } else {
+            file.exportJson(model.getAllFrames(), saveFilePath);
+        }
+    } else {
+        QMessageBox::information(this, "Save File Failed", "No save location selected. Please choose a valid location.");
+    }
+}
+
+void MainWindow::loadFile() {
+    QString filePath = QFileDialog::getOpenFileName(this, "Open .ssp File", QDir::homePath(), "SSP Files (*.ssp);;All Files (*.*)");
+    if (!filePath.isEmpty()) {
+        QFileInfo fileInfo(filePath);
+        if (fileInfo.suffix().toLower() == "ssp") {
+            vector<Frame> newFrames = file.importJson(filePath);
+            model.setAllFrames(newFrames);
+        } else {
+            QMessageBox::information(this, "Load File Failed", "Selected file is not a .ssp file. Please choose a valid .ssp file.");
+        }
+    } else {
+        QMessageBox::information(this, "Load File Failed", "No file selected. Please choose a .ssp file.");
     }
 }

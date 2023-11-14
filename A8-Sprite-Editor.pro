@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     Tool.cpp \
+    filemanager.cpp \
     frame.cpp \
     framelabel.cpp \
     main.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     Tool.h \
+    filemanager.h \
     framelabel.h \
     mainwindow.h \
     model.h \

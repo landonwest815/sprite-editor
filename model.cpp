@@ -95,6 +95,10 @@ vector<Frame>& Model::getAllFrames() {
     return frames;
 }
 
+vector<Frame>& Model::setAllFrames(vector<Frame> newFrames) {
+    frames = newFrames;
+}
+
 int Model::getNumberOfFrames(){
     return (int)frames.size();
 }
