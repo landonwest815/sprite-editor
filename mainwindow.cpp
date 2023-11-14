@@ -13,7 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(true) {
+    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(false) {
     ui->setupUi(this);
     initializeUI();
     setupConnections();
@@ -57,6 +57,8 @@ void MainWindow::initializeUI() {
 
     // Disable vertical scroll bar for a nicer visual
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
+
+    darkModeClicked();
 }
 
 void MainWindow::setupConnections() {
@@ -68,6 +70,11 @@ void MainWindow::setupConnections() {
     connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
     connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
     connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+
+    // Color Presets
+    connect(ui->redPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->greenPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->bluePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
 
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
@@ -459,8 +466,8 @@ void MainWindow::showTutorialPopup() {
     tutorialDialog->exec();
 }
 
-void MainWindow::darkModeClicked(int toggled) {
-    if (toggled) {
+void MainWindow::darkModeClicked() {
+    if (darkMode) {
         darkMode = false;
         ui->darkModeButton->setText("Light Mode");
         this->setStyleSheet("background-color: #fafafa;");
@@ -518,6 +525,12 @@ void MainWindow::darkModeClicked(int toggled) {
                                     /* Style the selected tab */
                                     QTabBar::tab:selected {
                                         background: #cccccc; /* A lighter shade for the selected tab */
+                                    }
+
+                                    QTabWidget::pane { /* The tab widget frame */
+                                        border-top: 2px solid #C2C7CB;
+                                        position: absolute;
+                                        top: -0.5em;
                                     }
                                     )");
 
@@ -597,6 +610,12 @@ void MainWindow::darkModeClicked(int toggled) {
                                         QTabBar::tab:selected {
                                             background: #999999; /* A different shade for the selected tab */
                                         }
+
+                                        QTabWidget::pane { /* The tab widget frame */
+                                            border-top: 2px solid #C2C7CB;
+                                            position: absolute;
+                                            top: -0.5em;
+                                        }
                                     )");
 
         model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
@@ -659,5 +678,25 @@ void MainWindow::loadFile() {
         }
     } else {
         QMessageBox::information(this, "Load File Failed", "No file selected. Please choose a .ssp file.");
+    }
+}
+
+void MainWindow::onColorButtonClicked() {
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    if (button) {
+        // colors corresponding to the buttons
+        QHash<QPushButton*, QColor> colorHash;
+        colorHash[ui->redPreset] = QColor(128, 0, 0);   // Dark red color
+        colorHash[ui->greenPreset] = QColor(0, 128, 0); // Dark green color
+        colorHash[ui->bluePreset] = QColor(0, 0, 128);  // Dark blue color
+
+        // Check if the clicked button is one of the color buttons
+        if (colorHash.contains(button)) {
+            QColor newColor = colorHash[button];
+            model.setSelectedColor(newColor);
+            ui->redSpin->setValue(newColor.red());
+            ui->greenSpin->setValue(newColor.green());
+            ui->blueSpin->setValue(newColor.blue());
+        }
     }
 }

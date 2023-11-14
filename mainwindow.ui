@@ -102,13 +102,19 @@ QTabBar::tab {
     margin-left: 5px; /* Space between tabs */
     border-top-left-radius: 5px; /* Rounded top left corner */
     border-top-right-radius: 5px; /* Rounded top right corner */
-   border-bottom-left-radius: 5px; /* Rounded top left corner */
+    border-bottom-left-radius: 5px; /* Rounded top left corner */
     border-bottom-right-radius: 5px; /* Rounded top right corner */
 }
 
 /* Style the selected tab */
 QTabBar::tab:selected {
     background: #999999; /* A different shade for the selected tab */
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border-top: 2px solid #C2C7CB;
+    position: absolute;
+    top: -0.5em;
 }</string>
         </property>
         <property name="currentIndex">
@@ -762,6 +768,22 @@ QPushButton:checked {
          </layout>
         </item>
         <item>
+         <spacer name="verticalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>5</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
          <layout class="QHBoxLayout" name="horizontalLayout_10">
           <item>
            <widget class="QLabel" name="redLabel">
@@ -813,6 +835,139 @@ QPushButton:checked {
            <widget class="QSpinBox" name="greenSpin">
             <property name="maximum">
              <number>255</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QPushButton" name="redPreset">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: #800000; /* Dark grey background, matching the handle */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
+}
+
+QPushButton:hover {
+  background-color: #660000; /* Slightly lighter grey for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #4D0000; /* Slightly darker grey for pressed state */
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="greenPreset">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: #008000; /* Dark green background */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 5 pixels */
+}
+
+QPushButton:hover {
+  background-color: #006600; /* Slightly lighter green for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #004D00; /* Even darker green for pressed state */
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="bluePreset">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: #0000a4; /* Dark blue background */
+  color: white; /* Light text for contrast */
+  border-radius: 5px; /* Rounded corners with a radius of 5 pixels */
+}
+
+QPushButton:hover {
+  background-color: #000066; /* Slightly lighter blue for hover state */
+}
+
+QPushButton:pressed {
+  background-color: #00004D; /* Even darker blue for pressed state */
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -977,6 +1132,24 @@ QPushButton:checked {
        <layout class="QVBoxLayout" name="verticalLayout_8">
         <item>
          <widget class="QLabel" name="previewLabel_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="font">
            <font>
             <italic>true</italic>
@@ -997,7 +1170,7 @@ QPushButton:checked {
         <item>
          <widget class="QLabel" name="previewLabel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -1028,6 +1201,24 @@ QPushButton:checked {
         </item>
         <item>
          <widget class="QSlider" name="fpsSlider">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>125</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>125</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
