@@ -10,6 +10,10 @@
 #include "frame.h"
 #include <QButtonGroup>
 #include <QScrollBar>
+#include <ostream>
+#include <QTimer>
+#include <QPropertyAnimation>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -54,6 +58,14 @@ void MainWindow::setupConnections() {
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
             this, &MainWindow::addFrameClicked);
+
+    // changes the value of frame counter.
+    connect(ui->selectFPS, &QAbstractSlider::valueChanged,
+            this, &MainWindow::onSelectFPS);
+
+    //this should start animation process
+    connect(ui->animateButton, &QPushButton::clicked,
+            this, &MainWindow::onAnimateButtonClicked);
 }
 
 void MainWindow::updateAllPixmaps() {
@@ -245,3 +257,52 @@ void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
     button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
     button->setIconSize(button->size());
 }
+
+void MainWindow::onSelectFPS(int FPS){
+    frameCounter = 1000/FPS;
+    qDebug() << "frame counter set to: " << frameCounter;
+}
+
+void MainWindow::onAnimateButtonClicked()
+{
+    qDebug() << "animation should start";
+//    static vector<QPixmap> pixmaps = getPixMaps(model.getAllFrames());
+    connect(&timer, &QTimer::timeout,
+            this, &MainWindow::updatePreviewWindow);
+
+    timer.start(frameCounter);
+}
+
+//vector<QPixmap> MainWindow::getPixMaps(vector<Frame> frames){
+//    qDebug() << "executed getPixMaps";
+//    vector<QPixmap> pixMaps;
+//    for(size_t i = 0; i < frames.size(); i++){
+//        // Create an image from the frame's pixel data
+//        Frame currentFrame = frames.at(i);
+//        QImage frameImage = createImageFromFrame(currentFrame);
+//        QPixmap framePixMap;
+
+//        framePixMap.convertFromImage(frameImage);
+//        pixMaps.push_back(framePixMap);
+//    }
+
+//    return pixMaps;
+//}
+
+QPixmap MainWindow::getPixMap(Frame frame){
+    QImage frameImage = createImageFromFrame(frame);
+    QPixmap framePixMap;
+    framePixMap.convertFromImage(frameImage);
+    return framePixMap;
+}
+
+void MainWindow::updatePreviewWindow(){
+    static int i = 0;
+    QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
+
+    ui->previewLabel->setPixmap(pixmap);
+
+    setScaledCanvas(ui->previewLabel, pixmap);
+}
+
+

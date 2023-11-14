@@ -6,8 +6,9 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QPushButton>
-
+#include <vector>
 #include "model.h" // Ensure this includes the definition of the Model class
+#include <QTimer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -30,6 +31,11 @@ private slots:
     void setRGB();
     void onToolButtonClicked(int id);
 
+    void onSelectFPS(int FPS);
+
+    void onAnimateButtonClicked();
+    void updatePreviewWindow();
+
 private:
     Ui::MainWindow *ui;
     QImage image;
@@ -38,6 +44,7 @@ private:
     int frameCounter;
     QButtonGroup* toolButtonGroup;
     QMap<int, QPushButton*> frameThumbnails;
+    QTimer timer;
 
     void initializeUI();
     void setupConnections();
@@ -51,6 +58,7 @@ private:
     void updateUIForNewFrame(int frameIndex);
     QImage createImageFromFrame(const Frame &frame);
     void updateUIForSelectedFrame(int frameIndex);
+    QPixmap getPixMap(Frame frame);
 };
 
 #endif // MAINWINDOW_H
