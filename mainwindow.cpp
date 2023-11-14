@@ -37,6 +37,14 @@ void MainWindow::initializeUI() {
     ui->penTool->setChecked(true);
     onToolButtonClicked(1);
 
+    auto animationButtonGroup = new QButtonGroup(this);
+    animationButtonGroup->addButton(ui->startAnimation, 1);
+    animationButtonGroup->addButton(ui->stopAnimation, 2);
+    animationButtonGroup->setExclusive(true);
+    ui->startAnimation->setChecked(true);
+    onSelectFPS(ui->fpsSlider->value());
+    onAnimateButtonClicked();
+
     // Disable vertical scroll bar for a nicer visual
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
 }
@@ -381,11 +389,13 @@ QPixmap MainWindow::getPixMap(Frame frame){
 void MainWindow::updatePreviewWindow(){
     static int i = 0;
     qDebug() << "showing frame: " << i;
-    QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
-    ui->previewLabel->setPixmap(pixmap);
-    setScaledCanvas(ui->previewLabel, pixmap);
-    // this allows the animation to repeat until the timer is stopped.
-    i = (i + 1) % model.getNumberOfFrames();
+    if (i < model.getAllFrames().size()) {
+        QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
+        ui->previewLabel->setPixmap(pixmap);
+        setScaledCanvas(ui->previewLabel, pixmap);
+        // this allows the animation to repeat until the timer is stopped.
+        i = (i + 1) % model.getNumberOfFrames();
+    }
 }
 
 
