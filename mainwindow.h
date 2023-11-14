@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QDialog>
-
+#include "filemanager.h"
 #include "model.h" // Ensure this includes the definition of the Model class
 
 QT_BEGIN_NAMESPACE
@@ -42,6 +42,7 @@ private:
     QImage image;
     QPixmap pix;
     Model model;
+    FileManager file;
     int frameCounter;
     QButtonGroup* toolButtonGroup;
     QMap<int, QPushButton*> frameThumbnails;
@@ -67,6 +68,8 @@ private:
     void showTutorialPopup();
     void darkModeClicked(int);
     void largeTextClicked(int);
+    void saveFile();
+    void loadFile();
 };
 
 #endif // MAINWINDOW_H
