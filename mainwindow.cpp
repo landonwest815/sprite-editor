@@ -267,6 +267,7 @@ void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
 void MainWindow::onSelectFPS(int FPS){
     this->FPS = 1000/FPS;
     qDebug() << "frame counter set to: " << this->FPS;
+    // resets the FPS on GUI
     timer.stop();
     timer.start(this->FPS);
 }
@@ -278,6 +279,7 @@ void MainWindow::onAnimateButtonClicked()
 }
 
 QPixmap MainWindow::getPixMap(Frame frame){
+    // gets pixmap for frame
     QImage frameImage = createImageFromFrame(frame);
     QPixmap framePixMap;
     framePixMap.convertFromImage(frameImage);
@@ -290,6 +292,7 @@ void MainWindow::updatePreviewWindow(){
     QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
     ui->previewLabel->setPixmap(pixmap);
     setScaledCanvas(ui->previewLabel, pixmap);
+    // this allows the animation to repeat until the timer is stopped.
     i = (i + 1) % model.getNumberOfFrames();
 }
 
