@@ -818,11 +818,11 @@ void MainWindow::largeTextClicked(int toggled) {
     QFont regularFont("Segoe UI", 13);
     QString textOption[2] = {"Large Text", "Regular Text"};
     QFont fontSize[2] = {regularFont, largeFont};
-    QWidget* wigets[17] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+    QWidget* wigets[18] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                            ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                            ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
-                           ui->previewLabel_2, ui->FPSLabel};
+                           ui->previewLabel_2, ui->FPSLabel, ui->newLabl};
     // after putting all widgets into array, loop through and set the text to what has been toggled.
     for (QWidget* widget : wigets) {
         widget->setFont(fontSize[toggled]);
