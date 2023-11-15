@@ -116,7 +116,7 @@ QTabWidget::pane { /* The tab widget frame */
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -184,21 +184,23 @@ QTabWidget::pane { /* The tab widget frame */
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="newButton">
-              <property name="minimumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
+             <layout class="QHBoxLayout" name="horizontalLayout_22">
+              <item>
+               <widget class="QPushButton" name="newButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
   background-color: #646464; /* Dark grey background, matching the handle */
   color: white; /* Light text for contrast */
   border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
@@ -215,15 +217,17 @@ QPushButton:pressed {
 QPushButton:checked {
   background-color: #999999; /* Color when button is checked */
 }</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="Assets.qrc">
-                <normaloff>:/icons/Assets/Assets/new.png</normaloff>:/icons/Assets/Assets/new.png</iconset>
-              </property>
-             </widget>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="Assets.qrc">
+                  <normaloff>:/icons/Assets/Assets/new.png</normaloff>:/icons/Assets/Assets/new.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <spacer name="verticalSpacer_20">
@@ -293,21 +297,23 @@ QPushButton:checked {
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="saveButton">
-              <property name="minimumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
+             <layout class="QHBoxLayout" name="horizontalLayout_24">
+              <item>
+               <widget class="QPushButton" name="saveButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
   background-color: #646464; /* Dark grey background, matching the handle */
   color: white; /* Light text for contrast */
   border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
@@ -324,15 +330,17 @@ QPushButton:pressed {
 QPushButton:checked {
   background-color: #999999; /* Color when button is checked */
 }</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="Assets.qrc">
-                <normaloff>:/icons/Assets/Assets/save.png</normaloff>:/icons/Assets/Assets/save.png</iconset>
-              </property>
-             </widget>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="Assets.qrc">
+                  <normaloff>:/icons/Assets/Assets/save.png</normaloff>:/icons/Assets/Assets/save.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <spacer name="verticalSpacer_17">
@@ -399,27 +407,29 @@ QPushButton:checked {
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="loadButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>30</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton {
+             <layout class="QHBoxLayout" name="horizontalLayout_26">
+              <item>
+               <widget class="QPushButton" name="loadButton">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>30</width>
+                  <height>30</height>
+                 </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QPushButton {
   background-color: #646464; /* Dark grey background, matching the handle */
   color: white; /* Light text for contrast */
   border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
@@ -436,18 +446,20 @@ QPushButton:pressed {
 QPushButton:checked {
   background-color: #999999; /* Color when button is checked */
 }</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="icon">
-               <iconset resource="Assets.qrc">
-                <normaloff>:/icons/Assets/Assets/load.png</normaloff>:/icons/Assets/Assets/load.png</iconset>
-              </property>
-              <property name="checkable">
-               <bool>false</bool>
-              </property>
-             </widget>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="Assets.qrc">
+                  <normaloff>:/icons/Assets/Assets/load.png</normaloff>:/icons/Assets/Assets/load.png</iconset>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <spacer name="verticalSpacer_18">
@@ -580,7 +592,7 @@ QPushButton:checked {
         </palette>
        </property>
        <attribute name="title">
-        <string>Assessibility Features</string>
+        <string>Accessibility Features</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
