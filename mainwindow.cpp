@@ -27,12 +27,66 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::initializeUI() {
+void MainWindow::askForFrameSize() {
+    frameSizeDialog = new QDialog(this);
+    int width = 800;
+    frameSizeDialog->setFixedSize(width, 600);
 
+    QLabel *titleLabel = new QLabel("Select Canvas Size:", frameSizeDialog);
+    titleLabel->setFixedWidth(width);
+    titleLabel->setFixedHeight(150);
+    titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 42pt; font-weight: bold; font-style: italic;");
+    titleLabel->setAlignment(Qt::AlignCenter);
+
+    sizeComboBox = new QComboBox(frameSizeDialog);
+    sizeComboBox->addItems({"4x4", "8x8", "16x16", "32x32", "64x64"});
+    sizeComboBox->setStyleSheet("background-color: white;");
+
+    QPushButton *okButton = new QPushButton("OK", frameSizeDialog);
+    connect(okButton, &QPushButton::clicked, frameSizeDialog, &QDialog::accept);
+    okButton->setStyleSheet("background-color: white;");
+
+    QVBoxLayout *layout = new QVBoxLayout(frameSizeDialog);
+    layout->addWidget(sizeComboBox);
+    layout->addWidget(okButton);
+
+    frameSizeDialog->setLayout(layout);
+
+    if (frameSizeDialog->exec() == QDialog::Accepted) {
+        int size = sizeComboBox->currentText().split("x").first().toInt();
+        model.setFrameSize(size);
+        qDebug() << "Frame size set to:" << size;
+    } else {
+        // Handle the case when the user cancels the input
+        QMessageBox msgBox(this);
+        msgBox.setWindowTitle("Information");
+        msgBox.setText("Default frame size (16x16) will be used.");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setStyleSheet("QLabel { color: white; }");
+        msgBox.exec();
+
+        model.setFrameSize(16);
+    }
+
+    // Update the UI with the initial frame
+    model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
+    model.addNewFrame();
+
+    // Set the current frame
+    int newFrameIndex = model.getAllFrames().size() - 1;
+    model.setCurrentFrame(newFrameIndex);
+
+    // Update the UI to reflect the addition of the new frame
+    updateUIForNewFrame(newFrameIndex);
+
+    delete frameSizeDialog;  // Clean up the dialog after using it
+}
+
+void MainWindow::initializeUI() {
     // Create an initial frame and display it
     model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
-    addFrameClicked();
-    updateUIForSelectedFrame(0);
+    askForFrameSize();
 
     // Configure the tools
     toolButtonGroup = new QButtonGroup(this);

@@ -10,6 +10,8 @@
 #include <QDialog>
 #include <QButtonGroup>
 #include <QScrollBar>
+#include <QMessageBox>
+#include <QComboBox>
 #include "filemanager.h"
 #include "model.h" // Ensure this includes the definition of the Model class
 
@@ -68,7 +70,9 @@ private:
     bool darkMode;
     bool speech;
     QTextToSpeech say;
-
+    QComboBox *sizeComboBox;
+    QDialog *frameSizeDialog;
+    void askForFrameSize();
     /// \brief initializeUI Initializes main components of the UI for the User
     void initializeUI();
     /// \brief setupConnections- connects UI elements to different slots
