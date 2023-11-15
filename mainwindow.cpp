@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
     image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(false), speech(false) {
     ui->setupUi(this);
+    file = new FileManager();
     initializeUI();
     setupConnections();
 }
@@ -47,6 +48,9 @@ void MainWindow::initializeUI() {
     // Connect the save and load buttons to the required slots
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
     connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
+
+    // Connect filemanager signals to required slots
+    connect(file, &FileManager::errorMessage, this, &MainWindow::showError);
 
     // Connect all button clicks to a speech slot
     QList<QPushButton*> allButtons = findChildren<QPushButton*>();
@@ -679,7 +683,7 @@ void MainWindow::saveFile() {
         if (!saveFilePath.endsWith(".ssp", Qt::CaseInsensitive)) {
             QMessageBox::information(this, "Save File Failed", "Please save the file with a .ssp extension.");
         } else {
-            file.exportJson(model.getAllFrames(), saveFilePath);
+            file->exportJson(model.getAllFrames(), saveFilePath);
         }
     } else {
         QMessageBox::information(this, "Save File Failed", "No save location selected. Please choose a valid location.");
@@ -691,7 +695,7 @@ void MainWindow::loadFile() {
     if (!filePath.isEmpty()) {
         QFileInfo fileInfo(filePath);
         if (fileInfo.suffix().toLower() == "ssp") {
-            vector<Frame> newFrames = file.importJson(filePath);
+            vector<Frame> newFrames = file->importJson(filePath);
             model.setAllFrames(newFrames);
         } else {
             QMessageBox::information(this, "Load File Failed", "Selected file is not a .ssp file. Please choose a valid .ssp file.");
@@ -739,4 +743,8 @@ void MainWindow::sayObjectName() {
         const QString name = clickedButton->objectName();
         say.say(name);
     }
+}
+
+void MainWindow::showError(QString msg) {
+    QMessageBox::information(this, "Error", msg);
 }

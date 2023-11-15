@@ -44,7 +44,7 @@ private:
     QImage image;
     QPixmap pix;
     Model model;
-    FileManager file;
+    FileManager* file;
     int frameCounter;
     QButtonGroup* toolButtonGroup;
     QMap<int, QPushButton*> frameThumbnails;
@@ -79,6 +79,7 @@ private:
     void sayObjectName();
     void updateAllThumbnails();
     void mirrorPixel(int pixX, int pixY, QColor selectedColor);
+    void showError(QString);
 };
 
 #endif // MAINWINDOW_H
