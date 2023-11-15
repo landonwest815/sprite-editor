@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include <QtTextToSpeech/QTextToSpeech>
 #include <QMainWindow>
 #include <QPixmap>
 #include <QMouseEvent>
@@ -8,9 +8,23 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QDialog>
+#include <QButtonGroup>
+#include <QScrollBar>
 #include "filemanager.h"
-#include <QtTextToSpeech/QTextToSpeech>
 #include "model.h" // Ensure this includes the definition of the Model class
+
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * This project helps to demonstrate some C++ conventions in regards
+ * to the topic of a MainWindow class which has been splitted into a header
+ * file. It assists in declarations of the MainWindow object, functions, etc.
+ */
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

@@ -1,14 +1,17 @@
-/************************
- *Model Class
- *Project: Sprite Editor
- *Assignment: A8 Sprite Editor Implementation
- *Team Geoff
- *Description: Stores internal data for the sprite. This includes a list of frames for the animation and the currently selected color.
- * **********************/
 #include "model.h"
 #include "Tool.h"
-#include <ostream>
-#include <vector>
+
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * Stores internal data for the sprite. This includes a list of frames for the
+ * animation and the currently selected color.
+ */
 
 Model::Model() :
     toolBar(),
@@ -96,11 +99,11 @@ void Model::setFrameSize(int newSize) {
     frameSize = newSize;
 }
 
-vector<Frame>& Model::getAllFrames() {
+std::vector<Frame>& Model::getAllFrames() {
     return frames;
 }
 
-void Model::setAllFrames(vector<Frame> newFrames) {
+void Model::setAllFrames(std::vector<Frame> newFrames) {
     frames = newFrames;
 }
 

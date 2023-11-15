@@ -1,21 +1,29 @@
 #ifndef MODEL_H
 #define MODEL_H
-
-#include "Tool.h"
 #include <QColor>
 #include <string>
 #include <vector>
+#include "Tool.h"
 #include "frame.h"
 
-using std::vector;
-using std::string;
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * This project helps to demonstrate some C++ conventions in regards
+ * to the topic of a Model class which has been splitted into a header
+ * file. It assists in declarations of the Model object, functions, etc.
+ */
 
-class Model
-{
+class Model {
 private:
-    vector<Tool> toolBar;
+    std::vector<Tool> toolBar;
     QColor selectedColor;
-    vector<Frame> frames;
+    std::vector<Frame> frames;
     Frame* currentFrame;
     int frameSize;
     int currentFrameIndex;
@@ -27,7 +35,7 @@ public:
 
     ///@brief getter for all of the tools
     ///@return - Dynamic list (vector) of all of the tools
-    vector<Tool> getTools();
+    std::vector<Tool> getTools();
 
     /// @brief getSelectedTool
     /// @return returns the tool the user wants to use
@@ -70,11 +78,11 @@ public:
 
     ///@brief getter for the entire vector of frames
     ///@return - The entire vector of frames
-    vector<Frame>& getAllFrames();
+    std::vector<Frame>& getAllFrames();
 
     ///@brief s]etter for the entire vector of frames
     ///@return - The entire vector of frames
-    void setAllFrames(vector<Frame>);
+    void setAllFrames(std::vector<Frame>);
 
     /// \brief setCurrentFrame Sets the current frame to the one the user selects
     /// \param index the index of the frame in the array

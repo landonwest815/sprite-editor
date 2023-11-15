@@ -1,11 +1,15 @@
-/************************
- *FrameLabel Class
- *Project: Sprite Editor
- *Assignment: A8 Sprite Editor Implementation
- *Team Geoff
- *Description: Frame Label class is used to create a FrameLabel
- * **********************/
 #include "FrameLabel.h"
+
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * Frame Label class is used to create a FrameLabel.
+ */
 
 FrameLabel::FrameLabel(int frameIndex, QWidget *parent) :
     QLabel(parent), m_frameIndex(frameIndex) {

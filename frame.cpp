@@ -1,13 +1,16 @@
-/************************
- *Frame Class
- *Project: Sprite Editor
- *Assignment: A8 Sprite Editor Implementation
- *Team Geoff
- *Description: Represents a single frame of animation for a sprite. Uses a map with coordinates as the key and the color as the value to store the pixel art.
- * **********************/
 #include "frame.h"
-#include <utility>
-using std::pair;
+
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * Represents a single frame of animation for a sprite. Uses a map with coordinates
+ * as the key and the color as the value to store the pixel art.
+ */
 
 /// \brief operator < an extension method to be used to compare different points to put
 /// into the frame map. If x1 is less than x2, then point1 < point2 or if x1 == x2 then

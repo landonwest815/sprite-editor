@@ -1,15 +1,18 @@
-/************************
- *Main Window Class
- *Project: Sprite Editor
- *Assignment: A8 Sprite Editor Implementation
- *Team Geoff
- *Description: Gets data from the internal model and displays it to the UI. Also allows the user to update the model through the UI.
- * **********************/
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "frame.h"
-#include <QButtonGroup>
-#include <QScrollBar>
+
+/**
+ * Author(s):     Team Geoff:
+ *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
+ *           	  Christian Hartman (Is-This-One-Avaiable), Caleb Funk (Funkyc02),
+ *                Landon West (landonwest815), and Pablo Arancibia-Bazan (Pablo23117)
+ * Course:        CS 3505, University of Utah, School of Computing
+ * Assignment:    A8 - Sprite Editor Implementation
+ * File Contents:
+ * Gets data from the internal model and displays it to the UI. Also allows the user
+ * to update the model through the UI.
+ */
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -706,7 +709,7 @@ void MainWindow::loadFile() {
     if (!filePath.isEmpty()) {
         QFileInfo fileInfo(filePath);
         if (fileInfo.suffix().toLower() == "ssp") {
-            vector<Frame> newFrames = file->importJson(filePath);
+            std::vector<Frame> newFrames = file->importJson(filePath);
             model.setAllFrames(newFrames);
         } else {
             QMessageBox::information(this, "Load File Failed", "Selected file is not a .ssp file. Please choose a valid .ssp file.");
