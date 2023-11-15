@@ -31,6 +31,19 @@
      <number>20</number>
     </property>
     <item>
+     <spacer name="verticalSpacer_10">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLabel" name="titleLabel">
@@ -49,6 +62,9 @@
         </property>
         <property name="text">
          <string>Sprite Program</string>
+        </property>
+        <property name="indent">
+         <number>25</number>
         </property>
        </widget>
       </item>
@@ -1138,32 +1154,27 @@ QPushButton:checked {
          <number>6</number>
         </property>
         <item>
-         <spacer name="verticalSpacer_10">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>15</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
          <widget class="QLabel" name="toolsLabel">
           <property name="font">
            <font>
-            <italic>true</italic>
+            <pointsize>14</pointsize>
+            <italic>false</italic>
             <bold>true</bold>
             <underline>false</underline>
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">QLabel {
+    background-color: #484848; /* A nice shade of dark gray */
+    color: white; /* White text color */
+    padding: 5px; /* Padding around the text */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font */
+    qproperty-alignment: AlignCenter; /* Center alignment for text */
+    margin-top: 2px; /* Space from the top margin */
+    margin-bottom: 2px; /* Space from the bottom margin */
+    border: 1px solid #3A3A3A; /* Border with a slightly lighter shade of gray */
+}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::WinPanel</enum>
@@ -1172,7 +1183,7 @@ QPushButton:checked {
            <enum>QFrame::Raised</enum>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Tools&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Tools</string>
           </property>
          </widget>
         </item>
@@ -1337,7 +1348,7 @@ QPushButton:checked {
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>35</height>
+            <height>15</height>
            </size>
           </property>
          </spacer>
@@ -1346,10 +1357,24 @@ QPushButton:checked {
          <widget class="QLabel" name="toolSettingLabel">
           <property name="font">
            <font>
-            <italic>true</italic>
+            <pointsize>14</pointsize>
+            <italic>false</italic>
             <bold>true</bold>
             <underline>false</underline>
            </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    background-color: #484848; /* A nice shade of dark gray */
+    color: white; /* White text color */
+    padding: 5px; /* Padding around the text */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font */
+    qproperty-alignment: AlignCenter; /* Center alignment for text */
+    margin-top: 2px; /* Space from the top margin */
+    margin-bottom: 2px; /* Space from the bottom margin */
+    border: 1px solid #3A3A3A; /* Border with a slightly lighter shade of gray */
+}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::WinPanel</enum>
@@ -1358,7 +1383,7 @@ QPushButton:checked {
            <enum>QFrame::Raised</enum>
           </property>
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Tool Settings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>Tool Settings</string>
           </property>
          </widget>
         </item>
@@ -1522,6 +1547,56 @@ QPushButton:checked {
         </item>
         <item>
          <spacer name="verticalSpacer_12">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>15</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="colorsLabel">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+            <italic>false</italic>
+            <bold>true</bold>
+            <underline>false</underline>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QLabel {
+    background-color: #484848; /* A nice shade of dark gray */
+    color: white; /* White text color */
+    padding: 5px; /* Padding around the text */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font */
+    qproperty-alignment: AlignCenter; /* Center alignment for text */
+    margin-top: 2px; /* Space from the top margin */
+    margin-bottom: 2px; /* Space from the bottom margin */
+    border: 1px solid #3A3A3A; /* Border with a slightly lighter shade of gray */
+}</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::WinPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <property name="text">
+           <string>Color Options</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_21">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -2198,21 +2273,21 @@ QPushButton:pressed {
           <item>
            <widget class="QLabel" name="pixMapLabel">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
             <property name="minimumSize">
              <size>
-              <width>500</width>
-              <height>500</height>
+              <width>450</width>
+              <height>450</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
-              <width>500</width>
-              <height>500</height>
+              <width>450</width>
+              <height>450</height>
              </size>
             </property>
             <property name="sizeIncrement">
@@ -2248,30 +2323,44 @@ QPushButton:pressed {
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
-             <widget class="QLabel" name="previewLabel_2">
+             <widget class="QLabel" name="animationLabel">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
               <property name="minimumSize">
                <size>
-                <width>125</width>
+                <width>0</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>125</width>
+                <width>16777215</width>
                 <height>16777215</height>
                </size>
               </property>
               <property name="font">
                <font>
-                <italic>true</italic>
+                <pointsize>14</pointsize>
+                <italic>false</italic>
                 <bold>true</bold>
                </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel {
+    background-color: #484848; /* A nice shade of dark gray */
+    color: white; /* White text color */
+    padding: 5px; /* Padding around the text */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: bold; /* Bold font */
+    qproperty-alignment: AlignCenter; /* Center alignment for text */
+    margin-top: 2px; /* Space from the top margin */
+    margin-bottom: 2px; /* Space from the bottom margin */
+    border: 1px solid #3A3A3A; /* Border with a slightly lighter shade of gray */
+}</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::WinPanel</enum>
@@ -2280,7 +2369,7 @@ QPushButton:pressed {
                <enum>QFrame::Raised</enum>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:400; font-style:normal;&quot;&gt;Preview&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>Preview</string>
               </property>
              </widget>
             </item>
@@ -2699,7 +2788,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>24</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>

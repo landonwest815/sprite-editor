@@ -635,11 +635,14 @@ void MainWindow::darkOrLightModeClicked() {
     if (darkMode) {
         darkMode = false;
         this->setStyleSheet("background-color: #fafafa;");
+
+
+
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                                ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                                ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                                ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
-                               ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
+                               ui->blueSpin, ui->mirrorLabel, ui->animationLabel, ui->FPSLabel, ui->toolSizeSpin,
                                ui->titleLabel, ui->newLabl
                                };
 
@@ -709,6 +712,25 @@ void MainWindow::darkOrLightModeClicked() {
             frame.toggleBackgroundColor(model.getBackgroundColor());
         }
 
+        QWidget* sectionHeaders[4] = { ui->toolSettingLabel, ui->toolsLabel, ui->colorsLabel, ui->animationLabel };
+
+        // sets the style sheet for the darkmode feature
+        // first goes over the buttons
+        for (QWidget* header : sectionHeaders) {
+            header->setStyleSheet("QLabel {"
+                                  "    background-color: rgb(230, 230, 230);" // A nice shade of dark gray
+                                  "    color: black;" // White text color
+                                  "    padding: 5px;" // Padding around the text
+                                  "    border-radius: 4px;" // Rounded corners
+                                  "    font-weight: bold;" // Bold font
+                                  "    font-style: italic;" // Italic font style
+                                  "    qproperty-alignment: 'AlignCenter';" // Center alignment for text
+                                  "    margin-top: 2px;" // Space from the top margin
+                                  "    margin-bottom: 2px;" // Space from the bottom margin
+                                  "    border: 1px solid rgb(200, 200, 200);" // Border with a slightly lighter shade of gray
+                                  "}");
+        }
+
         updateUIForSelectedFrame(model.getCurrentFrameIndex());
         updateAllThumbnails();
 
@@ -725,11 +747,13 @@ void MainWindow::darkOrLightModeClicked() {
         darkMode = true;
         this->setStyleSheet("background-color: #303030;");
 
+
+
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
             ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
             ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
             ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
-            ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
+            ui->blueSpin, ui->mirrorLabel, ui->animationLabel, ui->FPSLabel, ui->toolSizeSpin,
             ui->titleLabel, ui->newLabl
         };
         for (QWidget* widget : wigets) {
@@ -798,6 +822,25 @@ void MainWindow::darkOrLightModeClicked() {
             frame.toggleBackgroundColor(model.getBackgroundColor());
         }
 
+        QWidget* sectionHeaders[4] = { ui->toolSettingLabel, ui->toolsLabel, ui->colorsLabel, ui->animationLabel };
+
+        // sets the style sheet for the darkmode feature
+        // first goes over the buttons
+        for (QWidget* header : sectionHeaders) {
+            header->setStyleSheet("QLabel {"
+                                  "    background-color: rgb(64, 64, 64);" // A nice shade of dark gray
+                                  "    color: white;" // White text color
+                                  "    padding: 5px;" // Padding around the text
+                                  "    border-radius: 4px;" // Rounded corners
+                                  "    font-weight: bold;" // Bold font
+                                  "    font-style: italic;" // Italic font style
+                                  "    qproperty-alignment: 'AlignCenter';" // Center alignment for text
+                                  "    margin-top: 2px;" // Space from the top margin
+                                  "    margin-bottom: 2px;" // Space from the bottom margin
+                                  "    border: 1px solid rgb(86, 86, 86);" // Border with a slightly lighter shade of gray
+                                  "}");
+        }
+
         updateUIForSelectedFrame(model.getCurrentFrameIndex());
         updateAllThumbnails();
 
@@ -818,11 +861,12 @@ void MainWindow::largeTextClicked(int toggled) {
     QFont regularFont("Segoe UI", 13);
     QString textOption[2] = {"Large Text", "Regular Text"};
     QFont fontSize[2] = {regularFont, largeFont};
-    QWidget* wigets[18] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+    QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                            ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                            ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
-                           ui->previewLabel_2, ui->FPSLabel, ui->newLabl};
+                           ui->animationLabel, ui->FPSLabel, ui->newLabl, ui->toolSettingLabel,
+                           ui->toolsLabel, ui->colorsLabel, ui->animationLabel};
     // after putting all widgets into array, loop through and set the text to what has been toggled.
     for (QWidget* widget : wigets) {
         widget->setFont(fontSize[toggled]);
