@@ -89,6 +89,12 @@ void MainWindow::setupConnections() {
     connect(ui->redPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
     connect(ui->greenPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
     connect(ui->bluePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->yellowPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->orangePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->purplePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->blackPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->whitePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->brownPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
 
     // Frame addition
     connect(ui->addFrameButton, &QPushButton::clicked,
@@ -751,6 +757,13 @@ void MainWindow::onColorButtonClicked() {
         colorHash[ui->redPreset] = QColor(128, 0, 0);   // Dark red color
         colorHash[ui->greenPreset] = QColor(0, 128, 0); // Dark green color
         colorHash[ui->bluePreset] = QColor(0, 0, 128);  // Dark blue color
+        colorHash[ui->orangePreset] = QColor(196, 128, 0);  // Dark orange color
+        colorHash[ui->yellowPreset] = QColor(196, 196, 0);  // Dark yellow color
+        colorHash[ui->purplePreset] = QColor(128, 0, 128);  // Dark purple color
+        colorHash[ui->blackPreset] = QColor(0, 0, 0);  // Dark black color
+        colorHash[ui->whitePreset] = QColor(255, 255, 255);  // Dark white color
+        colorHash[ui->brownPreset] = QColor(78, 48, 26);  // Dark brown color
+
 
         // Check if the clicked button is one of the color buttons
         if (colorHash.contains(button)) {
