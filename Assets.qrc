@@ -1,18 +1,18 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>pen.png</file>
-        <file>erase.png</file>
-        <file>mirror.png</file>
-        <file>pause.png</file>
-        <file>play.png</file>
-        <file>add.png</file>
-        <file>copy.png</file>
-        <file>tutorial.png</file>
-        <file>darkmode.png</file>
-        <file>fontsize.png</file>
-        <file>load.png</file>
-        <file>save.png</file>
-        <file>speech.png</file>
-        <file>tutorialicon.png</file>
+        <file>Assets/add.png</file>
+        <file>Assets/copy.png</file>
+        <file>Assets/darkmode.png</file>
+        <file>Assets/erase.png</file>
+        <file>Assets/fontsize.png</file>
+        <file>Assets/load.png</file>
+        <file>Assets/mirror.png</file>
+        <file>Assets/pause.png</file>
+        <file>Assets/pen.png</file>
+        <file>Assets/play.png</file>
+        <file>Assets/save.png</file>
+        <file>Assets/speech.png</file>
+        <file>Assets/tutorial.png</file>
+        <file>Assets/tutorialicon.png</file>
     </qresource>
 </RCC>
