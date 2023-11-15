@@ -490,7 +490,7 @@ void MainWindow::showTutorialPopup() {
     tutorialDialog->setWindowTitle("Tutorial Popup");
     QVBoxLayout* layout = new QVBoxLayout(tutorialDialog);
     QLabel* tutorialLabel = new QLabel(tutorialDialog);
-    tutorialLabel->setPixmap(QPixmap(":/icons/tutorial.png"));
+    tutorialLabel->setPixmap(QPixmap(":/icons/Assets/tutorial.png"));
     layout->addWidget(tutorialLabel);
     tutorialDialog->exec();
 }

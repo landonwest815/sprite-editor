@@ -116,7 +116,7 @@ QTabWidget::pane { /* The tab widget frame */
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -228,7 +228,7 @@ QPushButton:checked {
              </property>
              <property name="icon">
               <iconset resource="Assets.qrc">
-               <normaloff>:/icons/save.png</normaloff>:/icons/save.png</iconset>
+               <normaloff>:/icons/Assets/save.png</normaloff>:/icons/Assets/save.png</iconset>
              </property>
             </widget>
            </item>
@@ -340,7 +340,7 @@ QPushButton:checked {
              </property>
              <property name="icon">
               <iconset resource="Assets.qrc">
-               <normaloff>:/icons/load.png</normaloff>:/icons/load.png</iconset>
+               <normaloff>:/icons/Assets/load.png</normaloff>:/icons/Assets/load.png</iconset>
              </property>
              <property name="checkable">
               <bool>false</bool>
@@ -587,7 +587,7 @@ QPushButton:checked {
                </property>
                <property name="icon">
                 <iconset resource="Assets.qrc">
-                 <normaloff>:/icons/tutorialicon.png</normaloff>:/icons/tutorialicon.png</iconset>
+                 <normaloff>:/icons/Assets/tutorialicon.png</normaloff>:/icons/Assets/tutorialicon.png</iconset>
                </property>
               </widget>
              </item>
@@ -703,7 +703,7 @@ QPushButton:checked {
                </property>
                <property name="icon">
                 <iconset resource="Assets.qrc">
-                 <normaloff>:/icons/darkmode.png</normaloff>:/icons/darkmode.png</iconset>
+                 <normaloff>:/icons/Assets/darkmode.png</normaloff>:/icons/Assets/darkmode.png</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -822,7 +822,7 @@ QPushButton:checked {
                </property>
                <property name="icon">
                 <iconset resource="Assets.qrc">
-                 <normaloff>:/icons/speech.png</normaloff>:/icons/speech.png</iconset>
+                 <normaloff>:/icons/Assets/speech.png</normaloff>:/icons/Assets/speech.png</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -941,7 +941,7 @@ QPushButton:checked {
                </property>
                <property name="icon">
                 <iconset resource="Assets.qrc">
-                 <normaloff>:/icons/fontsize.png</normaloff>:/icons/fontsize.png</iconset>
+                 <normaloff>:/icons/Assets/fontsize.png</normaloff>:/icons/Assets/fontsize.png</iconset>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -1136,7 +1136,7 @@ QPushButton:checked {
           </property>
           <property name="icon">
            <iconset resource="Assets.qrc">
-            <normaloff>:/icons/pen.png</normaloff>:/icons/pen.png</iconset>
+            <normaloff>:/icons/Assets/pen.png</normaloff>:/icons/Assets/pen.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -1210,7 +1210,7 @@ QPushButton:checked {
           </property>
           <property name="icon">
            <iconset resource="Assets.qrc">
-            <normaloff>:/icons/erase.png</normaloff>:/icons/erase.png</iconset>
+            <normaloff>:/icons/Assets/erase.png</normaloff>:/icons/Assets/erase.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -1707,7 +1707,7 @@ QPushButton:checked {
           </property>
           <property name="icon">
            <iconset resource="Assets.qrc">
-            <normaloff>:/icons/mirror.png</normaloff>:/icons/mirror.png</iconset>
+            <normaloff>:/icons/Assets/mirror.png</normaloff>:/icons/Assets/mirror.png</iconset>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -1940,7 +1940,7 @@ QPushButton:checked {
             </property>
             <property name="icon">
              <iconset resource="Assets.qrc">
-              <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+              <normaloff>:/icons/Assets/play.png</normaloff>:/icons/Assets/play.png</iconset>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -1985,7 +1985,7 @@ QPushButton:checked {
             </property>
             <property name="icon">
              <iconset resource="Assets.qrc">
-              <normaloff>:/icons/pause.png</normaloff>:/icons/pause.png</iconset>
+              <normaloff>:/icons/Assets/pause.png</normaloff>:/icons/Assets/pause.png</iconset>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -2153,7 +2153,7 @@ QPushButton:pressed {
           </property>
           <property name="icon">
            <iconset resource="Assets.qrc">
-            <normaloff>:/icons/add.png</normaloff>:/icons/add.png</iconset>
+            <normaloff>:/icons/Assets/add.png</normaloff>:/icons/Assets/add.png</iconset>
           </property>
          </widget>
         </item>
@@ -2203,7 +2203,7 @@ QPushButton:pressed {
           </property>
           <property name="icon">
            <iconset resource="Assets.qrc">
-            <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+            <normaloff>:/icons/Assets/copy.png</normaloff>:/icons/Assets/copy.png</iconset>
           </property>
          </widget>
         </item>
