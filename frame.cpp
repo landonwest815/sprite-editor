@@ -29,7 +29,7 @@ int Frame::getSize() const {
     return size;
 }
 
-void Frame::SetColor(std::pair<int,int> coord, QColor color) {
+void Frame::setColor(std::pair<int,int> coord, QColor color) {
     PixelMap[coord] = color;
 }
 

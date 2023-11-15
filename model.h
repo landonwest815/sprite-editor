@@ -1,10 +1,3 @@
-#ifndef MODEL_H
-#define MODEL_H
-#include <QColor>
-#include <string>
-#include <vector>
-#include "frame.h"
-
 /**
  * Author(s):     Team Geoff:
  *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
@@ -17,6 +10,14 @@
  * to the topic of a Model class which has been splitted into a header
  * file. It assists in declarations of the Model object, functions, etc.
  */
+
+#ifndef MODEL_H
+#define MODEL_H
+
+#include <QColor>
+#include <string>
+#include <vector>
+#include "frame.h"
 
 /**
  * @brief The Model class represents the core data model of the sprite editor.
