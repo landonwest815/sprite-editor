@@ -81,6 +81,8 @@ public:
     /// \brief getNumberOfFrames gets the size of the frames vector
     /// \return returns the size of the frames vector
     int getNumberOfFrames();
+
+    void clearModel();
 };
 
 #endif // MODEL_H

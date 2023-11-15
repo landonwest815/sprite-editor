@@ -96,3 +96,9 @@ void Model::setAllFrames(std::vector<Frame> newFrames) {
 int Model::getNumberOfFrames(){
     return (int)frames.size();
 }
+
+void Model::clearModel() {
+    frames.clear();
+    currentFrame = nullptr;
+    currentFrameIndex = 0;
+}

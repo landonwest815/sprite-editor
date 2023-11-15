@@ -58,7 +58,6 @@ void MainWindow::askForFrameSize() {
         "    border-left-style: solid;"
         "    border-top-right-radius: 3px;"
         "    border-bottom-right-radius: 3px;"
-        "    color: white;"
         "}"
         "QComboBox::down-arrow {"
         "    image: url(:/icons/dots.png);" // Use a smaller ellipsis icon
@@ -68,6 +67,9 @@ void MainWindow::askForFrameSize() {
         "QComboBox::down-arrow:on { /* when the combo box is open */"
         "    top: 1px;"
         "    left: 1px;"
+        "}"
+        "QComboBox QAbstractItemView {"
+        "    color: white;"  // This sets the color of the text in the dropdown
         "}"
         );
         sizeComboBox->setFixedWidth(150);
@@ -150,6 +152,7 @@ void MainWindow::initializeUI() {
     connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
 
     // Connect the save and load buttons to the required slots
+    connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
     connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
 
@@ -873,8 +876,10 @@ void MainWindow::updateThumbnailsFromModel() {
     ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
 
     // easy trick to adjust all the dark/light mode settings
-    darkOrLightModeClicked();
-    darkOrLightModeClicked();
+    if (model.getNumberOfFrames() > 0) {
+        darkOrLightModeClicked();
+        darkOrLightModeClicked();
+    }
 }
 
 void MainWindow::onColorButtonClicked() {
@@ -923,4 +928,10 @@ void MainWindow::sayObjectName() {
 
 void MainWindow::showError(QString msg) {
     QMessageBox::information(this, "Error", msg);
+}
+
+void MainWindow::newProject() {
+    model.clearModel();
+    updateThumbnailsFromModel();
+    askForFrameSize();
 }

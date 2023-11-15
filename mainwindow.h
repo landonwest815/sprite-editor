@@ -143,6 +143,7 @@ private:
     void mirrorPixel(int pixX, int pixY, QColor selectedColor);
     void showError(QString);
     void updateThumbnailsFromModel();
+    void newProject();
 };
 
 #endif // MAINWINDOW_H
