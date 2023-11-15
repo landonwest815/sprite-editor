@@ -20,6 +20,7 @@
 #include "frame.h"
 
 /**
+ * @class Model
  * @brief The Model class represents the core data model of the sprite editor.
  * It manages information regarding all of the frames as well as the currently selected color,
  * background color, and various properties related to the editing canvas.
