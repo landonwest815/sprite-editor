@@ -13,12 +13,11 @@
  */
 
 Model::Model() :
-    selectedColor(255,255,255),
     frames(),
     currentFrame(nullptr),
     currentFrameIndex(0) { }
 
-QColor Model::getSelectedColor() {
+QColor Model::getSelectedColor() const {
     return selectedColor;
 }
 
@@ -26,7 +25,7 @@ void Model::setSelectedColor(QColor color) {
     selectedColor = color;
 }
 
-QColor Model::getBackgroundColor() {
+QColor Model::getBackgroundColor() const {
     return backgroundColor;
 }
 
@@ -73,11 +72,11 @@ Frame& Model::getCurrentFrame() {
     return *currentFrame;
 }
 
-int Model::getCurrentFrameIndex() {
+int Model::getCurrentFrameIndex() const {
     return currentFrameIndex;
 }
 
-int Model::getFrameSize() {
+int Model::getFrameSize() const {
     return frameSize;
 }
 
@@ -93,7 +92,7 @@ void Model::setAllFrames(std::vector<Frame> newFrames) {
     frames = newFrames;
 }
 
-int Model::getNumberOfFrames(){
+int Model::getNumberOfFrames() const {
     return (int)frames.size();
 }
 

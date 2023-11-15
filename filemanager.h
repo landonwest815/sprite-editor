@@ -7,7 +7,7 @@
  * Assignment:    A8 - Sprite Editor Implementation
  * File Contents:
  * This project helps to demonstrate some C++ conventions in regards
- * to the topic of a FileManager class which has been splitted into a header
+ * to the topic of a FileManager class which has been split into a header
  * file. It assists in declarations of the FileManager object, functions, etc.
  */
 
