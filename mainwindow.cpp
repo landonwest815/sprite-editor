@@ -489,10 +489,9 @@ void MainWindow::showTutorialPopup() {
 void MainWindow::darkOrLightModeClicked() {
     if (darkMode) {
         darkMode = false;
-        ui->darkModeButton->setText("Light Mode");
         this->setStyleSheet("background-color: #fafafa;");
-        QWidget* wigets[22] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
-                               ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
+        QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+                               ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                                ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                                ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
                                ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
@@ -503,8 +502,10 @@ void MainWindow::darkOrLightModeClicked() {
             widget->setStyleSheet("color: black");
         }
 
-        QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
-                               ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+        QWidget* buttons[13] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+                                ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
+                                ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
+                                ui->speechModeButton, ui->largeTextButton};
 
         // sets the style sheet for the darkmode feature
         // first goes over the buttons
@@ -577,22 +578,23 @@ void MainWindow::darkOrLightModeClicked() {
     }
     else {
         darkMode = true;
-        ui->darkModeButton->setText("Dark Mode");
         this->setStyleSheet("background-color: #303030;");
 
-        QWidget* wigets[22] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
-                               ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
-                               ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
-                               ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
-                               ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
-                               ui->titleLabel
-                                };
+        QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+            ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
+            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
+            ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
+            ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
+            ui->titleLabel
+        };
         for (QWidget* widget : wigets) {
             widget->setStyleSheet("color: white");
         }
 
-        QWidget* buttons[7] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
-                              ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation};
+        QWidget* buttons[13] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+                                ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
+                                ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
+                                ui->speechModeButton, ui->largeTextButton};
 
         // sets the style sheet for the darkmode feature
         // first goes over the buttons
@@ -667,17 +669,16 @@ void MainWindow::darkOrLightModeClicked() {
 }
 
 void MainWindow::largeTextClicked(int toggled) {
-    QFont largeFont("Segoe UI", 14);
-    QFont regularFont("Segoe UI", 9);
+    QFont largeFont("Segoe UI", 20);
+    QFont regularFont("Segoe UI", 13);
     QString textOption[2] = {"Large Text", "Regular Text"};
     QFont fontSize[2] = {regularFont, largeFont};
-    QWidget* wigets[17] = {ui->darkModeButton, ui->largeTextButton, ui->speechModeButton,
-                           ui->tutorialButton, ui->loadButton, ui->saveButton, ui->toolsLabel,
+    QWidget* wigets[17] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+                           ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                            ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
                            ui->previewLabel_2, ui->FPSLabel};
     // after putting all widgets into array, loop through and set the text to what has been toggled.
-    ui->largeTextButton->setText(textOption[toggled]);
     for (QWidget* widget : wigets) {
         widget->setFont(fontSize[toggled]);
     }
@@ -733,12 +734,9 @@ void MainWindow::onColorButtonClicked() {
 
 void MainWindow::speechModeClicked(int toggled) {
     if (toggled) {
-        ui->speechModeButton->setText("Speech Off");
         speech = true;
 
-    }
-    if (!toggled) {
-        ui->speechModeButton->setText("Speech On");
+    } else {
         speech = false;
     }
 }

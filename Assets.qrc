@@ -8,5 +8,11 @@
         <file>add.png</file>
         <file>copy.png</file>
         <file>tutorial.png</file>
+        <file>darkmode.png</file>
+        <file>fontsize.png</file>
+        <file>load.png</file>
+        <file>save.png</file>
+        <file>speech.png</file>
+        <file>tutorialicon.png</file>
     </qresource>
 </RCC>
