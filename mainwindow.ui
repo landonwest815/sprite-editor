@@ -118,7 +118,7 @@ QTabWidget::pane { /* The tab widget frame */
 }</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="tabBarAutoHide">
          <bool>false</bool>
@@ -487,7 +487,7 @@ QPushButton:checked {
             <x>0</x>
             <y>0</y>
             <width>961</width>
-            <height>95</height>
+            <height>121</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -2233,7 +2233,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>24</height>
+     <height>37</height>
     </rect>
    </property>
   </widget>
