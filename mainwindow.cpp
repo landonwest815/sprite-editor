@@ -272,8 +272,34 @@ void MainWindow::setRGB() {
 void MainWindow::onToolButtonClicked(int id) {
     if (id == 1) {
         model.setSelectedColor(QColor::fromRgb(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value()));
+        // enable color selection
+        ui->redSpin->setEnabled(true);
+        ui->blueSpin->setEnabled(true);
+        ui->greenSpin->setEnabled(true);
+        ui->redPreset->setEnabled(true);
+        ui->orangePreset->setEnabled(true);
+        ui->yellowPreset->setEnabled(true);
+        ui->greenPreset->setEnabled(true);
+        ui->bluePreset->setEnabled(true);
+        ui->purplePreset->setEnabled(true);
+        ui->blackPreset->setEnabled(true);
+        ui->brownPreset->setEnabled(true);
+        ui->whitePreset->setEnabled(true);
     } else {
         model.setSelectedColor(model.getBackgroundColor()); // erase by drawing with background color
+        // disable color selection
+        ui->redSpin->setEnabled(false);
+        ui->blueSpin->setEnabled(false);
+        ui->greenSpin->setEnabled(false);
+        ui->redPreset->setEnabled(false);
+        ui->orangePreset->setEnabled(false);
+        ui->yellowPreset->setEnabled(false);
+        ui->greenPreset->setEnabled(false);
+        ui->bluePreset->setEnabled(false);
+        ui->purplePreset->setEnabled(false);
+        ui->blackPreset->setEnabled(false);
+        ui->brownPreset->setEnabled(false);
+        ui->whitePreset->setEnabled(false);
     }
 }
 
