@@ -60,7 +60,7 @@ void MainWindow::askForFrameSize() {
         "    border-bottom-right-radius: 3px;"
         "}"
         "QComboBox::down-arrow {"
-        "    image: url(:/icons/dots.png);" // Use a smaller ellipsis icon
+        "    image: url(:/icons/Assets/Assets/dots.png);" // Use a smaller ellipsis icon
         "    width: 10px;" // Set the width as desired
         "    height: 10px;" // Set the height as desired
         "}"

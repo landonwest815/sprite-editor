@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/icons">
+    <qresource prefix="/icons/Assets">
         <file>Assets/add.png</file>
         <file>Assets/copy.png</file>
         <file>Assets/darkmode.png</file>
@@ -14,6 +14,8 @@
         <file>Assets/speech.png</file>
         <file>Assets/tutorial.png</file>
         <file>Assets/tutorialicon.png</file>
-        <file>dots.png</file>
+        <file>Assets/dots.png</file>
+        <file>Assets/new.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
