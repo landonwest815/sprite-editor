@@ -282,7 +282,7 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
 
         // Set the pixel color at the scaled position
         QColor selectedColor = model.getSelectedColor();
-        model.getCurrentFrame().SetColor(std::make_pair(pixmapX, pixmapY), selectedColor);
+        model.getCurrentFrame().setColor(std::make_pair(pixmapX, pixmapY), selectedColor);
 
         mirrorPixel(pixmapX, pixmapY, selectedColor);
 
@@ -294,7 +294,7 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
                 int toolY = pixmapY + dy;
                 // Check bounds again for the tool size
                 if (toolX >= 0 && toolX < image.width() && toolY >= 0 && toolY < image.height()) {
-                    model.getCurrentFrame().SetColor(std::make_pair(toolX, toolY), selectedColor);
+                    model.getCurrentFrame().setColor(std::make_pair(toolX, toolY), selectedColor);
                     mirrorPixel(toolX, toolY, selectedColor);
                 }
             }
@@ -310,7 +310,7 @@ void MainWindow::mirrorPixel(int pixX, int pixY, QColor selectedColor) {
     if (ui->mirrorTool->isChecked()) {
         int mirrorX = 0;
         mirrorX = (image.width() - 1) - pixX;
-        model.getCurrentFrame().SetColor(std::make_pair(mirrorX, pixY), selectedColor);
+        model.getCurrentFrame().setColor(std::make_pair(mirrorX, pixY), selectedColor);
     }
 }
 

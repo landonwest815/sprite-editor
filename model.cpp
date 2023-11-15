@@ -40,7 +40,7 @@ void Model::addNewFrame() {
     // Fill the new frame with the background color
     for (int x = 0; x < frameSize; ++x) {
         for (int y = 0; y < frameSize; ++y) {
-            newFrame.SetColor(std::make_pair(x, y), backgroundColor);
+            newFrame.setColor(std::make_pair(x, y), backgroundColor);
         }
     }
 
