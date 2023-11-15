@@ -110,9 +110,9 @@ private:
     void largeTextClicked(int);
     /// \brief speechModeClicked Enambls speech mode or disabls it
     void speechModeClicked(int);
-    /// \brief saveFile Saves the file to a .spp file and allows you to choose location of save
+    /// \brief saveFile Saves the file to a .ssp file and allows you to choose location of save
     void saveFile();
-    /// \brief loadFile Loads a .spp file into the current project
+    /// \brief loadFile Loads a .ssp file into the current project
     void loadFile();
     /// \brief sayObjectName When speech assistant activated, assistant says the objects name
     void sayObjectName();
