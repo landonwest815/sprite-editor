@@ -1,5 +1,4 @@
 #include "model.h"
-#include "Tool.h"
 
 /**
  * Author(s):     Team Geoff:
@@ -14,7 +13,6 @@
  */
 
 Model::Model() :
-    toolBar(),
     selectedColor(255,255,255),
     frames(),
     currentFrame(nullptr),
@@ -22,10 +20,6 @@ Model::Model() :
 {
     //Temporarily hard-coded the size to be 16
     frameSize = 16;
-
-    toolBar.push_back(*new Tool("draw",false));
-    toolBar.push_back(*new Tool("erase",false));
-    toolBar.push_back(*new Tool("mirror",true));
 }
 
 QColor Model::getSelectedColor() {
@@ -42,10 +36,6 @@ QColor Model::getBackgroundColor() {
 
 void Model::setBackgroundColor(QColor color) {
     backgroundColor = color;
-}
-
-std::vector<Tool> Model::getTools() {
-    return toolBar;
 }
 
 void Model::addNewFrame() {

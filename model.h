@@ -3,7 +3,6 @@
 #include <QColor>
 #include <string>
 #include <vector>
-#include "Tool.h"
 #include "frame.h"
 
 /**
@@ -21,7 +20,6 @@
 
 class Model {
 private:
-    std::vector<Tool> toolBar;
     QColor selectedColor;
     std::vector<Frame> frames;
     Frame* currentFrame;
@@ -32,14 +30,6 @@ private:
 public:
     ///@brief Blank constructor for the Model class. Sets the selected tool to the brush and selected color to black.
     Model();
-
-    ///@brief getter for all of the tools
-    ///@return - Dynamic list (vector) of all of the tools
-    std::vector<Tool> getTools();
-
-    /// @brief getSelectedTool
-    /// @return returns the tool the user wants to use
-    Tool getSelectedTool();
 
     ///@brief setter for the currently selected color
     ///@param color - color to be selected
