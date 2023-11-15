@@ -635,22 +635,22 @@ void MainWindow::darkOrLightModeClicked() {
     if (darkMode) {
         darkMode = false;
         this->setStyleSheet("background-color: #fafafa;");
-        QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+        QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                                ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                                ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                                ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
                                ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
-                               ui->titleLabel
+                               ui->titleLabel, ui->newLabl
                                };
 
         for (QWidget* widget : wigets) {
             widget->setStyleSheet("color: black");
         }
 
-        QWidget* buttons[13] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+        QWidget* buttons[14] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                                 ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
                                 ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
-                                ui->speechModeButton, ui->largeTextButton};
+                                ui->speechModeButton, ui->largeTextButton, ui->newButton};
 
         // sets the style sheet for the darkmode feature
         // first goes over the buttons
@@ -725,21 +725,21 @@ void MainWindow::darkOrLightModeClicked() {
         darkMode = true;
         this->setStyleSheet("background-color: #303030;");
 
-        QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+        QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
             ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
             ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
             ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
             ui->blueSpin, ui->mirrorLabel, ui->previewLabel_2, ui->FPSLabel, ui->toolSizeSpin,
-            ui->titleLabel
+            ui->titleLabel, ui->newLabl
         };
         for (QWidget* widget : wigets) {
             widget->setStyleSheet("color: white");
         }
 
-        QWidget* buttons[13] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+        QWidget* buttons[14] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                                 ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
                                 ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
-                                ui->speechModeButton, ui->largeTextButton};
+                                ui->speechModeButton, ui->largeTextButton, ui->newButton};
 
         // sets the style sheet for the darkmode feature
         // first goes over the buttons
@@ -934,4 +934,6 @@ void MainWindow::newProject() {
     model.clearModel();
     updateThumbnailsFromModel();
     askForFrameSize();
+    darkOrLightModeClicked();
+    darkOrLightModeClicked();
 }
