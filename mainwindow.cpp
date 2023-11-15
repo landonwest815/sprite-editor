@@ -58,6 +58,16 @@ void MainWindow::askForFrameSize() {
         "    border-left-style: solid;"
         "    border-top-right-radius: 3px;"
         "    border-bottom-right-radius: 3px;"
+        "    color: white;"
+        "}"
+        "QComboBox::down-arrow {"
+        "    image: url(:/icons/dots.png);" // Use a smaller ellipsis icon
+        "    width: 10px;" // Set the width as desired
+        "    height: 10px;" // Set the height as desired
+        "}"
+        "QComboBox::down-arrow:on { /* when the combo box is open */"
+        "    top: 1px;"
+        "    left: 1px;"
         "}"
         );
         sizeComboBox->setFixedWidth(150);

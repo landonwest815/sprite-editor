@@ -14,5 +14,6 @@
         <file>Assets/speech.png</file>
         <file>Assets/tutorial.png</file>
         <file>Assets/tutorialicon.png</file>
+        <file>dots.png</file>
     </qresource>
 </RCC>
