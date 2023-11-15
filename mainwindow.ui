@@ -1007,7 +1007,7 @@ QPushButton:checked {
      </spacer>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
       <property name="spacing">
        <number>6</number>
       </property>
@@ -2539,6 +2539,19 @@ QPushButton:pressed {
         </item>
        </layout>
       </item>
+      <item>
+       <spacer name="horizontalSpacer_13">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
     <item>
@@ -2565,7 +2578,7 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>1000</width>
-     <height>37</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
