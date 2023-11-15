@@ -11,6 +11,7 @@
 
 class FileManager : public QObject
 {
+    Q_OBJECT
 private:
     QJsonObject writeJson;
     Model model;
@@ -21,6 +22,8 @@ public:
 public slots:
     void exportJson(std::vector<Frame>, QString);
     std::vector<Frame> importJson(QString);
+signals:
+    void errorMessage(QString);
 };
 
 #endif // FILEMANAGER_H

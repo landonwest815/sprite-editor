@@ -36,8 +36,7 @@ void FileManager::exportJson(std::vector<Frame> frames, QString docName) {
     QFile exportFile(docName);
     if (!exportFile.open(QIODevice::WriteOnly))
     {
-        std::cout << "File failed to save" << std::endl;
-        //emit errorMessage("File failed to save");
+        emit errorMessage("File failed to save");
         return;
     }
     QJsonDocument document(writeJson);
@@ -48,8 +47,7 @@ std::vector<Frame> FileManager::importJson(QString docName) {
     try {
         QFile importFile(docName);
         if (!importFile.open(QIODevice::ReadOnly)) {
-            std::cout << "File failed to load" << std::endl;
-            //emit errorMessage("File failed to load");
+            emit errorMessage("File failed to load");
         }
         QByteArray dataArray = importFile.readAll();
         QJsonObject dataObject = QJsonDocument::fromJson(dataArray).object();
@@ -80,7 +78,6 @@ std::vector<Frame> FileManager::importJson(QString docName) {
         return frames;
     }
     catch (...) {
-        std::cout << "File failed to load" << std::endl;
-        //emit errorMessage("File failed to load");
+        emit errorMessage("File failed to load");
     }
 }
