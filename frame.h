@@ -1,9 +1,3 @@
-#ifndef FRAME_H
-#define FRAME_H
-#include <QMap>
-#include <QColor>
-#include <utility>
-
 /**
  * Author(s):     Team Geoff:
  *                Ryan Nguyen (Taizuki), John Nguyen (johnguyn),
@@ -17,44 +11,53 @@
  * file. It assists in declarations of the Frame object, functions, etc.
  */
 
-class Frame
-{
+#ifndef FRAME_H
+#define FRAME_H
+
+#include <QMap>
+#include <QColor>
+#include <utility>
+
+/**
+ * @brief The Frame class represents a frame in the sprite editor.
+ * It stores information about the colored pixels, size, and background color of the frame.
+ */
+class Frame {
 private:
-    ///@brief Dictionary of all of the colored pixels in the Frame object
-    QMap<std::pair<int,int>, QColor> PixelMap;
-    ///@brief The size of the frame
+    /// @brief Dictionary of all colored pixels in the Frame object.
+    QMap<std::pair<int, int>, QColor> PixelMap;
+
+    /// @brief The size of the frame.
     int size;
-    /// \brief backgroundColor - color of the background
+
+    /// @brief The background color of the frame.
     QColor backgroundColor;
 
 public:
-    ///@brief Default constructor for the frame, in which the size can be set
+    /// @brief Constructor for the Frame class.
+    /// @param size The size of the frame.
+    /// @param backgroundColor The background color of the frame.
     Frame(int size, QColor backgroundColor);
 
-    ///@brief Returns the pixel map
-    ///@return - The current pixel map
-    QMap<std::pair<int,int>, QColor> getPixelMap() const;
+    /// @brief Getter for the pixel map of the frame.
+    /// @return The current pixel map.
+    QMap<std::pair<int, int>, QColor> getPixelMap() const;
 
-    ///@brief Set a new pixel map for the frame
-    ///@param - The new pixel map to set
-    void setPixelMap(QMap<std::pair<int,int>, QColor>);
+    /// @brief Setter for the pixel map of the frame.
+    /// @param pixelMap The new pixel map to set.
+    void setPixelMap(QMap<std::pair<int, int>, QColor> pixelMap);
 
-    ///@brief Getter for frame size
-    ///@return - The size of the frame
+    /// @brief Getter for the size of the frame.
+    /// @return The size of the frame.
     int getSize() const;
 
-    ///@brief Set the particular color of a pixel on the pixel map
-    void SetColor(std::pair<int,int> coord, QColor color);
+    /// @brief Set the color of a specific pixel on the pixel map.
+    /// @param coord The coordinates of the pixel.
+    /// @param color The color to set for the pixel.
+    void setColor(std::pair<int, int> coord, QColor color);
 
-//    ///@brief Clear the particular color of a pixel on the pixel map
-//    void SetTransparent(std::pair<int,int> coord);
-
-//    ///@brief Clear the entire canvas
-//    void ClearCanvas();
-
-    /// \brief toggleBackgroundColor - changes the background color when different modes selected
-    /// (like Dark mode or Light mode)
-    /// \param newColor - The color that will be set onto the background of the frame
+    /// @brief Toggle the background color of the frame.
+    /// @param newColor The color to set as the new background color.
     void toggleBackgroundColor(QColor newColor);
 };
 

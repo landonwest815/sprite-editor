@@ -12,15 +12,13 @@
  */
 
 FrameLabel::FrameLabel(int frameIndex, QWidget *parent) :
-    QLabel(parent), m_frameIndex(frameIndex) {
-    // Your constructor's code (if any)
-}
+    QLabel(parent), m_frameIndex(frameIndex) {}
 
 void FrameLabel::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         emit clicked(m_frameIndex);
     }
-    // Make sure to call the base class implementation unless you want to prevent default behavior
+    // Calls base class implementation
     QLabel::mousePressEvent(event);
 }
 
