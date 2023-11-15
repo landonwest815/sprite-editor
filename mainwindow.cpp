@@ -737,6 +737,10 @@ void MainWindow::updateThumbnailsFromModel() {
     }
 
     ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
+
+    // easy trick to adjust all the dark/light mode settings
+    darkOrLightModeClicked();
+    darkOrLightModeClicked();
 }
 
 void MainWindow::onColorButtonClicked() {
