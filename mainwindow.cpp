@@ -773,6 +773,7 @@ void MainWindow::loadFile() {
         if (fileInfo.suffix().toLower() == "ssp") {
             std::vector<Frame> newFrames = file->importJson(filePath);
             model.setAllFrames(newFrames);
+            model.setFrameSize(newFrames.at(0).getSize());
             updateThumbnailsFromModel();
         } else {
             QMessageBox::information(this, "Load File Failed", "Selected file is not a .ssp file. Please choose a valid .ssp file.");

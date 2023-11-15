@@ -16,11 +16,7 @@ Model::Model() :
     selectedColor(255,255,255),
     frames(),
     currentFrame(nullptr),
-    currentFrameIndex(0)
-{
-    //Temporarily hard-coded the size to be 16
-    frameSize = 16;
-}
+    currentFrameIndex(0) { }
 
 QColor Model::getSelectedColor() {
     return selectedColor;
