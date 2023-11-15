@@ -53,11 +53,11 @@ public:
 
     /// @brief Getter for the currrently selected color
     /// @return The currently selected color
-    QColor getSelectedColor();
+    QColor getSelectedColor() const;
 
     /// @brief Getter for the current background color
     /// @return Currently selected color for the background
-    QColor getBackgroundColor();
+    QColor getBackgroundColor() const;
 
     /// @brief setter for the background colors
     void setBackgroundColor(QColor color);
@@ -78,11 +78,11 @@ public:
 
     /// @brief getter for the index of the current frame
     /// @return int index of frame
-    int getCurrentFrameIndex();
+    int getCurrentFrameIndex() const;
 
     /// @brief Getter for size of the frames in the vector
     /// @return The frame size
-    int getFrameSize();
+    int getFrameSize() const;
 
     /// @brief Setter for size of the frames in the vector
     /// @param The new frame size
@@ -102,7 +102,7 @@ public:
 
     /// @brief GetNumberOfFrames gets the size of the frames vector
     /// @return Returns the size of the frames vector
-    int getNumberOfFrames();
+    int getNumberOfFrames() const;
 
     /// @brief Clears everything from model
     void clearModel();

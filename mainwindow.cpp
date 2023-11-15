@@ -16,7 +16,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-    image(16, 16, QImage::Format_RGB32), model(), frameCounter(0), FPS(1000), animatingPreview(false), darkMode(false), speech(false) {
+        model(), frameCounter(0), animatingPreview(false), darkMode(false), speech(false) {
     ui->setupUi(this);
     file = new FileManager();
     initializeUI();
@@ -28,18 +28,23 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::askForFrameSize() {
+    // setup window
     frameSizeDialog = new QDialog(this);
     int width = 400;
-    frameSizeDialog->setFixedSize(width, 300);
+    int height = 300;
+    frameSizeDialog->setFixedSize(width, height);
 
+    // title
     QLabel *titleLabel = new QLabel("Select Canvas Size:", frameSizeDialog);
     titleLabel->setFixedWidth(width);
     titleLabel->setFixedHeight(150);
     titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 18pt; font-weight: bold; font-style: italic;");
     titleLabel->setAlignment(Qt::AlignCenter);
 
+    // size selections
     sizeComboBox = new QComboBox(frameSizeDialog);
     sizeComboBox->addItems({"4x4", "8x8", "16x16", "32x32", "64x64"});
+    sizeComboBox->setFixedWidth(150);
     sizeComboBox->setStyleSheet(
         "QComboBox {"
         "    background-color: rgb(86, 86, 86);"
@@ -60,21 +65,20 @@ void MainWindow::askForFrameSize() {
         "    border-bottom-right-radius: 3px;"
         "}"
         "QComboBox::down-arrow {"
-        "    image: url(:/icons/Assets/Assets/dots.png);" // Use a smaller ellipsis icon
-        "    width: 10px;" // Set the width as desired
-        "    height: 10px;" // Set the height as desired
+        "    image: url(:/icons/Assets/Assets/dots.png);"
+        "    width: 10px;"
+        "    height: 10px;"
         "}"
         "QComboBox::down-arrow:on { /* when the combo box is open */"
         "    top: 1px;"
         "    left: 1px;"
         "}"
         "QComboBox QAbstractItemView {"
-        "    color: white;"  // This sets the color of the text in the dropdown
+        "    color: white;"
         "}"
         );
-        sizeComboBox->setFixedWidth(150);
 
-
+    // confirmation button
     QPushButton *okButton = new QPushButton("OK", frameSizeDialog);
     connect(okButton, &QPushButton::clicked, frameSizeDialog, &QDialog::accept);
     okButton->setStyleSheet(
@@ -88,23 +92,24 @@ void MainWindow::askForFrameSize() {
         "    text-align: center;"
         "}"
         "QPushButton:hover {"
-        "    background-color: rgb(96, 96, 96);" // Slightly lighter than the normal state
+        "    background-color: rgb(96, 96, 96);"
         "}"
         "QPushButton:pressed {"
-        "    background-color: rgb(76, 76, 76);" // Slightly darker than the normal state
+        "    background-color: rgb(76, 76, 76);"
         "}"
         );
+
+    // put elements in a vertical layout
     QVBoxLayout *layout = new QVBoxLayout(frameSizeDialog);
     layout->addWidget(sizeComboBox);
     layout->addWidget(okButton);
     layout->setAlignment(Qt::AlignCenter);
-
     frameSizeDialog->setLayout(layout);
 
+    // check for user selection
     if (frameSizeDialog->exec() == QDialog::Accepted) {
         int size = sizeComboBox->currentText().split("x").first().toInt();
         model.setFrameSize(size);
-        qDebug() << "Frame size set to:" << size;
     } else {
         // Handle the case when the user cancels the input
         QMessageBox msgBox(this);
@@ -115,11 +120,11 @@ void MainWindow::askForFrameSize() {
         msgBox.setStyleSheet("QLabel { color: white; }");
         msgBox.exec();
 
-        model.setFrameSize(16);
+        model.setFrameSize(16); //default to 16x16
     }
 
     // Update the UI with the initial frame
-    model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
+    model.setBackgroundColor(model.getBackgroundColor());
     model.addNewFrame();
 
     // Set the current frame
@@ -133,8 +138,10 @@ void MainWindow::askForFrameSize() {
 }
 
 void MainWindow::initializeUI() {
-    // Create an initial frame and display it
+    //default to dark mode
     model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
+
+    // setup the frame size
     askForFrameSize();
 
     // Configure the tools
@@ -151,7 +158,7 @@ void MainWindow::initializeUI() {
     connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
     connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
 
-    // Connect the save and load buttons to the required slots
+    // Connect the new, save, and load buttons to the required slots
     connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
     connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
     connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
@@ -165,17 +172,21 @@ void MainWindow::initializeUI() {
         connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
     }
 
+    // Setup the animation control
     auto animationButtonGroup = new QButtonGroup(this);
     animationButtonGroup->addButton(ui->startAnimation, 1);
     animationButtonGroup->addButton(ui->stopAnimation, 2);
     animationButtonGroup->setExclusive(true);
     ui->startAnimation->setChecked(true);
+
+    // Start the animator
     onSelectFPS(ui->fpsSlider->value());
     onAnimateButtonClicked();
 
     // Disable vertical scroll bar for a nicer visual
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
 
+    // Default to dark mode
     darkOrLightModeClicked();
 }
 

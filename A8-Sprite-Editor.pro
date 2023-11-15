@@ -11,14 +11,12 @@ CONFIG += c++17
 SOURCES += \
     filemanager.cpp \
     frame.cpp \
-    framelabel.cpp \
     main.cpp \
     mainwindow.cpp \
     model.cpp
 
 HEADERS += \
     filemanager.h \
-    framelabel.h \
     mainwindow.h \
     model.h \
     frame.h \
