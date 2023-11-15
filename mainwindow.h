@@ -138,6 +138,7 @@ private:
     /// \param selectedColor The selected Color that the user has active
     void mirrorPixel(int pixX, int pixY, QColor selectedColor);
     void showError(QString);
+    void updateThumbnailsFromModel();
 };
 
 #endif // MAINWINDOW_H

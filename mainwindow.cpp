@@ -330,6 +330,8 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     // Retrieve the new frame from the model
     Frame newFrame = model.getAllFrames().at(frameIndex);
 
+    model.setCurrentFrame(frameIndex);
+
     QWidget *frameContainer = new QWidget;
     QGridLayout *layout = new QGridLayout(frameContainer);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -711,12 +713,30 @@ void MainWindow::loadFile() {
         if (fileInfo.suffix().toLower() == "ssp") {
             std::vector<Frame> newFrames = file->importJson(filePath);
             model.setAllFrames(newFrames);
+            updateThumbnailsFromModel();
         } else {
             QMessageBox::information(this, "Load File Failed", "Selected file is not a .ssp file. Please choose a valid .ssp file.");
         }
     } else {
         QMessageBox::information(this, "Load File Failed", "No file selected. Please choose a .ssp file.");
     }
+}
+
+void MainWindow::updateThumbnailsFromModel() {
+    // First, clear existing thumbnails
+    for (QPushButton* button : std::as_const(frameThumbnails)) {
+        ui->scrollArea->widget()->layout()->removeWidget(button->parentWidget());
+        delete button->parentWidget();
+    }
+    frameThumbnails.clear();
+    frameCounter = 0;
+
+    // Then, create new thumbnails for all frames in the updated model
+    for (int i = 0; i < model.getNumberOfFrames(); i++) {
+        updateUIForNewFrame(i);
+    }
+
+    ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
 }
 
 void MainWindow::onColorButtonClicked() {
