@@ -29,26 +29,63 @@ MainWindow::~MainWindow() {
 
 void MainWindow::askForFrameSize() {
     frameSizeDialog = new QDialog(this);
-    int width = 800;
-    frameSizeDialog->setFixedSize(width, 600);
+    int width = 400;
+    frameSizeDialog->setFixedSize(width, 300);
 
     QLabel *titleLabel = new QLabel("Select Canvas Size:", frameSizeDialog);
     titleLabel->setFixedWidth(width);
     titleLabel->setFixedHeight(150);
-    titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 42pt; font-weight: bold; font-style: italic;");
+    titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 18pt; font-weight: bold; font-style: italic;");
     titleLabel->setAlignment(Qt::AlignCenter);
 
     sizeComboBox = new QComboBox(frameSizeDialog);
     sizeComboBox->addItems({"4x4", "8x8", "16x16", "32x32", "64x64"});
-    sizeComboBox->setStyleSheet("background-color: white;");
+    sizeComboBox->setStyleSheet(
+        "QComboBox {"
+        "    background-color: rgb(86, 86, 86);"
+        "    color: white;"
+        "    border: 1px solid gray;"
+        "    border-radius: 3px;"
+        "    padding: 1px 18px 1px 3px;"
+        "    min-width: 6em;"
+        "}"
+        "QComboBox::drop-down {"
+        "    subcontrol-origin: padding;"
+        "    subcontrol-position: top right;"
+        "    width: 15px;"
+        "    border-left-width: 1px;"
+        "    border-left-color: darkgray;"
+        "    border-left-style: solid;"
+        "    border-top-right-radius: 3px;"
+        "    border-bottom-right-radius: 3px;"
+        "}"
+        );
+        sizeComboBox->setFixedWidth(150);
+
 
     QPushButton *okButton = new QPushButton("OK", frameSizeDialog);
     connect(okButton, &QPushButton::clicked, frameSizeDialog, &QDialog::accept);
-    okButton->setStyleSheet("background-color: white;");
-
+    okButton->setStyleSheet(
+        "QPushButton {"
+        "    background-color: rgb(86, 86, 86);"
+        "    color: white;"
+        "    border: 1px solid gray;"
+        "    border-radius: 3px;"
+        "    padding: 5px;"
+        "    min-width: 6em;"
+        "    text-align: center;"
+        "}"
+        "QPushButton:hover {"
+        "    background-color: rgb(96, 96, 96);" // Slightly lighter than the normal state
+        "}"
+        "QPushButton:pressed {"
+        "    background-color: rgb(76, 76, 76);" // Slightly darker than the normal state
+        "}"
+        );
     QVBoxLayout *layout = new QVBoxLayout(frameSizeDialog);
     layout->addWidget(sizeComboBox);
     layout->addWidget(okButton);
+    layout->setAlignment(Qt::AlignCenter);
 
     frameSizeDialog->setLayout(layout);
 
