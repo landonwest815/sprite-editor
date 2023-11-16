@@ -416,13 +416,48 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
 
     // Set closeButton data
-    QPushButton *closeButton = new QPushButton("X");
+    QPushButton *closeButton = new QPushButton("x");
     closeButton->setProperty("frameIndex", frameIndex);
     closeButton->setFixedSize(15, 15); // Adjust size as needed
     closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     closeButton->setObjectName("closeButton");
-    if (darkMode) closeButton->setStyleSheet("color: white;");
-    else          closeButton->setStyleSheet("color: black;");
+    if (!darkMode) {
+        closeButton->setStyleSheet(R"(
+                                    QPushButton {
+                                      background-color: #e6e6e6;
+                                      color: black;
+                                      border-radius: 7px;
+                                      text-align: center;
+                                      padding: 1px, 3px;
+                                    }
+
+                                    QPushButton:hover {
+                                      background-color: #cccccc;
+                                    }
+
+                                    QPushButton:pressed {
+                                      background-color: #b3b3b3;
+                                    }
+                                    )");
+    } else {
+        closeButton->setStyleSheet(R"(
+                                    QPushButton {
+                                      background-color: #646464;
+                                      color: black;
+                                      border-radius: 7px;
+                                      text-align: center;
+                                      padding: 1px, 3px;
+                                    }
+
+                                    QPushButton:hover {
+                                      background-color: #505050;
+                                    }
+
+                                    QPushButton:pressed {
+                                      background-color: #303030;
+                                    }
+                                    )");
+    }
 
     // Connect it to the handler
     connect(closeButton, &QPushButton::clicked, this, [this]() {
@@ -703,7 +738,7 @@ void MainWindow::darkOrLightModeClicked() {
         darkMode = false;
 
         // set background to pre-determined color
-        this->setStyleSheet("background-color: #f0f0f0;");
+        this->setStyleSheet("background-color: #f2f2f2;");
 
         // update all TEXT
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
@@ -803,7 +838,23 @@ void MainWindow::darkOrLightModeClicked() {
             it.value()->setStyleSheet("QPushButton { color: black; }");
             QPushButton* closeButton = it.value()->parentWidget()->findChild<QPushButton*>("closeButton");
             if (closeButton) {
-                closeButton->setStyleSheet("QPushButton { color: black; }");
+                closeButton->setStyleSheet(R"(
+                                            QPushButton {
+                                              background-color: #e6e6e6;
+                                              color: black;
+                                              border-radius: 7px;
+                                              text-align: center;
+                                              padding: 1px, 3px;
+                                            }
+
+                                            QPushButton:hover {
+                                              background-color: #cccccc;
+                                            }
+
+                                            QPushButton:pressed {
+                                              background-color: #b3b3b3;
+                                            }
+                                            )");
             }
         }
     }
@@ -914,7 +965,23 @@ void MainWindow::darkOrLightModeClicked() {
             it.value()->setStyleSheet("QPushButton { color: white; }");
             QPushButton* closeButton = it.value()->parentWidget()->findChild<QPushButton*>("closeButton");
             if (closeButton) {
-                closeButton->setStyleSheet("QPushButton { color: white; }");
+                closeButton->setStyleSheet(R"(
+                                            QPushButton {
+                                              background-color: #646464;
+                                              color: black;
+                                              border-radius: 7px;
+                                              text-align: center;
+                                              padding: 1px, 3px;
+                                            }
+
+                                            QPushButton:hover {
+                                              background-color: #505050;
+                                            }
+
+                                            QPushButton:pressed {
+                                              background-color: #303030;
+                                            }
+                                            )");
             }
         }
 
