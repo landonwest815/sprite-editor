@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     file(new FileManager()),
     frameCounter(0),
     animatingPreview(false),
-    darkMode(false),
+    darkMode(true),
     speech(false) {
     ui->setupUi(this);
     initializeUI();
@@ -62,7 +62,8 @@ void MainWindow::initializeUI() {
     // Disable vertical scroll bar for a nicer visual
     ui->scrollArea->verticalScrollBar()->setEnabled(false);
 
-    // Default to dark mode
+    // Trick to default to dark mode
+    darkOrLightModeClicked();
     darkOrLightModeClicked();
 }
 
@@ -129,66 +130,126 @@ void MainWindow::askForFrameSize() {
     QLabel *titleLabel = new QLabel("Select Canvas Size:", frameSizeDialog);
     titleLabel->setFixedWidth(width);
     titleLabel->setFixedHeight(150);
-    titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 18pt; font-weight: bold; font-style: italic;");
     titleLabel->setAlignment(Qt::AlignCenter);
+
+    if (darkMode) titleLabel->setStyleSheet("color: white; font-family: 'Segoe UI'; font-size: 18pt; font-weight: bold; font-style: italic;");
+    else           titleLabel->setStyleSheet("color: black; font-family: 'Segoe UI'; font-size: 18pt; font-weight: bold; font-style: italic;");
 
     // size selections
     sizeComboBox = new QComboBox(frameSizeDialog);
     sizeComboBox->addItems({"4x4", "8x8", "16x16", "32x32", "64x64"});
     sizeComboBox->setFixedWidth(150);
-    sizeComboBox->setStyleSheet(
-        "QComboBox {"
-        "    background-color: rgb(86, 86, 86);"
-        "    color: white;"
-        "    border: 1px solid gray;"
-        "    border-radius: 3px;"
-        "    padding: 1px 18px 1px 3px;"
-        "    min-width: 6em;"
-        "}"
-        "QComboBox::drop-down {"
-        "    subcontrol-origin: padding;"
-        "    subcontrol-position: top right;"
-        "    width: 15px;"
-        "    border-left-width: 1px;"
-        "    border-left-color: darkgray;"
-        "    border-left-style: solid;"
-        "    border-top-right-radius: 3px;"
-        "    border-bottom-right-radius: 3px;"
-        "}"
-        "QComboBox::down-arrow {"
-        "    image: url(:/icons/Assets/Assets/dots.png);"
-        "    width: 10px;"
-        "    height: 10px;"
-        "}"
-        "QComboBox::down-arrow:on { /* when the combo box is open */"
-        "    top: 1px;"
-        "    left: 1px;"
-        "}"
-        "QComboBox QAbstractItemView {"
-        "    color: white;"
-        "}"
-        );
+    if (darkMode) {
+        sizeComboBox->setStyleSheet(
+            "QComboBox {"
+            "    background-color: rgb(86, 86, 86);"
+            "    color: white;"
+            "    border: 1px solid gray;"
+            "    border-radius: 3px;"
+            "    padding: 1px 18px 1px 3px;"
+            "    min-width: 6em;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 15px;"
+            "    border-left-width: 1px;"
+            "    border-left-color: darkgray;"
+            "    border-left-style: solid;"
+            "    border-top-right-radius: 3px;"
+            "    border-bottom-right-radius: 3px;"
+            "}"
+            "QComboBox::down-arrow {"
+            "    image: url(:/icons/Assets/Assets/dots.png);"
+            "    width: 10px;"
+            "    height: 10px;"
+            "}"
+            "QComboBox::down-arrow:on { /* when the combo box is open */"
+            "    top: 1px;"
+            "    left: 1px;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    color: white;"
+            "}"
+            );
+    }
+    else {
+        sizeComboBox->setStyleSheet(
+            "QComboBox {"
+            "    background-color: rgb(230, 230, 230);"
+            "    color: black;"
+            "    border: 1px solid lightgray;"
+            "    border-radius: 3px;"
+            "    padding: 1px 18px 1px 3px;"
+            "    min-width: 6em;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 15px;"
+            "    border-left-width: 1px;"
+            "    border-left-color: gray;"
+            "    border-left-style: solid;"
+            "    border-top-right-radius: 3px;"
+            "    border-bottom-right-radius: 3px;"
+            "}"
+            "QComboBox::down-arrow {"
+            "    image: url(:/icons/Assets/Assets/dots.png);"
+            "    width: 10px;"
+            "    height: 10px;"
+            "}"
+            "QComboBox::down-arrow:on { /* when the combo box is open */"
+            "    top: 1px;"
+            "    left: 1px;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    background-color: white;"
+            "    color: black;"
+            "}"
+            );
+    }
 
     // confirmation button
     QPushButton *okButton = new QPushButton("OK", frameSizeDialog);
     connect(okButton, &QPushButton::clicked, frameSizeDialog, &QDialog::accept);
-    okButton->setStyleSheet(
-        "QPushButton {"
-        "    background-color: rgb(86, 86, 86);"
-        "    color: white;"
-        "    border: 1px solid gray;"
-        "    border-radius: 3px;"
-        "    padding: 5px;"
-        "    min-width: 6em;"
-        "    text-align: center;"
-        "}"
-        "QPushButton:hover {"
-        "    background-color: rgb(96, 96, 96);"
-        "}"
-        "QPushButton:pressed {"
-        "    background-color: rgb(76, 76, 76);"
-        "}"
+    if(darkMode) {
+        okButton->setStyleSheet(
+            "QPushButton {"
+            "    background-color: rgb(86, 86, 86);"
+            "    color: white;"
+            "    border: 1px solid gray;"
+            "    border-radius: 3px;"
+            "    padding: 5px;"
+            "    min-width: 6em;"
+            "    text-align: center;"
+            "}"
+            "QPushButton:hover {"
+            "    background-color: rgb(96, 96, 96);"
+            "}"
+            "QPushButton:pressed {"
+            "    background-color: rgb(76, 76, 76);"
+            "}"
+            );
+    }
+    else {
+        okButton->setStyleSheet(
+            "QPushButton {"
+            "    background-color: rgb(230, 230, 230);"  // light background for the button
+            "    color: black;"  // dark text color for readability
+            "    border: 1px solid lightgray;"  // lighter border
+            "    border-radius: 3px;"
+            "    padding: 5px;"
+            "    min-width: 6em;"
+            "    text-align: center;"
+            "}"
+            "QPushButton:hover {"
+            "    background-color: rgb(210, 210, 210);"  // slightly darker on hover for light mode
+            "}"
+            "QPushButton:pressed {"
+            "    background-color: rgb(190, 190, 190);"  // even darker when pressed, for light mode
+            "}"
         );
+    }
 
     // put elements in a vertical layout
     QVBoxLayout *layout = new QVBoxLayout(frameSizeDialog);
@@ -642,7 +703,7 @@ void MainWindow::darkOrLightModeClicked() {
         darkMode = false;
 
         // set background to pre-determined color
-        this->setStyleSheet("background-color: #fafafa;");
+        this->setStyleSheet("background-color: #f0f0f0;");
 
         // update all TEXT
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
@@ -711,7 +772,7 @@ void MainWindow::darkOrLightModeClicked() {
                                         )");
 
         // Update the canvas background
-        model.setBackgroundColor(QColor::fromRgb(230, 230, 230));
+        model.setBackgroundColor(QColor::fromRgb(210, 210, 210));
         for (Frame& frame : model.getAllFrames()) {
             frame.toggleBackgroundColor(model.getBackgroundColor());
         }
@@ -721,7 +782,7 @@ void MainWindow::darkOrLightModeClicked() {
 
         for (QWidget* header : sectionHeaders) {
             header->setStyleSheet("QLabel {"
-                                  "    background-color: rgb(230, 230, 230);"
+                                  "    background-color: rgb(210, 210, 210);"
                                   "    color: black;"
                                   "    padding: 5px;"
                                   "    border-radius: 4px;"
@@ -730,7 +791,7 @@ void MainWindow::darkOrLightModeClicked() {
                                   "    qproperty-alignment: 'AlignCenter';"
                                   "    margin-top: 2px;"
                                   "    margin-bottom: 2px;"
-                                  "    border: 1px solid rgb(200, 200, 200);"
+                                  "    border: 1px solid rgb(180, 180, 180);"
                                   "}");
         }
 
