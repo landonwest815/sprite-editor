@@ -209,6 +209,79 @@ void MainWindow::askForFrameSize() {
             );
     }
 
+    modeComboBox = new QComboBox(frameSizeDialog);
+    modeComboBox->addItems({"Dark Mode", "Light Mode"});
+    modeComboBox->setFixedWidth(150);
+    if (darkMode) {
+        modeComboBox->setStyleSheet(
+            "QComboBox {"
+            "    background-color: rgb(86, 86, 86);"
+            "    color: white;"
+            "    border: 1px solid gray;"
+            "    border-radius: 3px;"
+            "    padding: 1px 18px 1px 3px;"
+            "    min-width: 6em;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 15px;"
+            "    border-left-width: 1px;"
+            "    border-left-color: darkgray;"
+            "    border-left-style: solid;"
+            "    border-top-right-radius: 3px;"
+            "    border-bottom-right-radius: 3px;"
+            "}"
+            "QComboBox::down-arrow {"
+            "    image: url(:/icons/Assets/Assets/dots.png);"
+            "    width: 10px;"
+            "    height: 10px;"
+            "}"
+            "QComboBox::down-arrow:on { /* when the combo box is open */"
+            "    top: 1px;"
+            "    left: 1px;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    color: white;"
+            "}"
+            );
+    }
+    else {
+        modeComboBox->setStyleSheet(
+            "QComboBox {"
+            "    background-color: rgb(210, 210, 210);"
+            "    color: black;"
+            "    border: 1px solid gray;"
+            "    border-radius: 3px;"
+            "    padding: 1px 18px 1px 3px;"
+            "    min-width: 6em;"
+            "}"
+            "QComboBox::drop-down {"
+            "    subcontrol-origin: padding;"
+            "    subcontrol-position: top right;"
+            "    width: 15px;"
+            "    border-left-width: 1px;"
+            "    border-left-color: gray;"
+            "    border-left-style: solid;"
+            "    border-top-right-radius: 3px;"
+            "    border-bottom-right-radius: 3px;"
+            "}"
+            "QComboBox::down-arrow {"
+            "    image: url(:/icons/Assets/Assets/dots.png);"
+            "    width: 10px;"
+            "    height: 10px;"
+            "}"
+            "QComboBox::down-arrow:on { /* when the combo box is open */"
+            "    top: 1px;"
+            "    left: 1px;"
+            "}"
+            "QComboBox QAbstractItemView {"
+            "    background-color: white;"
+            "    color: black;"
+            "}"
+            );
+    }
+
     // confirmation button
     QPushButton *okButton = new QPushButton("OK", frameSizeDialog);
     connect(okButton, &QPushButton::clicked, frameSizeDialog, &QDialog::accept);
@@ -254,6 +327,7 @@ void MainWindow::askForFrameSize() {
     // put elements in a vertical layout
     QVBoxLayout *layout = new QVBoxLayout(frameSizeDialog);
     layout->addWidget(sizeComboBox);
+    layout->addWidget(modeComboBox);
     layout->addWidget(okButton);
     layout->setAlignment(Qt::AlignCenter);
     frameSizeDialog->setLayout(layout);
@@ -261,12 +335,15 @@ void MainWindow::askForFrameSize() {
     // check for user selection
     if (frameSizeDialog->exec() == QDialog::Accepted) {
         int size = sizeComboBox->currentText().split("x").first().toInt();
+        if (modeComboBox->currentText() == "Light Mode") darkMode = false;
+        else                                             darkMode = true;
         model.setFrameSize(size);
     } else {
         // Handle the case when the user cancels the input
         QMessageBox msgBox(this);
         msgBox.setWindowTitle("Information");
-        msgBox.setText("Default frame size (16x16) will be used.");
+        msgBox.setText("Default frame size (16x16) will be used."
+                       "Default mode (dark mode) will be used.");
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.setStyleSheet("QLabel { color: white; }");

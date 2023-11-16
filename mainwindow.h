@@ -127,6 +127,9 @@ private:
     /// Combo box for selecting canvas size.
     QComboBox *sizeComboBox;
 
+    /// Combo box for selecting light/dark mode
+    QComboBox *modeComboBox;
+
     /// Dialog for selecting canvas size.
     QDialog *frameSizeDialog;
 
