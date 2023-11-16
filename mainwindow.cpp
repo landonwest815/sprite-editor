@@ -176,9 +176,9 @@ void MainWindow::askForFrameSize() {
     else {
         sizeComboBox->setStyleSheet(
             "QComboBox {"
-            "    background-color: rgb(230, 230, 230);"
+            "    background-color: rgb(210, 210, 210);"
             "    color: black;"
-            "    border: 1px solid lightgray;"
+            "    border: 1px solid gray;"
             "    border-radius: 3px;"
             "    padding: 1px 18px 1px 3px;"
             "    min-width: 6em;"
@@ -234,7 +234,7 @@ void MainWindow::askForFrameSize() {
     else {
         okButton->setStyleSheet(
             "QPushButton {"
-            "    background-color: rgb(230, 230, 230);"  // light background for the button
+            "    background-color: rgb(210, 210, 210);"  // light background for the button
             "    color: black;"  // dark text color for readability
             "    border: 1px solid lightgray;"  // lighter border
             "    border-radius: 3px;"
@@ -243,10 +243,10 @@ void MainWindow::askForFrameSize() {
             "    text-align: center;"
             "}"
             "QPushButton:hover {"
-            "    background-color: rgb(210, 210, 210);"  // slightly darker on hover for light mode
+            "    background-color: rgb(190, 190, 190);"  // slightly darker on hover for light mode
             "}"
             "QPushButton:pressed {"
-            "    background-color: rgb(190, 190, 190);"  // even darker when pressed, for light mode
+            "    background-color: rgb(170, 170, 170);"  // even darker when pressed, for light mode
             "}"
         );
     }
