@@ -152,26 +152,6 @@ void MainWindow::initializeUI() {
     ui->penTool->setChecked(true);
     onToolButtonClicked(1);
 
-    // Connect the accessibility buttons to the required slots
-    connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
-    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkOrLightModeClicked);
-    connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
-    connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
-
-    // Connect the new, save, and load buttons to the required slots
-    connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
-    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
-    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
-
-    // Connect filemanager signals to required slots
-    connect(file, &FileManager::errorMessage, this, &MainWindow::showError);
-
-    // Connect all button clicks to a speech slot
-    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
-    for (QPushButton* button : allButtons) {
-        connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
-    }
-
     // Setup the animation control
     auto animationButtonGroup = new QButtonGroup(this);
     animationButtonGroup->addButton(ui->startAnimation, 1);
@@ -191,9 +171,9 @@ void MainWindow::initializeUI() {
 }
 
 void MainWindow::setupConnections() {
+
     // Tool buttons
-    connect(toolButtonGroup, &QButtonGroup::idClicked,
-            this, &MainWindow::onToolButtonClicked);
+    connect(toolButtonGroup, &QButtonGroup::idClicked, this, &MainWindow::onToolButtonClicked);
 
     // RGB Spin Boxes
     connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
@@ -212,34 +192,42 @@ void MainWindow::setupConnections() {
     connect(ui->brownPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
 
     // Frame addition
-    connect(ui->addFrameButton, &QPushButton::clicked,
-            this, &MainWindow::addFrameClicked);
-
-    connect(ui->duplicateFrameButton, &QPushButton::clicked,
-            this, &MainWindow::duplicateFrameClicked);
+    connect(ui->addFrameButton, &QPushButton::clicked, this, &MainWindow::addFrameClicked);
+    connect(ui->duplicateFrameButton, &QPushButton::clicked, this, &MainWindow::duplicateFrameClicked);
 
     // Preview Animation
-    connect(ui->fpsSlider, &QAbstractSlider::valueChanged,
-            this, &MainWindow::onSelectFPS);
+    connect(ui->fpsSlider, &QAbstractSlider::valueChanged, this, &MainWindow::onSelectFPS);
+    connect(ui->startAnimation, &QPushButton::clicked, this, &MainWindow::onAnimateButtonClicked);
+    connect(ui->stopAnimation, &QPushButton::clicked, this, &MainWindow::onStopAnimationClicked);
+    connect(&timer, &QTimer::timeout, this, &MainWindow::updatePreviewWindow);
 
-    connect(ui->startAnimation, &QPushButton::clicked,
-            this, &MainWindow::onAnimateButtonClicked);
+    // Connect the accessibility buttons to the required slots
+    connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
+    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkOrLightModeClicked);
+    connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
+    connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
 
-    connect(ui->stopAnimation, &QPushButton::clicked,
-            this, &MainWindow::onStopAnimationClicked);
+    // Connect the new, save, and load buttons to the required slots
+    connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
+    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
+    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
 
-    connect(&timer, &QTimer::timeout,
-            this, &MainWindow::updatePreviewWindow);
+    // Connect filemanager signals to required slots
+    connect(file, &FileManager::errorMessage, this, &MainWindow::showError);
 
+    // Connect all button clicks to a speech slot
+    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
+    for (QPushButton* button : allButtons) {
+        connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
+    }
 }
 
 void MainWindow::updateAllPixmaps() {
-
     // Pull the image from the currently selected frame
     image = createImageFromFrame(model.getCurrentFrame());
     pix.convertFromImage(image);
 
-    // Display it
+    // Display it on the main canvas and preview
     setScaledCanvas(ui->pixMapLabel, pix);
     setScaledCanvas(ui->previewLabel, pix);
 
@@ -258,7 +246,6 @@ void MainWindow::updateAllThumbnails() {
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
-
     clearFocusOnWidgets(); // visual purposes
     QPoint pos = mapToCanvasPos(event->pos());
     if (isValidCanvasPos(pos)) {
@@ -283,7 +270,6 @@ QPoint MainWindow::mapToCanvasPos(const QPoint& pos) const {
 }
 
 void MainWindow::updateImageAndCanvas(const QPoint& pos) {
-
     // Convert the position to the image's scale
     int pixmapX = static_cast<int>(pos.x() * (static_cast<double>(model.getCurrentFrame().getSize()) / ui->pixMapLabel->width()));
     int pixmapY = static_cast<int>(pos.y() * (static_cast<double>(model.getCurrentFrame().getSize()) / ui->pixMapLabel->height()));
@@ -291,10 +277,11 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
     // Ensure the coordinates are within the bounds of the image
     if (pixmapX >= 0 && pixmapX < image.width() && pixmapY >= 0 && pixmapY < image.height()) {
 
-        // Set the pixel color at the scaled position
+        // Set the pixel at the scaled position
         QColor selectedColor = model.getSelectedColor();
         model.getCurrentFrame().setColor(std::make_pair(pixmapX, pixmapY), selectedColor);
 
+        // mirror if applicable
         mirrorPixel(pixmapX, pixmapY, selectedColor);
 
         // Draw a square based on the tool size if applicable
@@ -317,7 +304,6 @@ void MainWindow::updateImageAndCanvas(const QPoint& pos) {
 }
 
 void MainWindow::mirrorPixel(int pixX, int pixY, QColor selectedColor) {
-    // If mirror tool is active, do some math to mirror the x-position of the placed pixel
     if (ui->mirrorTool->isChecked()) {
         int mirrorX = 0;
         mirrorX = (image.width() - 1) - pixX;
@@ -365,7 +351,6 @@ void MainWindow::onToolButtonClicked(int id) {
 }
 
 void MainWindow::addFrameClicked() {
-
     // Add a new frame to the model
     model.addNewFrame();
 
@@ -401,22 +386,16 @@ void MainWindow::deleteFrame(int frameIndex) {
     // Remove the corresponding thumbnail button
     QPushButton* frameButton = frameThumbnails.value(frameIndex);
     if (frameButton) {
-        // remove it from the scroll view
         ui->scrollArea->widget()->layout()->removeWidget(frameButton->parentWidget());
-
-        // delete it
         delete frameButton->parentWidget();
     }
 
     // Adjust the scroll area for nice looking spacing purposes
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() - 110);
 
-    // Remove the frame thumbnail from the map
+    // adjust data
     frameThumbnails.remove(frameIndex);
-
-    // Update the frameCounter
     frameCounter--;
-
     updateFrameIndices();
 
     // Set the frame to the right as the current
@@ -443,7 +422,7 @@ void MainWindow::updateFrameIndices() {
         auto *closeButton = frameContainer->findChild<QPushButton*>("closeButton");
 
         // update both
-        frameButton->setText(QString::number(newIndex));
+        frameButton->setText(QString::number(newIndex + 1));
         closeButton->setProperty("frameIndex", newIndex);
 
         // update the map and increment
@@ -458,7 +437,6 @@ void MainWindow::handleFrameClicked() {
     QPushButton *clickedFrameButton = qobject_cast<QPushButton*>(sender());
     if (clickedFrameButton) {
         int frameIndex = clickedFrameButton->text().toInt();
-        qDebug() << frameIndex;
         model.setCurrentFrame(frameIndex);
         updateUIForSelectedFrame(frameIndex);
     }
@@ -470,6 +448,9 @@ void MainWindow::setScaledCanvas(QLabel* label, const QPixmap &pixmap) {
 
 void MainWindow::clearFocusOnWidgets() {
     ui->toolSizeSpin->clearFocus();
+    ui->redSpin->clearFocus();
+    ui->greenSpin->clearFocus();
+    ui->blueSpin->clearFocus();
 }
 
 void MainWindow::updateUIForNewFrame(int frameIndex) {
@@ -487,33 +468,28 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
     frameCounter++;
 
-    if (darkMode) {
-        frameButton->setStyleSheet("color: white;");
-    } else {
-        frameButton->setStyleSheet("color: black;");
-    }
-
+    // Set frameButton data
+    if (darkMode) frameButton->setStyleSheet("color: white;");
+    else          frameButton->setStyleSheet("color: black;");
     frameButton->setMinimumSize(65, 55);
     frameButton->setMaximumSize(65, 55);
     frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     frameButton->setObjectName("frameButton");
-
     frameThumbnails[frameIndex] = frameButton;
 
+    // Connect it to the handler
     connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
 
+    // Set closeButton data
     QPushButton *closeButton = new QPushButton("X");
     closeButton->setProperty("frameIndex", frameIndex);
     closeButton->setFixedSize(15, 15); // Adjust size as needed
     closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     closeButton->setObjectName("closeButton");
+    if (darkMode) closeButton->setStyleSheet("color: white;");
+    else          closeButton->setStyleSheet("color: black;");
 
-    if (darkMode) {
-        closeButton->setStyleSheet("color: white;");
-    } else {
-        closeButton->setStyleSheet("color: black;");
-    }
-
+    // Connect it to the handler
     connect(closeButton, &QPushButton::clicked, this, [this]() {
         QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
         if (senderButton) {
@@ -522,13 +498,11 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
         }
     });
 
-    // Add the frame button to the layout, spanning 1 row and 1 column
+    // Add the frame button to the layout
     layout->addWidget(frameButton, 0, 0, 1, 1);
 
-    // Add the close button in the top right corner, in the first row and second column
+    // Add the close button in the top right corner
     layout->addWidget(closeButton, 0, 1, 1, 1, Qt::AlignTop | Qt::AlignRight);
-
-    // Set alignment to ensure the "X" button stays in the top-right corner
     layout->setAlignment(closeButton, Qt::AlignTop | Qt::AlignRight);
 
     // Add the container to the UI
@@ -536,10 +510,6 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
 
     // Adjust the scroll area for nice looking spacing purposes
     ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 110);
-
-    // Set the button icon to the pixmap representing the new frame
-    QImage frameImage = createImageFromFrame(newFrame);
-    pix.convertFromImage(frameImage);
 
     // Update the UI
     updateAllPixmaps();
@@ -553,15 +523,8 @@ void MainWindow::updateUIForSelectedFrame(int frameIndex) {
     // Update the current frame in the model
     model.setCurrentFrame(frameIndex);
 
-    // Create an image from the frame's pixel data
-    QImage frameImage = createImageFromFrame(selectedFrame);
-
     // Update the pixMap with it
-    pix.convertFromImage(frameImage);
-
     updateAllPixmaps();
-
-    // highlightSelectedFrameThumbnail(frameIndex);
 }
 
 QImage MainWindow::createImageFromFrame(const Frame &frame) {
@@ -590,24 +553,19 @@ void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
 }
 
 void MainWindow::onSelectFPS(int FPS){
-
     this->FPS = 1000/FPS;
-    qDebug() << "frame counter set to: " << this->FPS;
     // resets the FPS on GUI
     if(animatingPreview){
         timer.start(this->FPS);
     }
 }
 
-void MainWindow::onAnimateButtonClicked()
-{
+void MainWindow::onAnimateButtonClicked() {
     animatingPreview = true;
-    qDebug() << "animation should start";
     timer.start(FPS);
 }
 
 QPixmap MainWindow::getPixMap(Frame frame){
-    // gets pixmap for frame
     QImage frameImage = createImageFromFrame(frame);
     QPixmap framePixMap;
     framePixMap.convertFromImage(frameImage);
@@ -616,7 +574,6 @@ QPixmap MainWindow::getPixMap(Frame frame){
 
 void MainWindow::updatePreviewWindow(){
     static int i = 0;
-    qDebug() << "showing frame: " << i;
     if (i < static_cast<int>(model.getAllFrames().size())) {
         QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
         ui->previewLabel->setPixmap(pixmap);
@@ -644,104 +601,103 @@ void MainWindow::showTutorialPopup() {
 
 void MainWindow::darkOrLightModeClicked() {
     if (darkMode) {
+        // program is now in light mode
         darkMode = false;
+
+        // set background to pre-determined color
         this->setStyleSheet("background-color: #fafafa;");
 
-
-
+        // update all TEXT
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                                ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                                ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                                ui->redLabel, ui->redSpin, ui->greenLabel, ui->greenSpin, ui->blueLabel,
-                               ui->blueSpin, ui->mirrorLabel, ui->animationLabel, ui->FPSLabel, ui->toolSizeSpin,
-                               ui->titleLabel, ui->newLabl
-                               };
+                               ui->blueSpin, ui->mirrorLabel, ui->animationLabel, ui->FPSLabel,
+                               ui->toolSizeSpin, ui->titleLabel, ui->newLabl};
 
         for (QWidget* widget : wigets) {
             widget->setStyleSheet("color: black");
         }
 
-        QWidget* buttons[14] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
+        // update all BUTTONS
+        QWidget* buttons[14] = {ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                                 ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
                                 ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
                                 ui->speechModeButton, ui->largeTextButton, ui->newButton};
 
-        // sets the style sheet for the darkmode feature
-        // first goes over the buttons
         for (QWidget* button : buttons) {
-            button->setStyleSheet(R"(   QPushButton {
-                                            background-color: #e6e6e6; /* Light grey background for light mode */
-                                            color: black; /* Dark text for contrast */
-                                            border-radius: 5px; /* Rounded corners with a radius of 5 pixels */
-                                        }
+            button->setStyleSheet(R"(QPushButton {
+                                        background-color: #e6e6e6;
+                                        color: black;
+                                        border-radius: 5px;
+                                    }
 
-                                        QPushButton:hover {
-                                            background-color: #cccccc; /* Slightly darker grey for hover state */
-                                        }
+                                    QPushButton:hover {
+                                        background-color: #cccccc;
+                                    }
 
-                                        QPushButton:pressed {
-                                            background-color: #b3b3b3; /* Even darker grey for pressed state */
-                                        }
+                                    QPushButton:pressed {
+                                        background-color: #b3b3b3;
+                                    }
 
-                                        QPushButton:checked {
-                                            background-color: #cccccc; /* Lighter grey color when button is checked */
-                                        }
+                                    QPushButton:checked {
+                                        background-color: #cccccc;
+                                    }
                                     )");
         }
 
-        // then go over other elements of the GUI
+        // update TABS
         ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
-                                        alignment: center;
-                                    }
+                                            alignment: center;
+                                        }
 
-                                    /* Style the tab itself */
-                                    QTabBar::tab {
-                                        background: #e6e6e6; /* Light grey background for light mode */
-                                        color: black; /* Dark text color for contrast */
-                                        padding: 5px; /* Space between text and edge */
-                                        margin-left: 5px; /* Space between tabs */
-                                        border-top-left-radius: 5px; /* Rounded top left corner */
-                                        border-top-right-radius: 5px; /* Rounded top right corner */
-                                        border-bottom-left-radius: 5px; /* Rounded bottom left corner */
-                                        border-bottom-right-radius: 5px; /* Rounded bottom right corner */
-                                    }
+                                        QTabBar::tab {
+                                            background: #e6e6e6;
+                                            color: black;
+                                            padding: 5px;
+                                            margin-left: 5px;
+                                            border-top-left-radius: 5px;
+                                            border-top-right-radius: 5px;
+                                            border-bottom-left-radius: 5px;
+                                            border-bottom-right-radius: 5px;
+                                        }
 
-                                    /* Style the selected tab */
-                                    QTabBar::tab:selected {
-                                        background: #cccccc; /* A lighter shade for the selected tab */
-                                    }
+                                        QTabBar::tab:selected {
+                                            background: #cccccc;
+                                        }
 
-                                    QTabWidget::pane { /* The tab widget frame */
-                                        border-top: 2px solid #C2C7CB;
-                                        position: absolute;
-                                        top: -0.5em;
-                                    }
-                                    )");
+                                        QTabWidget::pane {
+                                            border-top: 2px solid #C2C7CB;
+                                            position: absolute;
+                                            top: -0.5em;
+                                        }
+                                        )");
 
+        // Update the canvas background
         model.setBackgroundColor(QColor::fromRgb(230, 230, 230));
         for (Frame& frame : model.getAllFrames()) {
             frame.toggleBackgroundColor(model.getBackgroundColor());
         }
 
+        // update all HEADERS
         QWidget* sectionHeaders[4] = { ui->toolSettingLabel, ui->toolsLabel, ui->colorsLabel, ui->animationLabel };
 
-        // sets the style sheet for the darkmode feature
-        // first goes over the buttons
         for (QWidget* header : sectionHeaders) {
             header->setStyleSheet("QLabel {"
-                                  "    background-color: rgb(230, 230, 230);" // A nice shade of dark gray
-                                  "    color: black;" // White text color
-                                  "    padding: 5px;" // Padding around the text
-                                  "    border-radius: 4px;" // Rounded corners
-                                  "    font-weight: bold;" // Bold font
-                                  "    font-style: italic;" // Italic font style
-                                  "    qproperty-alignment: 'AlignCenter';" // Center alignment for text
-                                  "    margin-top: 2px;" // Space from the top margin
-                                  "    margin-bottom: 2px;" // Space from the bottom margin
-                                  "    border: 1px solid rgb(200, 200, 200);" // Border with a slightly lighter shade of gray
+                                  "    background-color: rgb(230, 230, 230);"
+                                  "    color: black;"
+                                  "    padding: 5px;"
+                                  "    border-radius: 4px;"
+                                  "    font-weight: bold;"
+                                  "    font-style: italic;"
+                                  "    qproperty-alignment: 'AlignCenter';"
+                                  "    margin-top: 2px;"
+                                  "    margin-bottom: 2px;"
+                                  "    border: 1px solid rgb(200, 200, 200);"
                                   "}");
         }
 
+        // update all FRAMES
         updateUIForSelectedFrame(model.getCurrentFrameIndex());
         updateAllThumbnails();
 
@@ -752,14 +708,15 @@ void MainWindow::darkOrLightModeClicked() {
                 closeButton->setStyleSheet("QPushButton { color: black; }");
             }
         }
-
     }
     else {
+        // program is in dark mode now
         darkMode = true;
+
+        // set the program background
         this->setStyleSheet("background-color: #303030;");
 
-
-
+        // update all TEXT
         QWidget* wigets[23] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
             ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
             ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
@@ -767,91 +724,91 @@ void MainWindow::darkOrLightModeClicked() {
             ui->blueSpin, ui->mirrorLabel, ui->animationLabel, ui->FPSLabel, ui->toolSizeSpin,
             ui->titleLabel, ui->newLabl
         };
+
         for (QWidget* widget : wigets) {
             widget->setStyleSheet("color: white");
         }
 
+        // update all BUTTONS
         QWidget* buttons[14] = { ui->addFrameButton, ui->duplicateFrameButton, ui->penTool,
                                 ui->eraseTool, ui->mirrorTool, ui->startAnimation, ui->stopAnimation,
                                 ui->saveButton, ui->loadButton, ui->tutorialButton, ui->darkModeButton,
                                 ui->speechModeButton, ui->largeTextButton, ui->newButton};
 
-        // sets the style sheet for the darkmode feature
-        // first goes over the buttons
         for (QWidget* button : buttons) {
-            button->setStyleSheet(R"(   QPushButton {
-                                            background-color: #646464; /* Dark grey background, matching the handle */
-                                            color: white; /* Light text for contrast */
-                                            border-radius: 5px; /* Rounded corners with a radius of 10 pixels */
-                                        }
+            button->setStyleSheet(R"(QPushButton {
+                                        background-color: #646464;
+                                        color: white;
+                                        border-radius: 5px;
+                                    }
 
-                                        QPushButton:hover {
-                                            background-color: #505050; /* Slightly lighter grey for hover state */
-                                        }
+                                    QPushButton:hover {
+                                        background-color: #505050;
+                                    }
 
-                                        QPushButton:pressed {
-                                            background-color: #303030; /* Slightly darker grey for pressed state */
-                                        }
+                                    QPushButton:pressed {
+                                        background-color: #303030;
+                                    }
 
-                                        QPushButton:checked {
-                                            background-color: #999999; /* Color when button is checked */
-                                        }
+                                    QPushButton:checked {
+                                        background-color: #999999;
+                                    }
                                     )");
         }
 
-        //then modify other ui elements
+        // update TABS
         ui->tabWidget->setStyleSheet(R"(QTabWidget::tab-bar {
                                             alignment: center;
                                         }
 
-                                        /* Style the tab itself */
                                         QTabBar::tab {
-                                            background: #646464; /* Light gray background */
-                                            color: white; /* Dark text color for contrast */
-                                            padding: 5px; /* Space between text and edge */
-                                            margin-left: 5px; /* Space between tabs */
-                                            border-top-left-radius: 5px; /* Rounded top left corner */
-                                            border-top-right-radius: 5px; /* Rounded top right corner */
-                                           border-bottom-left-radius: 5px; /* Rounded top left corner */
-                                            border-bottom-right-radius: 5px; /* Rounded top right corner */
+                                            background: #646464;
+                                            color: white;
+                                            padding: 5px;
+                                            margin-left: 5px;
+                                            border-top-left-radius: 5px;
+                                            border-top-right-radius: 5px;
+                                           border-bottom-left-radius: 5px;
+                                            border-bottom-right-radius: 5px;
                                         }
 
-                                        /* Style the selected tab */
                                         QTabBar::tab:selected {
-                                            background: #999999; /* A different shade for the selected tab */
+                                            background: #999999;
                                         }
 
-                                        QTabWidget::pane { /* The tab widget frame */
+                                        QTabWidget::pane {
                                             border-top: 2px solid #C2C7CB;
                                             position: absolute;
                                             top: -0.5em;
                                         }
                                     )");
 
+        // update the frames background
         model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
         for (Frame& frame : model.getAllFrames()) {
             frame.toggleBackgroundColor(model.getBackgroundColor());
         }
 
+        // update all HEADERS
         QWidget* sectionHeaders[4] = { ui->toolSettingLabel, ui->toolsLabel, ui->colorsLabel, ui->animationLabel };
 
-        // sets the style sheet for the darkmode feature
-        // first goes over the buttons
         for (QWidget* header : sectionHeaders) {
             header->setStyleSheet("QLabel {"
-                                  "    background-color: rgb(64, 64, 64);" // A nice shade of dark gray
-                                  "    color: white;" // White text color
-                                  "    padding: 5px;" // Padding around the text
-                                  "    border-radius: 4px;" // Rounded corners
-                                  "    font-weight: bold;" // Bold font
-                                  "    font-style: italic;" // Italic font style
-                                  "    qproperty-alignment: 'AlignCenter';" // Center alignment for text
-                                  "    margin-top: 2px;" // Space from the top margin
-                                  "    margin-bottom: 2px;" // Space from the bottom margin
-                                  "    border: 1px solid rgb(86, 86, 86);" // Border with a slightly lighter shade of gray
-                                  "}");
+                                  "    background-color: rgb(64, 64, 64);"
+                                  "    color: white;"
+                                  "    padding: 5px;"
+                                  "    border-radius: 4px;"
+                                  "    font-weight: bold;"
+                                  "    font-style: italic;"
+                                  "    qproperty-alignment: 'AlignCenter';"
+                                  "    margin-top: 2px;"
+                                  "    margin-bottom: 2px;"
+                                  "    border: 1px solid rgb(86, 86, 86);"
+                                  "}"
+                                  );
         }
 
+        // update all THUMBNAILS
         updateUIForSelectedFrame(model.getCurrentFrameIndex());
         updateAllThumbnails();
 
@@ -864,6 +821,8 @@ void MainWindow::darkOrLightModeClicked() {
         }
 
     }
+
+    // set to PEN TOOL when changing modes to avoid unwanted erasure problems
     onToolButtonClicked(1);
 }
 
@@ -872,14 +831,13 @@ void MainWindow::largeTextClicked(int toggled) {
     QFont regularFont("Segoe UI", 13);
     QString textOption[2] = {"Large Text", "Regular Text"};
     QFont fontSize[2] = {regularFont, largeFont};
-    QWidget* wigets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
+    QWidget* widgets[22] = {ui->darkModeLabel, ui->textSizeLabel, ui->textToSpeechLabel,
                            ui->tutorialLabel, ui->loadLabel, ui->saveLabel, ui->toolsLabel,
                            ui->drawLabel, ui->erase, ui->toolSettingLabel, ui->toolSizeLabel,
                            ui->redLabel, ui->greenLabel, ui->blueLabel, ui->mirrorLabel,
                            ui->animationLabel, ui->FPSLabel, ui->newLabl, ui->toolSettingLabel,
                            ui->toolsLabel, ui->colorsLabel, ui->animationLabel};
-    // after putting all widgets into array, loop through and set the text to what has been toggled.
-    for (QWidget* widget : wigets) {
+    for (QWidget* widget : widgets) {
         widget->setFont(fontSize[toggled]);
     }
 }
@@ -927,7 +885,6 @@ void MainWindow::updateThumbnailsFromModel() {
     for (int i = 0; i < model.getNumberOfFrames(); i++) {
         updateUIForNewFrame(i);
     }
-
     ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
 
     // easy trick to adjust all the dark/light mode settings
@@ -952,7 +909,6 @@ void MainWindow::onColorButtonClicked() {
         colorHash[ui->whitePreset] = QColor(255, 255, 255);  // Dark white color
         colorHash[ui->brownPreset] = QColor(78, 48, 26);  // Dark brown color
 
-
         // Check if the clicked button is one of the color buttons
         if (colorHash.contains(button)) {
             QColor newColor = colorHash[button];
@@ -965,12 +921,8 @@ void MainWindow::onColorButtonClicked() {
 }
 
 void MainWindow::speechModeClicked(int toggled) {
-    if (toggled) {
-        speech = true;
-
-    } else {
-        speech = false;
-    }
+    if (toggled) speech = true;
+    else         speech = false;
 }
 
 void MainWindow::sayObjectName() {
@@ -989,6 +941,8 @@ void MainWindow::newProject() {
     model.clearModel();
     updateThumbnailsFromModel();
     askForFrameSize();
+
+    // easy trick to initiate dark mode properly
     darkOrLightModeClicked();
     darkOrLightModeClicked();
 }
