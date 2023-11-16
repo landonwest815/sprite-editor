@@ -400,7 +400,7 @@ void MainWindow::updateUIForNewFrame(int frameIndex) {
     layout->setContentsMargins(0, 0, 0, 0);
 
     // Create a button for the new frame
-    QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
+    QPushButton *frameButton = new QPushButton(QString::number(frameCounter + 1));
     frameCounter++;
 
     // Set frameButton data
@@ -655,7 +655,7 @@ void MainWindow::updateFrameIndices() {
 void MainWindow::handleFrameClicked() {
     QPushButton *clickedFrameButton = qobject_cast<QPushButton*>(sender());
     if (clickedFrameButton) {
-        int frameIndex = clickedFrameButton->text().toInt() + 1;
+        int frameIndex = clickedFrameButton->text().toInt() - 1;
         model.setCurrentFrame(frameIndex);
         updateUIForSelectedFrame(frameIndex);
     }
