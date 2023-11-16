@@ -12,16 +12,8 @@
  * Used to manage Files using Json to be able to save and load a Sprite Editor Project.
  */
 
-/**
- * @brief FileManager::FileManager FileManager object constructor
- */
 FileManager::FileManager(QObject *parent) : QObject{parent}, model() {}
 
-/**
- * @brief FileManager::exportJson Converts vector of Frames into Json stored in a sprite file
- * @param frames Vector of Frames which will be written into a sprite file
- * @param docName The path where the sprite file will be saved
- */
 void FileManager::exportJson(std::vector<Frame> frames, QString docName) {
     int frameCounter = 0;
     // Writes the amount and sizes of the frames to Json
@@ -59,11 +51,6 @@ void FileManager::exportJson(std::vector<Frame> frames, QString docName) {
     exportFile.write(document.toJson());
 }
 
-/**
- * @brief FileManager::importJson Converts Json within sprite file into vector of Frames
- * @param docName The path where the sprite file will be loaded
- * @return Vector of Frames that contains the new data from loaded sprite file
- */
 std::vector<Frame> FileManager::importJson(QString docName) {
     try {
         // Loads the Json from a desired location into a object
