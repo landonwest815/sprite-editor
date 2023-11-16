@@ -6,6 +6,11 @@ Course: CS 3505, University of Utah, School of Computing
 Repo: https://github.com/University-of-Utah-CS3505/a8-sprite-editor-f23-Pablo23117
 Project: A8 Sprite Editor Implementation
 ```
+# Required Assignment Files
+- Code Style Document: https://docs.google.com/document/d/1FR1uy0iguEdyuqpj8GbPs4DwBcj0qTvvA8kW0HPGQe8/edit?usp=sharing
+- Example Sprite: https://drive.google.com/file/d/1jmsTHO3Qmur-T5paCWgW1C0SsSNVD5eq/view?usp=drive_link
+- Video Demonstration:
+
 # Required External Libraries
 In order to utilize the sprite editor two external libraries will be needed. In
 order to install them open up the 'Qt Maintenance Tool' and you will need to
