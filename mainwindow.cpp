@@ -655,7 +655,7 @@ void MainWindow::updateFrameIndices() {
 void MainWindow::handleFrameClicked() {
     QPushButton *clickedFrameButton = qobject_cast<QPushButton*>(sender());
     if (clickedFrameButton) {
-        int frameIndex = clickedFrameButton->text().toInt();
+        int frameIndex = clickedFrameButton->text().toInt() + 1;
         model.setCurrentFrame(frameIndex);
         updateUIForSelectedFrame(frameIndex);
     }
