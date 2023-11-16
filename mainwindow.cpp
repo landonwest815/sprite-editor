@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "frame.h"
 
 /**
  * Author(s):     Team Geoff:
@@ -15,16 +14,108 @@
  */
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-        model(), frameCounter(0), animatingPreview(false), darkMode(false), speech(false) {
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow),
+    file(new FileManager()),
+    frameCounter(0),
+    animatingPreview(false),
+    darkMode(false),
+    speech(false) {
     ui->setupUi(this);
-    file = new FileManager();
     initializeUI();
     setupConnections();
 }
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete file;
+}
+
+// SETUP
+
+void MainWindow::initializeUI() {
+    //default to dark mode
+    model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
+
+    // setup the frame size
+    askForFrameSize();
+
+    // Configure the tools
+    toolButtonGroup = new QButtonGroup(this);
+    toolButtonGroup->addButton(ui->penTool, 1);
+    toolButtonGroup->addButton(ui->eraseTool, 2);
+    toolButtonGroup->setExclusive(true);
+    ui->penTool->setChecked(true);
+    onToolButtonClicked(1);
+
+    // Setup the animation control
+    auto animationButtonGroup = new QButtonGroup(this);
+    animationButtonGroup->addButton(ui->startAnimation, 1);
+    animationButtonGroup->addButton(ui->stopAnimation, 2);
+    animationButtonGroup->setExclusive(true);
+    ui->startAnimation->setChecked(true);
+
+    // Start the animator
+    onSelectFPS(ui->fpsSlider->value());
+    onAnimateButtonClicked();
+
+    // Disable vertical scroll bar for a nicer visual
+    ui->scrollArea->verticalScrollBar()->setEnabled(false);
+
+    // Default to dark mode
+    darkOrLightModeClicked();
+}
+
+void MainWindow::setupConnections() {
+
+    // Tool buttons
+    connect(toolButtonGroup, &QButtonGroup::idClicked, this, &MainWindow::onToolButtonClicked);
+
+    // RGB Spin Boxes
+    connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+    connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
+
+    // Color Presets
+    connect(ui->redPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->greenPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->bluePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->yellowPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->orangePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->purplePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->blackPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->whitePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+    connect(ui->brownPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
+
+    // Frame addition
+    connect(ui->addFrameButton, &QPushButton::clicked, this, &MainWindow::addFrameClicked);
+    connect(ui->duplicateFrameButton, &QPushButton::clicked, this, &MainWindow::duplicateFrameClicked);
+
+    // Preview Animation
+    connect(ui->fpsSlider, &QAbstractSlider::valueChanged, this, &MainWindow::onSelectFPS);
+    connect(ui->startAnimation, &QPushButton::clicked, this, &MainWindow::onAnimateButtonClicked);
+    connect(ui->stopAnimation, &QPushButton::clicked, this, &MainWindow::onStopAnimationClicked);
+    connect(&timer, &QTimer::timeout, this, &MainWindow::updatePreviewWindow);
+
+    // Connect the accessibility buttons to the required slots
+    connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
+    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkOrLightModeClicked);
+    connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
+    connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
+
+    // Connect the new, save, and load buttons to the required slots
+    connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
+    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
+    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
+
+    // Connect filemanager signals to required slots
+    connect(file, &FileManager::errorMessage, this, &MainWindow::showError);
+
+    // Connect all button clicks to a speech slot
+    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
+    for (QPushButton* button : allButtons) {
+        connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
+    }
 }
 
 void MainWindow::askForFrameSize() {
@@ -137,113 +228,8 @@ void MainWindow::askForFrameSize() {
     delete frameSizeDialog;  // Clean up the dialog after using it
 }
 
-void MainWindow::initializeUI() {
-    //default to dark mode
-    model.setBackgroundColor(QColor::fromRgb(64, 64, 64));
 
-    // setup the frame size
-    askForFrameSize();
-
-    // Configure the tools
-    toolButtonGroup = new QButtonGroup(this);
-    toolButtonGroup->addButton(ui->penTool, 1);
-    toolButtonGroup->addButton(ui->eraseTool, 2);
-    toolButtonGroup->setExclusive(true);
-    ui->penTool->setChecked(true);
-    onToolButtonClicked(1);
-
-    // Setup the animation control
-    auto animationButtonGroup = new QButtonGroup(this);
-    animationButtonGroup->addButton(ui->startAnimation, 1);
-    animationButtonGroup->addButton(ui->stopAnimation, 2);
-    animationButtonGroup->setExclusive(true);
-    ui->startAnimation->setChecked(true);
-
-    // Start the animator
-    onSelectFPS(ui->fpsSlider->value());
-    onAnimateButtonClicked();
-
-    // Disable vertical scroll bar for a nicer visual
-    ui->scrollArea->verticalScrollBar()->setEnabled(false);
-
-    // Default to dark mode
-    darkOrLightModeClicked();
-}
-
-void MainWindow::setupConnections() {
-
-    // Tool buttons
-    connect(toolButtonGroup, &QButtonGroup::idClicked, this, &MainWindow::onToolButtonClicked);
-
-    // RGB Spin Boxes
-    connect(ui->redSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
-    connect(ui->blueSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
-    connect(ui->greenSpin, &QSpinBox::valueChanged, this, &MainWindow::setRGB);
-
-    // Color Presets
-    connect(ui->redPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->greenPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->bluePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->yellowPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->orangePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->purplePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->blackPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->whitePreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-    connect(ui->brownPreset, &QPushButton::clicked, this, &MainWindow::onColorButtonClicked);
-
-    // Frame addition
-    connect(ui->addFrameButton, &QPushButton::clicked, this, &MainWindow::addFrameClicked);
-    connect(ui->duplicateFrameButton, &QPushButton::clicked, this, &MainWindow::duplicateFrameClicked);
-
-    // Preview Animation
-    connect(ui->fpsSlider, &QAbstractSlider::valueChanged, this, &MainWindow::onSelectFPS);
-    connect(ui->startAnimation, &QPushButton::clicked, this, &MainWindow::onAnimateButtonClicked);
-    connect(ui->stopAnimation, &QPushButton::clicked, this, &MainWindow::onStopAnimationClicked);
-    connect(&timer, &QTimer::timeout, this, &MainWindow::updatePreviewWindow);
-
-    // Connect the accessibility buttons to the required slots
-    connect(ui->tutorialButton, &QPushButton::clicked, this, &MainWindow::showTutorialPopup);
-    connect(ui->darkModeButton, &QPushButton::toggled, this ,&MainWindow::darkOrLightModeClicked);
-    connect(ui->largeTextButton, &QPushButton::toggled, this ,&MainWindow::largeTextClicked);
-    connect(ui->speechModeButton, &QPushButton::toggled, this ,&MainWindow::speechModeClicked);
-
-    // Connect the new, save, and load buttons to the required slots
-    connect(ui->newButton, &QPushButton::clicked, this, &MainWindow::newProject);
-    connect(ui->saveButton, &QPushButton::clicked, this, &MainWindow::saveFile);
-    connect(ui->loadButton, &QPushButton::clicked, this, &MainWindow::loadFile);
-
-    // Connect filemanager signals to required slots
-    connect(file, &FileManager::errorMessage, this, &MainWindow::showError);
-
-    // Connect all button clicks to a speech slot
-    QList<QPushButton*> allButtons = findChildren<QPushButton*>();
-    for (QPushButton* button : allButtons) {
-        connect(button, &QPushButton::clicked, this, &MainWindow::sayObjectName);
-    }
-}
-
-void MainWindow::updateAllPixmaps() {
-    // Pull the image from the currently selected frame
-    image = createImageFromFrame(model.getCurrentFrame());
-    pix.convertFromImage(image);
-
-    // Display it on the main canvas and preview
-    setScaledCanvas(ui->pixMapLabel, pix);
-    setScaledCanvas(ui->previewLabel, pix);
-
-    // Update the Frame thumbnail
-    setScaledButton(frameThumbnails[model.getCurrentFrameIndex()], pix);
-}
-
-void MainWindow::updateAllThumbnails() {
-    // Loop through all frames and update their thumbnails
-    for (int i = 0; i < model.getNumberOfFrames(); ++i) {
-        QImage frameImage = createImageFromFrame(model.getAllFrames().at(i));
-        QPixmap framePixmap;
-        framePixmap.convertFromImage(frameImage);
-        setScaledButton(frameThumbnails[i], framePixmap);
-    }
-}
+// DRAWING
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     clearFocusOnWidgets(); // visual purposes
@@ -310,6 +296,178 @@ void MainWindow::mirrorPixel(int pixX, int pixY, QColor selectedColor) {
         model.getCurrentFrame().setColor(std::make_pair(mirrorX, pixY), selectedColor);
     }
 }
+
+void MainWindow::setScaledCanvas(QLabel* label, const QPixmap &pixmap) {
+    label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
+}
+
+
+// UPDATING DISPLAYED CONTENT
+
+void MainWindow::updateAllPixmaps() {
+    // Pull the image from the currently selected frame
+    image = createImageFromFrame(model.getCurrentFrame());
+    pix.convertFromImage(image);
+
+    // Display it on the main canvas and preview
+    setScaledCanvas(ui->pixMapLabel, pix);
+    setScaledCanvas(ui->previewLabel, pix);
+
+    // Update the Frame thumbnail
+    setScaledButton(frameThumbnails[model.getCurrentFrameIndex()], pix);
+}
+
+void MainWindow::updateAllThumbnails() {
+    // Loop through all frames and update their thumbnails
+    for (int i = 0; i < model.getNumberOfFrames(); ++i) {
+        QImage frameImage = createImageFromFrame(model.getAllFrames().at(i));
+        QPixmap framePixmap;
+        framePixmap.convertFromImage(frameImage);
+        setScaledButton(frameThumbnails[i], framePixmap);
+    }
+}
+
+void MainWindow::updateUIForNewFrame(int frameIndex) {
+
+    // Retrieve the new frame from the model
+    Frame newFrame = model.getAllFrames().at(frameIndex);
+
+    model.setCurrentFrame(frameIndex);
+
+    QWidget *frameContainer = new QWidget;
+    QGridLayout *layout = new QGridLayout(frameContainer);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    // Create a button for the new frame
+    QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
+    frameCounter++;
+
+    // Set frameButton data
+    if (darkMode) frameButton->setStyleSheet("color: white;");
+    else          frameButton->setStyleSheet("color: black;");
+    frameButton->setMinimumSize(65, 55);
+    frameButton->setMaximumSize(65, 55);
+    frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    frameButton->setObjectName("frameButton");
+    frameThumbnails[frameIndex] = frameButton;
+
+    // Connect it to the handler
+    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
+
+    // Set closeButton data
+    QPushButton *closeButton = new QPushButton("X");
+    closeButton->setProperty("frameIndex", frameIndex);
+    closeButton->setFixedSize(15, 15); // Adjust size as needed
+    closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    closeButton->setObjectName("closeButton");
+    if (darkMode) closeButton->setStyleSheet("color: white;");
+    else          closeButton->setStyleSheet("color: black;");
+
+    // Connect it to the handler
+    connect(closeButton, &QPushButton::clicked, this, [this]() {
+        QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
+        if (senderButton) {
+            int frameIndex = senderButton->property("frameIndex").toInt();
+            deleteFrame(frameIndex);
+        }
+    });
+
+    // Add the frame button to the layout
+    layout->addWidget(frameButton, 0, 0, 1, 1);
+
+    // Add the close button in the top right corner
+    layout->addWidget(closeButton, 0, 1, 1, 1, Qt::AlignTop | Qt::AlignRight);
+    layout->setAlignment(closeButton, Qt::AlignTop | Qt::AlignRight);
+
+    // Add the container to the UI
+    ui->scrollArea->widget()->layout()->addWidget(frameContainer);
+
+    // Adjust the scroll area for nice looking spacing purposes
+    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 110);
+
+    // Update the UI
+    updateAllPixmaps();
+}
+
+void MainWindow::updateUIForSelectedFrame(int frameIndex) {
+
+    // Get a reference to the selected frame
+    Frame selectedFrame = model.getAllFrames().at(frameIndex);
+
+    // Update the current frame in the model
+    model.setCurrentFrame(frameIndex);
+
+    // Update the pixMap with it
+    updateAllPixmaps();
+}
+
+QImage MainWindow::createImageFromFrame(const Frame &frame) {
+
+    // Create an image of the correct size
+    int size = frame.getSize(); // length = width
+    QImage frameImage(size, size, QImage::Format_ARGB32);
+
+    // Get the map of pixels from the frame
+    QMap<std::pair<int,int>, QColor> pixelMap = frame.getPixelMap();
+
+    // Loop through each pixel and set the color to the image
+    for (int x = 0; x < size; ++x) {
+        for (int y = 0; y < size; ++y) {
+            std::pair<int, int> coord = std::make_pair(x, y);
+            frameImage.setPixelColor(x, y, pixelMap.value(coord));
+        }
+    }
+
+    return frameImage;
+}
+
+void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
+    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
+    button->setIconSize(button->size());
+}
+
+QPixmap MainWindow::getPixMap(Frame frame){
+    QImage frameImage = createImageFromFrame(frame);
+    QPixmap framePixMap;
+    framePixMap.convertFromImage(frameImage);
+    return framePixMap;
+}
+
+void MainWindow::updatePreviewWindow(){
+    static int i = 0;
+    if (i < static_cast<int>(model.getAllFrames().size())) {
+        QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
+        ui->previewLabel->setPixmap(pixmap);
+        setScaledCanvas(ui->previewLabel, pixmap);
+        // this allows the animation to repeat until the timer is stopped.
+        i = (i + 1) % model.getNumberOfFrames();
+    }
+}
+
+void MainWindow::updateThumbnailsFromModel() {
+    // First, clear existing thumbnails
+    for (QPushButton* button : std::as_const(frameThumbnails)) {
+        ui->scrollArea->widget()->layout()->removeWidget(button->parentWidget());
+        delete button->parentWidget();
+    }
+    frameThumbnails.clear();
+    frameCounter = 0;
+
+    // Then, create new thumbnails for all frames in the updated model
+    for (int i = 0; i < model.getNumberOfFrames(); i++) {
+        updateUIForNewFrame(i);
+    }
+    ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
+
+    // easy trick to adjust all the dark/light mode settings
+    if (model.getNumberOfFrames() > 0) {
+        darkOrLightModeClicked();
+        darkOrLightModeClicked();
+    }
+}
+
+
+// USER ACTIONS
 
 void MainWindow::setRGB() {
     QColor newColor(ui->redSpin->value(), ui->greenSpin->value(), ui->blueSpin->value());
@@ -442,114 +600,11 @@ void MainWindow::handleFrameClicked() {
     }
 }
 
-void MainWindow::setScaledCanvas(QLabel* label, const QPixmap &pixmap) {
-    label->setPixmap(pixmap.scaled(label->size(), Qt::KeepAspectRatio));
-}
-
 void MainWindow::clearFocusOnWidgets() {
     ui->toolSizeSpin->clearFocus();
     ui->redSpin->clearFocus();
     ui->greenSpin->clearFocus();
     ui->blueSpin->clearFocus();
-}
-
-void MainWindow::updateUIForNewFrame(int frameIndex) {
-
-    // Retrieve the new frame from the model
-    Frame newFrame = model.getAllFrames().at(frameIndex);
-
-    model.setCurrentFrame(frameIndex);
-
-    QWidget *frameContainer = new QWidget;
-    QGridLayout *layout = new QGridLayout(frameContainer);
-    layout->setContentsMargins(0, 0, 0, 0);
-
-    // Create a button for the new frame
-    QPushButton *frameButton = new QPushButton(QString::number(frameCounter));
-    frameCounter++;
-
-    // Set frameButton data
-    if (darkMode) frameButton->setStyleSheet("color: white;");
-    else          frameButton->setStyleSheet("color: black;");
-    frameButton->setMinimumSize(65, 55);
-    frameButton->setMaximumSize(65, 55);
-    frameButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    frameButton->setObjectName("frameButton");
-    frameThumbnails[frameIndex] = frameButton;
-
-    // Connect it to the handler
-    connect(frameButton, &QPushButton::clicked, this, &MainWindow::handleFrameClicked);
-
-    // Set closeButton data
-    QPushButton *closeButton = new QPushButton("X");
-    closeButton->setProperty("frameIndex", frameIndex);
-    closeButton->setFixedSize(15, 15); // Adjust size as needed
-    closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    closeButton->setObjectName("closeButton");
-    if (darkMode) closeButton->setStyleSheet("color: white;");
-    else          closeButton->setStyleSheet("color: black;");
-
-    // Connect it to the handler
-    connect(closeButton, &QPushButton::clicked, this, [this]() {
-        QPushButton* senderButton = qobject_cast<QPushButton*>(sender());
-        if (senderButton) {
-            int frameIndex = senderButton->property("frameIndex").toInt();
-            deleteFrame(frameIndex);
-        }
-    });
-
-    // Add the frame button to the layout
-    layout->addWidget(frameButton, 0, 0, 1, 1);
-
-    // Add the close button in the top right corner
-    layout->addWidget(closeButton, 0, 1, 1, 1, Qt::AlignTop | Qt::AlignRight);
-    layout->setAlignment(closeButton, Qt::AlignTop | Qt::AlignRight);
-
-    // Add the container to the UI
-    ui->scrollArea->widget()->layout()->addWidget(frameContainer);
-
-    // Adjust the scroll area for nice looking spacing purposes
-    ui->scrollArea->setMaximumWidth(ui->scrollArea->maximumWidth() + 110);
-
-    // Update the UI
-    updateAllPixmaps();
-}
-
-void MainWindow::updateUIForSelectedFrame(int frameIndex) {
-
-    // Get a reference to the selected frame
-    Frame selectedFrame = model.getAllFrames().at(frameIndex);
-
-    // Update the current frame in the model
-    model.setCurrentFrame(frameIndex);
-
-    // Update the pixMap with it
-    updateAllPixmaps();
-}
-
-QImage MainWindow::createImageFromFrame(const Frame &frame) {
-
-    // Create an image of the correct size
-    int size = frame.getSize(); // length = width
-    QImage frameImage(size, size, QImage::Format_ARGB32);
-
-    // Get the map of pixels from the frame
-    QMap<std::pair<int,int>, QColor> pixelMap = frame.getPixelMap();
-
-    // Loop through each pixel and set the color to the image
-    for (int x = 0; x < size; ++x) {
-        for (int y = 0; y < size; ++y) {
-            std::pair<int, int> coord = std::make_pair(x, y);
-            frameImage.setPixelColor(x, y, pixelMap.value(coord));
-        }
-    }
-
-    return frameImage;
-}
-
-void MainWindow::setScaledButton(QPushButton* button, const QPixmap &pixmap) {
-    button->setIcon(pixmap.scaled(button->size(), Qt::KeepAspectRatio, Qt::FastTransformation));
-    button->setIconSize(button->size());
 }
 
 void MainWindow::onSelectFPS(int FPS){
@@ -563,24 +618,6 @@ void MainWindow::onSelectFPS(int FPS){
 void MainWindow::onAnimateButtonClicked() {
     animatingPreview = true;
     timer.start(FPS);
-}
-
-QPixmap MainWindow::getPixMap(Frame frame){
-    QImage frameImage = createImageFromFrame(frame);
-    QPixmap framePixMap;
-    framePixMap.convertFromImage(frameImage);
-    return framePixMap;
-}
-
-void MainWindow::updatePreviewWindow(){
-    static int i = 0;
-    if (i < static_cast<int>(model.getAllFrames().size())) {
-        QPixmap pixmap(getPixMap(model.getAllFrames().at(i)));
-        ui->previewLabel->setPixmap(pixmap);
-        setScaledCanvas(ui->previewLabel, pixmap);
-        // this allows the animation to repeat until the timer is stopped.
-        i = (i + 1) % model.getNumberOfFrames();
-    }
 }
 
 void MainWindow::onStopAnimationClicked(){
@@ -869,28 +906,6 @@ void MainWindow::loadFile() {
         }
     } else {
         QMessageBox::information(this, "Load File Failed", "No file selected. Please choose a .ssp file.");
-    }
-}
-
-void MainWindow::updateThumbnailsFromModel() {
-    // First, clear existing thumbnails
-    for (QPushButton* button : std::as_const(frameThumbnails)) {
-        ui->scrollArea->widget()->layout()->removeWidget(button->parentWidget());
-        delete button->parentWidget();
-    }
-    frameThumbnails.clear();
-    frameCounter = 0;
-
-    // Then, create new thumbnails for all frames in the updated model
-    for (int i = 0; i < model.getNumberOfFrames(); i++) {
-        updateUIForNewFrame(i);
-    }
-    ui->scrollArea->setMaximumWidth(5 + 110 * model.getNumberOfFrames());
-
-    // easy trick to adjust all the dark/light mode settings
-    if (model.getNumberOfFrames() > 0) {
-        darkOrLightModeClicked();
-        darkOrLightModeClicked();
     }
 }
 
